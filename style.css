@@ -404,14 +404,14 @@ body {
    arriba, con teclado numérico. Salen de prueba/teclado.webp (las negras, generadas en Higgsfield con
    GPT Image 2.5 Sunburst, job 961d813b…, sin el logo de Windows) con scripts/teclas-claras.py, así que
    encajan exacto. Entre tecla y tecla es transparente: ahí se ve el plateado de la base. En la parte negra
-   se oscurecen al ritmo de la base (--oscuro); si no, brillaban como si tuvieran luz propia. El filtro va
-   en una hoja sin hijos, así que no aplana el 3D. */
+   se oscurecen un poco (--oscuro), mucho menos que la base: al ritmo de ella quedaban del mismo gris que
+   el aluminio y ya no parecían teclas claras. El filtro va en una hoja sin hijos, así que no aplana el 3D. */
 .teclas {
   grid-row: 2;
   width: var(--ancho-teclas);
   aspect-ratio: var(--proporcion);
   background: url('prueba/teclado-claro.webp') center / 100% 100% no-repeat;
-  filter: brightness(calc(1 - var(--oscuro, 0) * 0.45));
+  filter: brightness(calc(1 - var(--oscuro, 0) * 0.15));
 }
 /* El trackpad, plateado como la base, con sus dos botones de click abajo: una franja del 22 % de su alto,
    partida a la mitad. Las juntas (la de arriba de los botones y la de en medio) son rayas grises de 1.5 px
