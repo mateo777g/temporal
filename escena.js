@@ -228,6 +228,7 @@
     // El panel aparece sobre el video azul mientras el fondo pasa a negro.
     const oscuro = delicada(tramo(p, TRAMOS.noche));
     noche.style.opacity = oscuro;
+    laptop.style.setProperty('--oscuro', oscuro); // enciende el piso de luz debajo de la laptop
     if (videoNoche) videoNoche.style.opacity = 1;
     if (panelSistema) panelSistema.style.opacity = oscuro;
     document.documentElement.toggleAttribute('data-noche', oscuro >= 0.5);

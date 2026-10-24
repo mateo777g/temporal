@@ -464,6 +464,38 @@ body {
   transform-origin: 100% 50%;
   transform: rotateY(-90deg);
 }
+/* La sombra y el piso: planos debajo de la base, en el mismo 3D que el teclado, así que giran, se encogen y
+   persiguen el cursor con la laptop sin que escena.js los mueva. La sombra es un rectángulo oscuro un poco
+   más chico que la base, para que su orilla dura quede escondida debajo y solo asome lo difuminado: oscuro
+   pegado a la orilla, luego cada vez más amplio y claro hacia el frente, y un poco hacia atrás, donde la
+   pantalla también da sombra. El piso es una mancha de luz gris que solo se enciende con la parte negra
+   (--oscuro, escena.js): sobre negro una sombra no se ve si no hay algo de luz alrededor. Van más abajo que
+   el grosor de la base (3cqh) para no pelearse con ella por el mismo plano, y el piso debajo de la sombra. */
+.sombra,
+.piso {
+  position: absolute;
+  pointer-events: none;
+}
+.sombra {
+  inset: 3% 3% 2%;
+  border-radius: var(--r);
+  background: rgb(0 0 0 / .8);
+  box-shadow:
+    0 1cqh 2.5cqh 2.6cqh rgb(0 0 0 / .72),
+    0 3cqh 8cqh 3.5cqh rgb(0 0 0 / .38),
+    0 7cqh 22cqh 7cqh rgb(0 0 0 / .2),
+    0 12cqh 44cqh 14cqh rgb(0 0 0 / .1),
+    0 -5cqh 16cqh 3cqh rgb(0 0 0 / .12);
+  transform: translateZ(calc(-3cqh - 1px));
+}
+.piso {
+  inset: -75% -60% -55%;
+  background: radial-gradient(closest-side,
+    rgb(255 255 255 / .3), rgb(255 255 255 / .16) 35%, rgb(255 255 255 / .06) 65%, transparent);
+  opacity: var(--oscuro, 0);
+  transform: translateZ(calc(-3cqh - 2px));
+}
+
 /* Cada esquina es un punto donde termina el canto; sus tramos miden la cuerda de 45° de la curva
    (2 · sen 22.5° = 0.7654 veces el radio) y el segundo arranca donde acaba el primero. Las de atrás son las
    de enfrente del otro lado, giradas media vuelta sobre su punto: la de atrás a la derecha es la de

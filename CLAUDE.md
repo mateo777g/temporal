@@ -36,7 +36,9 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.tapa` y `.teclado`. El teclado tiene el grosor de la
 base: `.canto` (enfrente), `.canto-atras` (en la bisagra), `.costado-izq` y `.costado-der`, y `.esquina-*`
-(dos tramos de 45° que cierran cada una de las cuatro esquinas redondas, igual de redondas que la tapa). Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
+(dos tramos de 45° que cierran cada una de las cuatro esquinas redondas, igual de redondas que la tapa).
+Debajo de la base van `.sombra` y `.piso` (un piso de luz gris que se enciende con la parte negra, con
+`--oscuro` de `escena.js`); como están en el 3D del teclado, siguen a la laptop sin código extra. Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
 están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo lo ancho.
 
