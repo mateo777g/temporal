@@ -48,6 +48,9 @@ La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclad
 - **Muesca de enfrente** para abrir la tapa: fingida con `.canto:not(.canto-atras)::after` (el hueco visto de
   frente) y `.teclado::after` (la sombra en el teclado). Va centrada en la laptop, no en el trackpad, que se corre
   a la izquierda por el teclado numérico.
+- **Puertos** en el costado derecho: dos USB-C (`.costado-der::before`; el segundo es su `box-shadow`) y la
+  entrada de audífonos (`.costado-der::after`), hacia atrás, junto a la bisagra. Medidos en `cqh` del teclado;
+  en pantalla, el USB-C sale de unos 4 × 11 px a 1280 y 5 × 15 px a 1920, así que son formas lisas y oscuras.
 - **Bisagra** (`.bisagra`, dentro del teclado): un cuarto de cilindro en el rincón entre la pantalla y el
   teclado, hecho con una tira lisa en diagonal (`.bisagra-frente`) con un degradado que hace la curva, y dos
   puntas de cuarto de círculo. Su eje es la línea donde gira la pantalla, así que no se mueve; cerrada queda
@@ -71,8 +74,8 @@ están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo 
 
 Se pulió la laptop de la escena: esquinas redondas, sombra, plateada con teclas claras, quieta (sin cursor) y
 el fondo de la parte negra. Después se le pusieron detalles, cada uno con su commit: grosor de la pantalla,
-reflejo en el vidrio, bisagra, cámara en el marco y muesca de enfrente. Ya se probó y se descartó (no volver a
-proponerlo igual):
+reflejo en el vidrio, bisagra, cámara en el marco, muesca de enfrente y puertos del costado. Ya se probó y se
+descartó (no volver a proponerlo igual):
 
 - Centrar la laptop completa en la pose del centro: se veía menos centrada; manda la pantalla.
 - Oscurecer el plateado de noche al 42 % (se notaba el cambio de color) o nada (parecía tener luz propia): va al 20 %.
@@ -83,10 +86,12 @@ proponerlo igual):
 - Un reflejo más tenue, o que bajara en la parte negra: no se distinguía.
 - Una bisagra de cilindro completo (cerrada, su mitad de atrás asomaba detrás de la tapa) o hecha con 6 tiras de
   15° (se veía un punteado donde se encimaban): va el cuarto de enfrente, con una sola tira.
+- Puertos en el costado izquierdo: en todo el scroll nunca da hacia la cámara, y con `backface-visibility: hidden`
+  ni se dibuja.
+- Lengüeta o bisel dentro de los puertos: saldrían de menos de 1 px.
 
-Lo que sigue: los dos últimos detalles de la laptop, que casi no se van a notar al tamaño en que sale.
+Lo que sigue: el último detalle de la laptop, que casi no se va a notar al tamaño en que sale.
 
-- Puertos en el costado: solo el derecho (`.costado-der`) se ve en las poses, y mide unos 10 px en pantalla.
 - Rejillas de bocinas: junto a las teclas no hay lugar, porque con el teclado numérico ocupan hasta el 94 % del
   ancho. Solo cabrían en la franja de arriba de las teclas (4 % del fondo, junto a la bisagra).
 
@@ -104,7 +109,7 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - Para verla: `.claude/launch.json` tiene el servidor `fragmentless` (`python -m http.server 5510`).
   También sirve Live Server.
 - Imágenes y video se comprimen con ffmpeg (ver `README.md`): fotos a WebP de 1200 px y video H.264 de 1280 px sin audio.
-- Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=muesca-1`),
+- Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=puertos-1`),
   para que el navegador no use la copia vieja guardada.
 
 ## Cómo probar la laptop en el navegador integrado
@@ -119,8 +124,13 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
   punto que interesa. No cambia la geometría. Quitarla al terminar.
 - **Dónde cae un punto del 3D:** meter un `div` de 1 px en ese lugar (por ejemplo, en `.teclado` a `left: 50%;
   top: 100%`), leer su `getBoundingClientRect()` y quitarlo.
-- **Panel escondido o chico:** no se pintan cuadros. La primera captura puede salir vieja (tomar dos seguidas),
-  las medidas no cambian hasta que se pinta, y esperar `requestAnimationFrame` se cuelga.
+- **Hacia dónde mira un plano:** con tres de esos puntos en sus esquinas (0 0, 100 % 0 y 0 100 %), el signo del
+  producto cruz de las dos orillas dice si da hacia la cámara (positivo) o si le da la espalda y no se dibuja.
+- **Tamaño en pantalla:** al emular 1280, 1440 o 1920, el panel encoge la página para que quepa, así que una
+  captura no enseña los píxeles de verdad. Lo que mide algo en pantalla se saca con esos puntos.
+- **Panel escondido o chico:** no se pintan cuadros. Una captura obliga a pintar uno, pero la primera puede salir
+  vieja o negra, o tardar demasiado (tomar otra). Las medidas no cambian hasta que se pinta, y esperar
+  `requestAnimationFrame` se cuelga.
 - **Consola:** la del navegador integrado guarda errores de cargas viejas (como «cursor is not defined» de una
   versión anterior de `escena.js`). Para comprobar que está limpia, cargar la página en un `iframe` escondido con
   `srcdoc`: el HTML con un script al principio que anote errores y avisos, y sin el script que mete Live Server

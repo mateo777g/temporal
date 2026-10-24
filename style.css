@@ -577,6 +577,35 @@ body {
   transform-origin: 100% 50%;
   transform: rotateY(-90deg);
 }
+/* Los puertos: dos USB-C y la entrada de audífonos, en el costado derecho, que es el que ve la cámara (el
+   izquierdo nunca da hacia ella y ni se dibuja). Van hacia atrás, junto a la bisagra, como en una MacBook, y
+   miden lo de una de verdad respecto al fondo de la base (cqh del teclado). En el costado, lo ancho es el
+   grosor de la base y lo alto va de atrás hacia enfrente, empezando donde acaba la esquina (--r). En pantalla
+   el USB-C sale de unos 4 × 11 px a 1280 de ancho, así que son formas lisas y oscuras: su lengüeta o su bisel
+   saldrían de menos de 1 px. El segundo USB-C es la sombra del primero, que copia también lo redondo. */
+.costado-der::before,
+.costado-der::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+.costado-der::before {
+  left: calc(52% - 0.6cqh);
+  top: calc(13cqh - var(--r));
+  width: 1.2cqh;
+  height: 3.9cqh;
+  border-radius: 0.6cqh;
+  background: #1C1D20;
+  box-shadow: 0 5.3cqh 0 #1C1D20;
+}
+.costado-der::after {
+  left: calc(52% - 0.75cqh);
+  top: calc(28cqh - var(--r));
+  width: 1.5cqh;
+  height: 1.5cqh;
+  border-radius: 50%;
+  background: radial-gradient(circle closest-side, #0B0B0C 0 62%, #2A2B2F 80%, #6E6F73);
+}
 /* La muesca de enfrente, para abrir la tapa: un hueco al centro de la orilla de la base, centrado en la laptop
    y no en el trackpad (que se corre por el teclado numérico). Un plano no se puede ahuecar, así que va fingida
    con dos medios óvalos que se juntan en la orilla: en el canto, el interior de la muesca visto de frente, más
