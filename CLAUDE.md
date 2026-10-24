@@ -45,6 +45,10 @@ La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclad
 - **Base** (`.teclado`): teclas (imagen), trackpad y su grosor: `.canto` (enfrente), `.canto-atras` (en la
   bisagra), `.costado-izq` y `.costado-der`, y `.esquina-*` (dos tramos de 45° que cierran cada una de las cuatro
   esquinas redondas, igual de redondas que la tapa). El grosor mide 3 % del fondo del teclado (`3cqh`).
+- **Rejilla de las bocinas** (`.teclado::before`, con `position: absolute` para no entrar en la cuadrícula del
+  teclado): una franja de agujeritos de medio milímetro, uno cada milímetro, entre la bisagra y la fila de las F,
+  a lo ancho de las teclas. A 1280 mide unos 4 px de alto y se ve como una línea gris un poco más oscura; de
+  cerca, como rejilla. No se comprobó si tiembla mientras se mueve la laptop, ni cómo se ve en una pantalla Retina.
 - **Muesca de enfrente** para abrir la tapa: fingida con `.canto:not(.canto-atras)::after` (el hueco visto de
   frente) y `.teclado::after` (la sombra en el teclado). Va centrada en la laptop, no en el trackpad, que se corre
   a la izquierda por el teclado numérico.
@@ -74,8 +78,8 @@ están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo 
 
 Se pulió la laptop de la escena: esquinas redondas, sombra, plateada con teclas claras, quieta (sin cursor) y
 el fondo de la parte negra. Después se le pusieron detalles, cada uno con su commit: grosor de la pantalla,
-reflejo en el vidrio, bisagra, cámara en el marco, muesca de enfrente y puertos del costado. Ya se probó y se
-descartó (no volver a proponerlo igual):
+reflejo en el vidrio, bisagra, cámara en el marco, muesca de enfrente, puertos del costado y rejilla de las
+bocinas. Ya se probó y se descartó (no volver a proponerlo igual):
 
 - Centrar la laptop completa en la pose del centro: se veía menos centrada; manda la pantalla.
 - Oscurecer el plateado de noche al 42 % (se notaba el cambio de color) o nada (parecía tener luz propia): va al 20 %.
@@ -89,13 +93,13 @@ descartó (no volver a proponerlo igual):
 - Puertos en el costado izquierdo: en todo el scroll nunca da hacia la cámara, y con `backface-visibility: hidden`
   ni se dibuja.
 - Lengüeta o bisel dentro de los puertos: saldrían de menos de 1 px.
+- Rejillas de bocinas a los lados de las teclas: no caben, porque con el teclado numérico ocupan hasta el 94 % del
+  ancho.
+- Una rejilla con agujeros más grandes (unos 2 px en pantalla): de cerca parecía de juguete, y los puntos podían
+  hacer un patrón que temblara al moverse la laptop.
 
-Lo que sigue: el último detalle de la laptop, que casi no se va a notar al tamaño en que sale.
-
-- Rejillas de bocinas: junto a las teclas no hay lugar, porque con el teclado numérico ocupan hasta el 94 % del
-  ancho. Solo cabrían en la franja de arriba de las teclas (4 % del fondo, junto a la bisagra).
-
-En celular la escena de la laptop se va a cambiar por otra cosa, así que sus detalles se revisan solo en escritorio.
+Con eso la laptop ya tiene todos los detalles que se planearon. En celular la escena de la laptop se va a cambiar
+por otra cosa, así que sus detalles se revisan solo en escritorio.
 
 ## Comandos
 
@@ -109,7 +113,7 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - Para verla: `.claude/launch.json` tiene el servidor `fragmentless` (`python -m http.server 5510`).
   También sirve Live Server.
 - Imágenes y video se comprimen con ffmpeg (ver `README.md`): fotos a WebP de 1200 px y video H.264 de 1280 px sin audio.
-- Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=puertos-1`),
+- Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=bocinas-1`),
   para que el navegador no use la copia vieja guardada.
 
 ## Cómo probar la laptop en el navegador integrado

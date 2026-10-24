@@ -512,6 +512,23 @@ body {
   background: url('prueba/teclado-claro.webp') center / 100% 100% no-repeat;
   filter: brightness(calc(1 - var(--oscuro, 0) * 0.08));
 }
+/* La rejilla de las bocinas: una franja de agujeritos arriba de las teclas, entre la bisagra (que tapa el
+   primer 1.4cqh) y la fila de las F, a lo ancho de las teclas, como en una MacBook de 12″. A los lados de las
+   teclas no cabía: con el teclado numérico llegan al 94 % del ancho. Los agujeros son de medio milímetro, uno
+   cada milímetro: a 1280 de ancho la franja mide unos 4 px de alto y se ve como una línea gris un poco más
+   oscura; de cerca, como rejilla. Con agujeros más grandes parecía de juguete, y los puntos, de unos 2 px,
+   podían hacer un patrón que temblara al moverse la laptop. Va fuera de la cuadrícula (absolute), para no
+   mover las teclas ni el trackpad. */
+.teclado::before {
+  content: '';
+  position: absolute;
+  left: calc(50% - var(--ancho-teclas) / 2);
+  width: var(--ancho-teclas);
+  top: 1.9cqh;
+  height: 1.6cqh;
+  background: radial-gradient(circle closest-side, rgb(0 0 0 / .5) 0 55%, transparent 80%) 0 0 / 0.45cqh 0.4cqh;
+  pointer-events: none;
+}
 /* El trackpad, plateado como la base, con sus dos botones de click abajo: una franja del 22 % de su alto,
    partida a la mitad. Las juntas (la de arriba de los botones y la de en medio) son rayas grises de 1.5 px
    en pantalla. */
