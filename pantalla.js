@@ -73,8 +73,8 @@ vec3 paleta(float x) {
 void main() {
   // El lado corto del lienzo mide 2: caben unas tres manchas de alto, como en el video
   vec2 p = (gl_FragCoord.xy - 0.5 * u_tamano) / u_tamano.y * 2.0;
-  // A esta velocidad cambia lo mismo que el video en 0.2 s y en 1 s (medido cuadro contra cuadro)
-  float t = u_tiempo * 0.45;
+  // Dos tercios de la velocidad del video (0.45, medida cuadro contra cuadro): igual que el video se veía rápido
+  float t = u_tiempo * 0.3;
   // Las manchas: un ruido deformado por otro, que se mueve con el tiempo
   vec2 q = vec2(capas(p + vec2(0.0, t)), capas(p + vec2(5.2, 1.3) - vec2(t, 0.0)));
   float n = capas(p + q + vec2(0.3 * t, -0.2 * t));

@@ -42,7 +42,8 @@ La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclad
   azul en vivo (`.pantalla-azul`, un `canvas`) y la captura del panel encima, la cámara al centro del marco de
   arriba (`.video::before`) y el reflejo del vidrio (`.video::after`, una diagonal tenue arriba a la izquierda).
 - **El azul en vivo** (`pantalla.js`): un shader de WebGL de manchas azul marino que se deforman, con líneas que
-  brillan. Sus colores y su velocidad se midieron contra el video que había antes (cuadro contra cuadro). Dibuja
+  brillan. Sus colores se midieron contra el video que había antes, y va a dos tercios de su velocidad (con la del
+  video, medida cuadro contra cuadro, se veía rápido). Dibuja
   a 1280 de ancho como mucho; mientras la captura del panel lo tapa (toda la parte negra) no dibuja, pero revisa
   cada cuadro, porque esperar al scroll fallaba: su cuadro corre antes que el de `escena.js`. Con «reducir
   movimiento», un cuadro quieto. Sin WebGL se ve `fondo-azul.webp`. El de 21st.dev («Silk») no se usó: es otra
@@ -117,6 +118,9 @@ bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo
   escena (con el `--oscuro` de `escena.js`): se prefirió sencilla, transparente desde el cambio.
 - La barra transparente en toda la página: en la hoja, las tarjetas y el footer el contenido sí pasa por debajo
   de ella. Ahí se queda blanca.
+- Un azul de la pantalla con formas más redondas, burbujas que dejaban anillos y líneas finas medidas en píxeles,
+  con los colores sacados del video entero: aunque los números cuadraban, no se parecía al video. Se quedó la
+  primera versión de `pantalla.js`, solo más lenta.
 
 Con eso la laptop ya tiene todos los detalles que se planearon, más el brillo de la base, que salió de compararla
 con la maqueta. En celular la escena de la laptop se va a cambiar por otra cosa, así que sus detalles se revisan
