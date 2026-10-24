@@ -39,17 +39,14 @@ Tailwind se limita a las utilidades de los componentes y omite
 
 ## Imágenes y video
 
-- La laptop usa `prueba/fondo-azul.mp4` (1280 px, sin audio, unos 0.8 MB) con
-  `prueba/fondo-azul.webp` como póster mientras carga. Sale de `prueba/nuevo.mp4` con:
-
-  ```sh
-  ffmpeg -i prueba/nuevo.mp4 -an -vf scale=1280:-2 -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -movflags +faststart prueba/fondo-azul.mp4
-  ```
+- El azul de la pantalla de la laptop ya no es un video: lo dibuja `pantalla.js` en vivo con WebGL
+  (7 KB en vez de 0.8 MB). Sin WebGL se ve `prueba/fondo-azul.webp`, un cuadro fijo del video que había
+  antes (`prueba/fondo-azul.mp4`, que ya no se carga).
 
 - Las fotos de las tarjetas son `prueba/tarjeta-*.webp` (1200 px), sacadas de los PNG originales con
   `ffmpeg -i prueba/libreta.png -vf scale=1200:-2 -c:v libwebp -quality 80 prueba/tarjeta-libreta.webp`.
 - `assets/og-imagen.jpg` (1200 × 630) es la imagen que se ve al compartir el enlace. Cuando la página
   tenga dominio, cambia `og:image` en `index.html` por la dirección completa.
 
-Los originales (`nuevo.mp4`, `libreta.png`, `mesera.png`, `cuentas.png`) y los videos `panel-*.mp4`
-ya no los carga la página; se pueden borrar o mover fuera de la carpeta que se publique.
+Los originales (`nuevo.mp4`, `libreta.png`, `mesera.png`, `cuentas.png`) y los videos `panel-*.mp4` y
+`fondo-azul.mp4` ya no los carga la página; se pueden borrar o mover fuera de la carpeta que se publique.

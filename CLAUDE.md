@@ -26,6 +26,7 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `index.html` | Inicio. Portada → escena de la laptop (scroll) → sección del panel (`#sistema`) → tarjetas → clientes → footer |
 | `style.css` | Estilos de `index.html` y de lo compartido: barra, botones (`.boton`, `.boton-borde`, `.boton-primario`), footer |
 | `escena.js` | La laptop 3D que se encoge, gira, se va al lado y se cierra con el scroll |
+| `pantalla.js` | El azul de la pantalla de la laptop, dibujado en vivo con WebGL (antes era un video) |
 | `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí |
 | `hoja.js` | La hoja blanca de la sección del panel, que sube encima de la escena |
 | `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
@@ -37,8 +38,15 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
 
-- **Pantalla** (`.video`): el marco negro, los videos recortados por dentro, la cámara al centro del marco de
+- **Pantalla** (`.video`, el nombre es de cuando tenía un video): el marco negro, recortados por dentro el
+  azul en vivo (`.pantalla-azul`, un `canvas`) y la captura del panel encima, la cámara al centro del marco de
   arriba (`.video::before`) y el reflejo del vidrio (`.video::after`, una diagonal tenue arriba a la izquierda).
+- **El azul en vivo** (`pantalla.js`): un shader de WebGL de manchas azul marino que se deforman, con líneas que
+  brillan. Sus colores y su velocidad se midieron contra el video que había antes (cuadro contra cuadro). Dibuja
+  a 1280 de ancho como mucho; mientras la captura del panel lo tapa (toda la parte negra) no dibuja, pero revisa
+  cada cuadro, porque esperar al scroll fallaba: su cuadro corre antes que el de `escena.js`. Con «reducir
+  movimiento», un cuadro quieto. Sin WebGL se ve `fondo-azul.webp`. El de 21st.dev («Silk») no se usó: es otra
+  forma, en grises y en React.
 - **Grosor de la pantalla** (`.grosor-pantalla`): una caja del tamaño de la pantalla con `.tapa` al fondo, las
   `.orilla-*` y las mismas `.esquina-*` de la base (ahí las «de atrás» son las de arriba). Mide la mitad que la
   base. Sus orillas llevan el brillo del lado de la tapa, así que cerrada se ven dos orillas pulidas, una sobre otra.
@@ -134,7 +142,8 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
   al HTML, a `style.css`, a `nosotros.css` o a los `.js` de la raíz no necesitan build.
 - Para verla: `.claude/launch.json` tiene el servidor `fragmentless` (`python -m http.server 5510`).
   También sirve Live Server.
-- Imágenes y video se comprimen con ffmpeg (ver `README.md`): fotos a WebP de 1200 px y video H.264 de 1280 px sin audio.
+- Imágenes y video se comprimen con ffmpeg (ver `README.md`): fotos a WebP de 1200 px y video H.264 de 1280 px
+  sin audio. La página ya no carga ningún video.
 - Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=barra-transparente-2`),
   para que el navegador no use la copia vieja guardada.
 
@@ -183,7 +192,8 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
 - Según la marca, el nombre «fragmentless» va en la letra Outfit, peso 200. La barra todavía usa Inter.
 - `prueba/` podría renombrarse (por ejemplo, `media/`). Los archivos que ya no se cargan (`nuevo.mp4`,
   `nuevo.jpg`, `libreta.png`, `mesera.png`, `mesera.webp`, `cuentas.png`, `tableta-manos.webp`,
-  `panel-*.mp4`) no deben subirse al hosting. `teclado-claro.webp` (las teclas de la laptop plateada) tampoco se
+  `panel-*.mp4`, `fondo-azul.mp4`) no deben subirse al hosting; `fondo-azul.webp` sí, porque es lo que se ve
+  sin WebGL. `teclado-claro.webp` (las teclas de la laptop plateada) tampoco se
   carga, pero se queda en el repo con `scripts/teclas-claras.py`, por si se regresa a la plateada.
 - `respaldos/2026-10-23-antes-de-portada/` tiene una copia de `index.html`, `style.css` y `escena.js` de antes
   de esconder la laptop hasta que carga; se puede borrar y no debe subirse al hosting.

@@ -1,11 +1,11 @@
-// escena.js — la escena del video en la página de Fragmentless (index.html).
-// Al bajar, el hueco del video se encoge y se gira de lado, el fondo se oscurece (y sobre el video azul
-// aparece la captura del panel) y sale el texto del centro; luego la tarjeta se va a la derecha
+// escena.js — la escena de la laptop en la página de Fragmentless (index.html).
+// Al bajar, la pantalla se encoge y se gira de lado, el fondo se oscurece (y sobre el azul en vivo de
+// pantalla.js aparece la captura del panel) y sale el texto del centro; luego la tarjeta se va a la derecha
 // y sale el texto de la izquierda con su botón. La tarjeta no sigue al cursor: quieta, su sombra y su
 // luz se ven siempre igual en cada pose.
 // La tarjeta es la pantalla de una laptop: mientras se encoge le sale el marco y el teclado se desdobla
 // desde su orilla de abajo, y la laptop entera hace los mismos movimientos. Cuando sube la hoja de la
-// sección 3, la laptop se cierra y sus videos se pausan.
+// sección 3, la laptop se cierra. El azul deja de dibujarse solo, en cuanto la captura lo tapa (pantalla.js).
 // La tarjeta y el fondo los mueve el scroll: cada cuadro se calcula de cuánto has bajado dentro de la
 // escena. Los textos no: al llegar a su momento entran solos, con el reloj (style.css), y al pasarlo se van.
 (() => {
@@ -15,9 +15,7 @@
   const laptop = escena.querySelector('.laptop');
   const video = laptop.querySelector('.video');
   const teclado = laptop.querySelector('.teclado');
-  const videos = [...video.querySelectorAll('video')];
   const portada = escena.querySelector('.portada-copy');
-  const videoNoche = video.querySelector('.video-noche');
   const panelSistema = video.querySelector('.panel-sistema');
   const centro = escena.querySelector('.texto-centro');
   const lado = escena.querySelector('.texto-lado');
@@ -123,19 +121,6 @@
     return r;
   };
 
-  // Cerrada, la laptop pausa sus videos para que no se sigan reproduciendo ni bajando; al abrirse, siguen.
-  let videosPausados = true;
-  function pausarVideos(pausar) {
-    videosPausados = pausar;
-    for (const v of videos) {
-      if (pausar) v.pause();
-      else v.play().catch((error) => {
-        // Si se vuelve a cerrar antes de que arranque, play() se cancela: eso no es una falla.
-        if (error.name !== 'AbortError') console.warn('No se pudo reanudar el video', v.currentSrc, error);
-      });
-    }
-  }
-
   let pendiente = false;
 
   function pintar() {
@@ -195,9 +180,6 @@
       `translateY(${alto / 2}px) rotateX(${apertura - desdoblada}deg) translateY(${-alto / 2}px)`;
     laptop.style.setProperty('--k', pose.k);
 
-    const pausar = cierre >= 1;
-    if (pausar !== videosPausados) pausarVideos(pausar);
-
     // El eslogan se va.
     const quedaEslogan = 1 - tramo(p, TRAMOS.eslogan);
     portada.style.opacity = quedaEslogan;
@@ -205,7 +187,7 @@
     portada.inert = quedaEslogan < .1;
     portada.style.visibility = quedaEslogan === 0 ? 'hidden' : 'visible';
 
-    // El panel aparece sobre el video azul mientras el fondo pasa a negro.
+    // El panel aparece sobre el azul mientras el fondo pasa a negro.
     const oscuro = delicada(tramo(p, TRAMOS.noche));
     noche.style.opacity = oscuro;
     laptop.style.setProperty('--oscuro', oscuro); // enciende el piso de luz debajo de la laptop
@@ -214,7 +196,6 @@
     // pantalla, por eso se corre de pose.x).
     noche.style.setProperty('--luz-y', `${enCentro.y + alto * enCentro.k / 2 - altoPantalla * 0.07}px`);
     noche.style.setProperty('--luz-x', `${pose.x - ancho * pose.k * 0.2}px`);
-    if (videoNoche) videoNoche.style.opacity = 1;
     if (panelSistema) panelSistema.style.opacity = oscuro;
     document.documentElement.toggleAttribute('data-noche', oscuro >= 0.5);
 

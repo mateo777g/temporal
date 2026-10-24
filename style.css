@@ -289,10 +289,10 @@ body {
    eslogan quieto, y luego saltaban a su lugar. visibility y no opacity, para no aplanar el 3D. */
 :root:not([data-escena]) :is(.laptop, .portada-copy) { visibility: hidden; }
 
-/* La pantalla: el hueco del video (negro mientras carga el video), con un marco negro alrededor como el
-   de una MacBook. --marco (escena.js) va de 0, a todo lo ancho y sin marco, a 1, con el marco entero.
-   El marco es el fondo de la pantalla, que se ve donde se recorta el video; sin marco no hay fondo:
-   detrás del video asomaría por la orilla redonda. */
+/* La pantalla (se llama .video porque antes tenía un video), con un marco negro alrededor como el de una
+   MacBook. --marco (escena.js) va de 0, a todo lo ancho y sin marco, a 1, con el marco entero.
+   El marco es el fondo de la pantalla, que se ve donde se recorta el azul; sin marco no hay fondo:
+   detrás del azul asomaría por la orilla redonda. */
 .video {
   position: absolute;
   inset: 0;
@@ -306,13 +306,13 @@ body {
   /* La orilla gris de la tapa alrededor del marco negro, como en una MacBook */
   box-shadow: inset 0 0 0 calc(2px / var(--k, 1)) rgb(78 78 83 / var(--marco, 0));
   overflow: hidden;
-  backface-visibility: hidden; /* al cerrarse la laptop, por detrás se ve la tapa y no el video al revés */
+  backface-visibility: hidden; /* al cerrarse la laptop, por detrás se ve la tapa y no la pantalla al revés */
 }
-/* Los videos llenan la pantalla (recortando lo que sobre), uno encima del otro: el del panel claro
-   empieza invisible y entra cuando se oscurece la página (escena.js). El negro de --hueco va en los
-   videos (se ve si no cargan). El marco les recorta la orilla: 2.6 % del lado corto arriba y a los
+/* El azul en vivo (pantalla.js) y la captura del panel llenan la pantalla (recortando lo que sobre), una
+   encima del otro: la captura empieza invisible y entra cuando se oscurece la página (escena.js). El negro
+   de --hueco se ve si no cargan. El marco les recorta la orilla: 2.6 % del lado corto arriba y a los
    lados, y 4.4 % abajo, como la barbilla de una MacBook. */
-.video video,
+.video .pantalla-azul,
 .video .panel-sistema {
   --bisel: calc(var(--marco, 0) * 2.6cqmin);
   position: absolute;
@@ -324,7 +324,8 @@ body {
   clip-path: inset(var(--bisel) var(--bisel) calc(var(--marco, 0) * 4.4cqmin)
     round max(0px, calc(var(--radio) / var(--k, 1) - var(--bisel))));
 }
-.video .video-noche { opacity: 1; }
+/* Sin WebGL, el lienzo no se dibuja y deja ver este fondo: un cuadro fijo del video que había antes */
+.video .pantalla-azul { background: url('prueba/fondo-azul.webp') center / cover, var(--hueco); }
 .video .panel-sistema { opacity: 0; pointer-events: none; }
 /* La cámara: un círculo al centro del marco de arriba (mide 2.6cqmin de alto), del 42 % de ese alto. Negra
    por dentro, con un anillo gris oscuro y un brillito azulado de lente arriba a la izquierda. Los videos no la

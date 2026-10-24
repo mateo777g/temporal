@@ -21,11 +21,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=laptop-oscura-1">
+<link rel="stylesheet" href="style.css?v=pantalla-en-vivo-1">
 <link rel="stylesheet" href="assets/components.css">
 <script src="assets/wave-background.js" defer></script>
 <script src="barra.js?v=submenu-brillo-2" defer></script>
-<script src="escena.js?v=escena-lista-1" defer></script>
+<!-- Antes que escena.js: así el azul ya está dibujado cuando la laptop se muestra -->
+<script src="pantalla.js?v=pantalla-en-vivo-1" defer></script>
+<script src="escena.js?v=pantalla-en-vivo-1" defer></script>
 <script src="hoja.js" defer></script>
 
 </head>
@@ -92,9 +94,9 @@
            pantalla ni el teclado: aparecen mientras se encoge. Al subir la hoja de la sección 3 se cierra,
            y entonces se ve la tapa por detrás. -->
       <div class="laptop">
-        <!-- El video azul da paso a la captura del panel al encogerse la laptop. -->
+        <!-- El azul en vivo (pantalla.js) da paso a la captura del panel al encogerse la laptop. -->
         <div class="video">
-          <video class="video-noche" src="prueba/fondo-azul.mp4" poster="prueba/fondo-azul.webp" autoplay muted loop playsinline aria-label="Fondo azul de Fragmentless"></video>
+          <canvas class="pantalla-azul" aria-hidden="true"></canvas>
           <img class="panel-sistema" src="prueba/vista-inicio.webp" alt="Panel del agente de IA de Fragmentless" decoding="async">
         </div>
         <!-- El grosor de la pantalla: sus orillas y sus cuatro esquinas redondas, y al fondo la tapa, que solo
