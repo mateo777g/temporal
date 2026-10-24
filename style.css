@@ -402,15 +402,13 @@ body {
 .teclado * { backface-visibility: hidden; }
 /* Las teclas: una imagen generada en Higgsfield (GPT Image 2.5 Sunburst, job 961d813b…), vistas desde
    arriba, con letras y teclado numérico, sin luz y sin el logo de Windows (se tapó con Pillow). Entre tecla
-   y tecla es transparente: ahí se ve el pozo negro del teclado, como en una MacBook Pro plateada. Sin el pozo
-   se metía el plateado entre las teclas y parecía que flotaban. */
+   y tecla es transparente: ahí se ve el plateado de la base, como en las laptops plateadas de teclas
+   sueltas. Hubo un pozo negro debajo de todas las teclas, pero se veía como un rectángulo pegado. */
 .teclas {
   grid-row: 2;
   width: var(--ancho-teclas);
   aspect-ratio: var(--proporcion);
-  background: url('prueba/teclado.webp') center / 100% 100% no-repeat, #151517;
-  border-radius: calc(var(--radio) / var(--k, 1) * 0.35);
-  box-shadow: 0 0 0 calc(2px / var(--k, 1)) #1D1D20;
+  background: url('prueba/teclado.webp') center / 100% 100% no-repeat;
 }
 /* El trackpad, plateado como la base, con sus dos botones de click abajo: una franja del 22 % de su alto,
    partida a la mitad. Las juntas (la de arriba de los botones y la de en medio) son rayas grises de 1.5 px

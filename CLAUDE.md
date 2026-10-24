@@ -81,3 +81,6 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - `respaldos/` tiene una copia de `index.html`, `style.css` y `escena.js` de antes de esconder la laptop
   hasta que carga; se puede borrar y no debe subirse al hosting.
 - La sección `.clientes` de `index.html` está vacía hasta que haya logos de clientes reales.
+- En la pose del centro (parte negra), el texto «Presentamos nuestro nuevo software» pasa encima del frente
+  de la base plateada: el título se lee bien, pero el párrafo se lee regular donde cruza la orilla. Se
+  arregla bajando un poco el texto o subiendo la laptop en esa pose (`POSES` en `escena.js`).
