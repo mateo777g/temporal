@@ -234,10 +234,22 @@ body {
   overflow: hidden;
   background: var(--fondo);
 }
+/* La parte negra es un estudio de fotos: una pared casi negra arriba y un piso un poco más claro abajo, que
+   se juntan en una orilla suave (--horizonte) detrás de la laptop, a la altura de su bisagra. La luz cae
+   donde está la laptop (--luz-x): un charco en el piso y un brillo tenue en la pared, y todo se oscurece
+   hacia los lados y hacia el frente. Las dos los pone escena.js: el horizonte se queda quieto (la cámara no
+   se mueve) y la luz sigue a la laptop cuando se va a la derecha. Se ve con la opacidad de .noche. */
 .noche {
+  --horizonte: 58%;
+  --luz-x: 50%;
   position: absolute;
   inset: 0;
-  background: var(--noche);
+  background:
+    radial-gradient(ellipse 34% 26% at var(--luz-x) calc(var(--horizonte) + 14%), rgb(255 255 255 / .075), transparent 72%),
+    radial-gradient(ellipse 42% 48% at var(--luz-x) calc(var(--horizonte) - 14%), rgb(255 255 255 / .045), transparent 70%),
+    radial-gradient(ellipse 85% 120% at var(--luz-x) var(--horizonte), transparent 40%, rgb(0 0 0 / .65)),
+    linear-gradient(var(--noche), #0C0C0D calc(var(--horizonte) - 6%), #111113 calc(var(--horizonte) - .6%),
+      #1D1D20 calc(var(--horizonte) + .6%), #151517 calc(var(--horizonte) + 14%), #09090A);
   opacity: 0;
 }
 
@@ -509,7 +521,7 @@ body {
   inset: -75% -60% -55%;
   background: radial-gradient(closest-side,
     rgb(255 255 255 / .3), rgb(255 255 255 / .16) 35%, rgb(255 255 255 / .06) 65%, transparent);
-  opacity: var(--oscuro, 0);
+  opacity: calc(var(--oscuro, 0) * 0.55); /* tenue: la luz ya la da el piso del estudio (.noche) */
   transform: translateZ(calc(-3cqh - 2px));
 }
 
