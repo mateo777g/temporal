@@ -635,6 +635,55 @@ body {
   transform: rotateZ(67.5deg) rotateX(-90deg);
 }
 
+/* La bisagra: un cuarto de cilindro acostado en el rincón entre la pantalla y el teclado, de esquina a
+   esquina sin meterse en las curvas. Su eje es la orilla de atrás del teclado, sobre la que gira la pantalla,
+   así que va pegada al teclado y no hay que moverla al cerrar. Es solo el cuarto de enfrente y de arriba: con el
+   cilindro completo, cerrada, la mitad de atrás asomaba detrás de la tapa. Su radio es un poco menor que el
+   grosor de la pantalla (1.5cqh, .grosor-pantalla), y así, cerrada, queda guardada dentro de ella. */
+.bisagra {
+  --radio-bisagra: 1.4cqh;
+  position: absolute;
+  top: 0;
+  left: var(--r);
+  right: var(--r);
+  height: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+/* La cara de la bisagra: una sola tira lisa, en diagonal de la orilla del teclado a la de la pantalla, con un
+   degradado que hace la curva: clara arriba, donde le da la luz (viene de arriba y de enfrente), y más oscura
+   abajo, junto al teclado. Con seis tiras de 15° se veía un punteado fino donde se encimaban. */
+.bisagra-frente {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: calc(var(--radio-bisagra) * -0.7071);
+  height: calc(var(--radio-bisagra) * 1.4142);
+  background: linear-gradient(#F2F3F5, #F4F5F7 25%, #E9EAEC 50%, #D0D1D4 75%, #ABACAF);
+  transform: rotateX(-45deg) translateZ(calc(var(--radio-bisagra) * 0.7071));
+}
+/* Las puntas: un cuarto de círculo en cada extremo, girado para ver hacia el costado */
+.bisagra-punta {
+  position: absolute;
+  top: 0;
+  width: var(--radio-bisagra);
+  height: var(--radio-bisagra);
+}
+.bisagra-punta-izq {
+  left: 0;
+  border-bottom-right-radius: 100%;
+  background: radial-gradient(circle at 0 0, #B9BABE, #8F9094);
+  transform-origin: 0 0;
+  transform: rotateY(-90deg);
+}
+.bisagra-punta-der {
+  left: calc(100% - var(--radio-bisagra));
+  border-bottom-left-radius: 100%;
+  background: radial-gradient(circle at 100% 0, #B9BABE, #97989C);
+  transform-origin: 100% 0;
+  transform: rotateY(90deg);
+}
+
 /* Textos de la escena, blancos sobre lo oscuro. Se animan solos, con el reloj y no con el scroll:
    cuando llegas a su momento, escena.js les pone data-dentro y sube el título con su párrafo, se
    encienden las palabras una tras otra y al final sale el botón. Al quitárselo se desvanecen juntos. */

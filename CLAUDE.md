@@ -41,6 +41,10 @@ base: `.canto` (enfrente), `.canto-atras` (en la bisagra), `.costado-izq` y `.co
 La pantalla también tiene grosor, la mitad del de la base: `.grosor-pantalla` es una caja del tamaño de la
 pantalla con `.tapa` al fondo, las `.orilla-*` y las mismas `.esquina-*` (ahí las «de atrás» son las de arriba).
 Sus orillas llevan el brillo del lado de la tapa, así que cerrada se ven dos orillas pulidas, una sobre otra.
+La bisagra (`.bisagra`, dentro del teclado) es un cuarto de cilindro en el rincón entre la pantalla y el
+teclado: una tira lisa en diagonal (`.bisagra-frente`) con un degradado que hace la curva, y dos puntas de cuarto
+de círculo. Su eje es la línea donde gira la pantalla, así que no se mueve; cerrada queda guardada dentro de la
+pantalla. Con 6 tiras de 15° se veía un punteado donde se encimaban.
 Debajo de la base van `.sombra` y `.piso` (un piso de luz gris que se enciende con la parte negra, con
 `--oscuro` de `escena.js`); como están en el 3D del teclado, siguen a la laptop sin código extra.
 La laptop es plateada, con teclas claras y orillas pulidas. En la parte negra el plateado baja un 20 % con
@@ -64,10 +68,11 @@ y el fondo de la parte negra. Ya se probó y se descartó (no volver a proponerl
 - Oscurecer el plateado de noche al 42 % (se notaba el cambio de color) o nada (parecía tener luz propia): va al 20 %.
 - Un estudio con línea entre pared y piso: se veía demasiado definido.
 - Pedir a la IA una imagen nueva de teclas: no hace falta, salen de la actual con el script.
+- Una bisagra de cilindro completo: cerrada, su mitad de atrás asomaba detrás de la tapa. Va solo el cuarto de enfrente.
 
 Lo que sigue: detalles extra para la laptop. Nada de logo en la tapa (era de maquetas viejas). Ya tiene
-grosor la pantalla y un reflejo en el vidrio (`.video::after`, una diagonal tenue arriba a la izquierda; más
-tenue no se distinguía). Le faltan: bisagra, cámara en el marco, rejillas de bocinas, puertos en los costados
+grosor la pantalla, un reflejo en el vidrio (`.video::after`, una diagonal tenue arriba a la izquierda; más
+tenue no se distinguía) y bisagra. Le faltan: cámara en el marco, rejillas de bocinas, puertos en los costados
 y muesca de enfrente para abrirla. Nada de eso necesita imágenes de IA: son formas sencillas que salen mejor
 en CSS.
 
