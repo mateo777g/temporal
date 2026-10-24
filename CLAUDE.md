@@ -35,9 +35,12 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `prueba/` | Imágenes y videos que usa la página (a pesar del nombre, son los de verdad) |
 | `scripts/teclas-claras.py` | Saca las teclas claras (`teclado-claro.webp`) de las negras (`teclado.webp`) con Pillow |
 
-La laptop: `.laptop` contiene `.video` (pantalla), `.tapa` y `.teclado`. El teclado tiene el grosor de la
+La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`. El teclado tiene el grosor de la
 base: `.canto` (enfrente), `.canto-atras` (en la bisagra), `.costado-izq` y `.costado-der`, y `.esquina-*`
 (dos tramos de 45° que cierran cada una de las cuatro esquinas redondas, igual de redondas que la tapa).
+La pantalla también tiene grosor, la mitad del de la base: `.grosor-pantalla` es una caja del tamaño de la
+pantalla con `.tapa` al fondo, las `.orilla-*` y las mismas `.esquina-*` (ahí las «de atrás» son las de arriba).
+Sus orillas llevan el brillo del lado de la tapa, así que cerrada se ven dos orillas pulidas, una sobre otra.
 Debajo de la base van `.sombra` y `.piso` (un piso de luz gris que se enciende con la parte negra, con
 `--oscuro` de `escena.js`); como están en el 3D del teclado, siguen a la laptop sin código extra.
 La laptop es plateada, con teclas claras y orillas pulidas. En la parte negra el plateado baja un 20 % con
@@ -62,9 +65,9 @@ y el fondo de la parte negra. Ya se probó y se descartó (no volver a proponerl
 - Un estudio con línea entre pared y piso: se veía demasiado definido.
 - Pedir a la IA una imagen nueva de teclas: no hace falta, salen de la actual con el script.
 
-Lo que sigue: detalles extra para la laptop. Nada de logo en la tapa (era de maquetas viejas). Le faltan:
-grosor de la pantalla (la tapa es un plano sin canto), bisagra, cámara en el marco, rejillas de bocinas,
-puertos en los costados, muesca de enfrente para abrirla y un reflejo suave en la pantalla.
+Lo que sigue: detalles extra para la laptop. Nada de logo en la tapa (era de maquetas viejas). Ya tiene
+grosor la pantalla. Le faltan: bisagra, cámara en el marco, rejillas de bocinas, puertos en los costados,
+muesca de enfrente para abrirla y un reflejo suave en la pantalla.
 
 ## Comandos
 

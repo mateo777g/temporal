@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=escena-lista-1">
+<link rel="stylesheet" href="style.css?v=grosor-pantalla-1">
 <link rel="stylesheet" href="assets/components.css">
 <script src="assets/wave-background.js" defer></script>
 <script src="barra.js?v=submenu-brillo-2" defer></script>
@@ -97,8 +97,19 @@
           <video class="video-noche" src="prueba/fondo-azul.mp4" poster="prueba/fondo-azul.webp" autoplay muted loop playsinline aria-label="Fondo azul de Fragmentless"></video>
           <img class="panel-sistema" src="prueba/vista-inicio.webp" alt="Panel del agente de IA de Fragmentless" decoding="async">
         </div>
-        <!-- La tapa por detrás de la pantalla: solo se ve al cerrarse -->
-        <div class="tapa" aria-hidden="true"></div>
+        <!-- El grosor de la pantalla: sus orillas y sus cuatro esquinas redondas, y al fondo la tapa, que solo
+             se ve al cerrarse -->
+        <div class="grosor-pantalla" aria-hidden="true">
+          <div class="tapa"></div>
+          <div class="orilla orilla-arriba"></div>
+          <div class="orilla orilla-abajo"></div>
+          <div class="orilla orilla-izq"></div>
+          <div class="orilla orilla-der"></div>
+          <div class="esquina esquina-der"></div>
+          <div class="esquina esquina-izq"></div>
+          <div class="esquina esquina-atras-izq"></div>
+          <div class="esquina esquina-atras-der"></div>
+        </div>
         <!-- El teclado: las teclas (una imagen, style.css), el trackpad y el grosor de la base (los cantos de
              enfrente y de atrás, los dos costados y las cuatro esquinas redondas). Debajo de la base, el piso
              con luz de la parte negra y la sombra de la laptop. -->

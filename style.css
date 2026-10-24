@@ -368,17 +368,77 @@ body {
 @media (max-width: 760px) {
   .portada-copy { top: calc(var(--alto-barra) + 28px); translate: none; left: 24px; width: calc(100% - 48px); max-width: none; }
 }
+/* El grosor de la pantalla: una caja del tamaño de la pantalla, con la tapa al fondo y las orillas entre las
+   dos. Sin él, de lado y al cerrarse la pantalla se veía como una hoja de papel. Mide la mitad que el de la
+   base, como en una MacBook: la base mide 3 % del fondo del teclado, que es lo alto de la pantalla sin pasar
+   de 0.7 veces su ancho (.teclado), y la caja es contenedor para medirlo igual (cqh). */
+.grosor-pantalla {
+  --r: calc(var(--radio) / var(--k, 1)); /* el radio de sus esquinas, el mismo de la base */
+  --grosor: calc(min(100cqh, (100vw - 2 * var(--margen)) * 0.7) * 0.015);
+  position: absolute;
+  inset: 0;
+  container-type: size;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.grosor-pantalla * { backface-visibility: hidden; }
 /* La tapa: la espalda de la pantalla, de aluminio plateado liso, viendo hacia atrás. Se ve cuando la laptop
-   se cierra y la pantalla queda boca abajo sobre el teclado; va 2 px (en pantalla) detrás de ella para quedar
-   encima de las teclas y no pelearse con ellas por el mismo plano. */
+   se cierra y la pantalla queda boca abajo sobre el teclado; como va al fondo del grosor, queda encima de
+   las teclas y no se pelea con ellas por el mismo plano. */
 .tapa {
   position: absolute;
   inset: 0;
-  border-radius: calc(var(--radio) / var(--k, 1));
+  border-radius: var(--r);
   background: linear-gradient(200deg, var(--plata-clara), var(--plata-oscura));
   box-shadow: inset 0 0 0 calc(1.5px / var(--k, 1)) rgb(255 255 255 / 0.5);
-  transform: rotateY(180deg) translateZ(calc(2px / var(--k, 1)));
-  backface-visibility: hidden;
+  transform: rotateY(180deg) translateZ(var(--grosor));
+}
+/* Las orillas: tiras dobladas 90° hacia atrás desde las orillas de la pantalla, como las de la base (más
+   abajo) y con su mismo pulido, solo que la línea brillante va del lado de la tapa, que es el aluminio:
+   cerrada, la laptop enseña dos orillas pulidas, una encima de la otra. Las esquinas son las de la base
+   (.esquina) con este grosor: la caja es como el teclado puesto de pie, así que .esquina-der e -izq son las
+   de abajo, junto a la bisagra, y las «de atrás» son las de arriba. */
+.orilla { position: absolute; }
+.orilla-arriba,
+.orilla-abajo {
+  left: var(--r);
+  width: calc(100% - 2 * var(--r));
+  height: var(--grosor);
+}
+.orilla-arriba {
+  bottom: 100%;
+  background: linear-gradient(var(--pulido) 0 12%, #B4B5B9 30%, #8F9094);
+  transform-origin: 50% 100%;
+  transform: rotateX(90deg);
+}
+.orilla-abajo {
+  top: 100%;
+  background: linear-gradient(0deg, var(--pulido) 0 12%, #B4B5B9 30%, #8F9094);
+  transform-origin: 50% 0;
+  transform: rotateX(-90deg);
+}
+.orilla-izq,
+.orilla-der {
+  top: var(--r);
+  width: var(--grosor);
+  height: calc(100% - 2 * var(--r));
+}
+.orilla-der {
+  left: 100%;
+  background: linear-gradient(-90deg, var(--pulido) 0 12%, #B9BABE 30%, #97989C);
+  transform-origin: 0 50%;
+  transform: rotateY(90deg);
+}
+.orilla-izq {
+  right: 100%;
+  background: linear-gradient(90deg, var(--pulido) 0 12%, #B9BABE 30%, #97989C);
+  transform-origin: 100% 50%;
+  transform: rotateY(-90deg);
+}
+.grosor-pantalla .esquina::before,
+.grosor-pantalla .esquina::after {
+  height: var(--grosor);
+  background: linear-gradient(0deg, var(--pulido) 0 12%, #B4B5B9 30%, #8F9094);
 }
 
 /* El teclado: la otra hoja de la laptop, del ancho de la pantalla, colgada de su orilla de abajo y
