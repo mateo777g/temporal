@@ -72,8 +72,9 @@ y el fondo de la parte negra. Ya se probó y se descartó (no volver a proponerl
 
 Lo que sigue: detalles extra para la laptop. Nada de logo en la tapa (era de maquetas viejas). Ya tiene
 grosor la pantalla, un reflejo en el vidrio (`.video::after`, una diagonal tenue arriba a la izquierda; más
-tenue no se distinguía), bisagra y cámara en el marco (`.video::before`). Le faltan: rejillas de bocinas,
-puertos en los costados y muesca de enfrente para abrirla. Nada de eso necesita imágenes de IA: son formas sencillas que salen mejor
+tenue no se distinguía), bisagra, cámara en el marco (`.video::before`) y muesca de enfrente para abrirla
+(fingida con `.canto::after` y `.teclado::after`, centrada en la laptop y no en el trackpad). Le faltan:
+rejillas de bocinas y puertos en los costados. Nada de eso necesita imágenes de IA: son formas sencillas que salen mejor
 en CSS.
 
 ## Comandos

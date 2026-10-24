@@ -577,6 +577,35 @@ body {
   transform-origin: 100% 50%;
   transform: rotateY(-90deg);
 }
+/* La muesca de enfrente, para abrir la tapa: un hueco al centro de la orilla de la base, centrado en la laptop
+   y no en el trackpad (que se corre por el teclado numérico). Un plano no se puede ahuecar, así que va fingida
+   con dos medios óvalos que se juntan en la orilla: en el canto, el interior de la muesca visto de frente, más
+   oscuro y con su orilla pulida (tapa el brillo del canto); en el teclado, una sombra que se oscurece hacia la
+   orilla, con una línea pulida donde empieza a bajar. Cerrada, la del teclado queda bajo la tapa y la del
+   canto se ve debajo de su orilla. */
+.canto:not(.canto-atras)::after,
+.teclado::after {
+  content: '';
+  position: absolute;
+  left: calc(50% - 4.5cqw);
+  width: 9cqw;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.canto:not(.canto-atras)::after {
+  top: 0;
+  height: 50%;
+  border-bottom: calc(1px / var(--k, 1)) solid var(--pulido);
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  background: linear-gradient(#77787C, #A9AAAE 70%, #C4C5C9);
+}
+.teclado::after {
+  bottom: 0;
+  height: 1.2cqh;
+  border-top: calc(1px / var(--k, 1)) solid var(--pulido);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: linear-gradient(rgb(0 0 0 / .04), rgb(0 0 0 / .16));
+}
 /* La sombra y el piso: planos debajo de la base, en el mismo 3D que el teclado, así que giran, se encogen y
    se cierran con la laptop sin que escena.js los mueva. La sombra es un rectángulo oscuro un poco
    más chico que la base (lo mismo por los cuatro lados, en cqh), para que su orilla dura quede escondida
