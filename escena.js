@@ -207,10 +207,10 @@
     const oscuro = delicada(tramo(p, TRAMOS.noche));
     noche.style.opacity = oscuro;
     laptop.style.setProperty('--oscuro', oscuro); // enciende el piso de luz debajo de la laptop
-    // El estudio (style.css): la orilla entre pared y piso va un poco arriba de la bisagra de la pose del
-    // centro y no se mueve; la luz sí sigue a la laptop, al centro de su silueta (el teclado sale hacia la
-    // izquierda de la pantalla, por eso se corre de pose.x).
-    noche.style.setProperty('--horizonte', `${enCentro.y + alto * enCentro.k / 2 - altoPantalla * 0.07}px`);
+    // La luz del fondo (style.css): de alto, un poco arriba de la bisagra de la pose del centro, y no se
+    // mueve; de lado sigue a la laptop, al centro de su silueta (el teclado sale hacia la izquierda de la
+    // pantalla, por eso se corre de pose.x).
+    noche.style.setProperty('--luz-y', `${enCentro.y + alto * enCentro.k / 2 - altoPantalla * 0.07}px`);
     noche.style.setProperty('--luz-x', `${pose.x - ancho * pose.k * 0.2}px`);
     if (videoNoche) videoNoche.style.opacity = 1;
     if (panelSistema) panelSistema.style.opacity = oscuro;

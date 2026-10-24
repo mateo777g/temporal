@@ -43,8 +43,9 @@ Debajo de la base van `.sombra` y `.piso` (un piso de luz gris que se enciende c
 La laptop es plateada, con teclas claras y orillas pulidas. Sus colores (`--plata-*`, `--pulido`) están en
 `.laptop` y no en `:root`, porque se oscurecen con `--oscuro` en la parte negra. No sigue al cursor: quieta,
 la sombra y la luz se pueden afinar para cada pose del scroll.
-La parte negra (`.noche`) es un estudio de fotos: pared oscura, piso más claro y una orilla entre los dos
-(`--horizonte`), con una luz que sigue a la laptop (`--luz-x`); las dos variables las pone `escena.js`. Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
+La parte negra (`.noche`) no es negro plano: una luz gris suave detrás de la laptop, cargada a la derecha, y
+el fondo que se aclara poquito hacia abajo, sin línea de piso. La luz sigue a la laptop de lado (`--luz-x`) y
+su altura (`--luz-y`) no cambia; las dos variables las pone `escena.js`. Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
 están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo lo ancho.
 
