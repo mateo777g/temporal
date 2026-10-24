@@ -60,8 +60,9 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - Colores en variables de `:root` (`--azul: #1355E8`, `--tinta`, `--noche`, …). Letra: Inter.
 - Respetar `prefers-reduced-motion` en toda animación nueva.
 - Probar en escritorio y en celular (375 px) sin scroll horizontal, y revisar la consola.
-- Es un repositorio de git (rama `main`, `core.autocrlf false` para dejar los archivos como están). Antes de
-  un cambio grande, hacer commit para poder regresar a la versión anterior.
+- Es un repositorio de git (rama `main`, `core.autocrlf false` para dejar los archivos como están), con copia en
+  GitHub: https://github.com/mateo777g/temporal (público). Antes de un cambio grande, hacer commit y subirlo
+  para poder regresar a la versión anterior.
 
 ## Pendientes conocidos
 
