@@ -33,7 +33,7 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `components/` | Componentes React (fila curva de capturas con OGL, tarjetas, footer con brillo) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` |
 | `prueba/` | Imágenes y videos que usa la página (a pesar del nombre, son los de verdad) |
-| `scripts/teclas-claras.py` | Saca las teclas claras (`teclado-claro.webp`) de las negras (`teclado.webp`) con Pillow |
+| `scripts/teclas-claras.py` | Sacaba las teclas claras de la laptop plateada (`teclado-claro.webp`) de las negras (`teclado.webp`) con Pillow |
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
 
@@ -47,12 +47,12 @@ La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclad
   esquinas redondas, igual de redondas que la tapa). El grosor mide 3 % del fondo del teclado (`3cqh`).
 - **Rejilla de las bocinas** (`.teclado::before`, con `position: absolute` para no entrar en la cuadrícula del
   teclado): una franja de agujeritos de medio milímetro, uno cada milímetro, entre la bisagra y la fila de las F,
-  a lo ancho de las teclas. A 1280 mide unos 4 px de alto y se ve como una línea gris un poco más oscura; de
-  cerca, como rejilla. No se comprobó si tiembla mientras se mueve la laptop, ni cómo se ve en una pantalla Retina.
+  a lo ancho de las teclas. A 1280 mide unos 4 px de alto y se ve como una línea un poco más oscura que la base;
+  de cerca, como rejilla. Sobre el gris oscuro los agujeros van casi negros. No se comprobó si tiembla mientras se mueve la laptop, ni cómo se ve en una pantalla Retina.
 - **Brillo de la base** (`.brillo`, un `div` después del trackpad, para quedar encima de él y de las teclas): una
-  luz blanca amplia y sin orilla del lado izquierdo de donde se apoyan las manos, el mismo lado del reflejo de la
-  pantalla, que se apaga hacia la derecha y hacia atrás. Sin orilla, porque el aluminio es mate. En la parte
-  negra baja lo mismo que el plateado (`--oscuro`). A 1280 aclara la zona de la izquierda unos 10 niveles de 255.
+  luz blanca tenue, amplia y sin orilla del lado izquierdo de donde se apoyan las manos, el mismo lado del reflejo
+  de la pantalla, que se apaga hacia la derecha y hacia atrás. Sin orilla, porque el aluminio es mate. En la parte
+  negra baja un poco (`--oscuro`).
 - **Muesca de enfrente** para abrir la tapa: fingida con `.canto:not(.canto-atras)::after` (el hueco visto de
   frente) y `.teclado::after` (la sombra en el teclado). Va centrada en la laptop, no en el trackpad, que se corre
   a la izquierda por el teclado numérico.
@@ -66,9 +66,10 @@ La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclad
 - **Debajo de la base**: `.sombra` y `.piso` (un piso de luz gris que se enciende con la parte negra, con
   `--oscuro` de `escena.js`). Como están en el 3D del teclado, siguen a la laptop sin código extra.
 
-La laptop es plateada, con teclas claras y orillas pulidas. En la parte negra el plateado baja un 20 % con
-`--oscuro` (por eso `--plata-*` está en `.laptop` y no en `:root`); al 42 % se notaba que cambiaba de color, y
-sin bajar parecía tener luz propia. No sigue al cursor: quieta, la sombra y la luz se pueden afinar para cada
+La laptop es gris oscuro (`--aluminio-*`, en `.laptop`), con las teclas negras de `teclado.webp` y orillas
+pulidas de un gris más claro (`--pulido`), que la marcan sobre el negro. No baja de color en la parte negra: ya es
+oscura y se perdería en el fondo. Fue plateada con teclas claras un tiempo; se compararon las dos en una página de
+prueba y se quedó la oscura (la plateada está en el commit `b55967e`). No sigue al cursor: quieta, la sombra y la luz se pueden afinar para cada
 pose del scroll. En la pose del centro va más chica y más arriba (`k` y `y` en `POSES`) para que el texto
 «Presentamos nuestro nuevo software» quepa debajo sin pasarle encima.
 La parte negra (`.noche`) no es negro plano: una luz gris suave detrás de la laptop, cargada a la derecha, y
@@ -80,16 +81,17 @@ están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo 
 
 ## Dónde nos quedamos (24 de octubre de 2026)
 
-Se pulió la laptop de la escena: esquinas redondas, sombra, plateada con teclas claras, quieta (sin cursor) y
-el fondo de la parte negra. Después se le pusieron detalles, cada uno con su commit: grosor de la pantalla,
+Se pulió la laptop de la escena: esquinas redondas, sombra, quieta (sin cursor) y el fondo de la parte negra.
+Al final se regresó al gris oscuro con teclas negras de antes, con todos los detalles. Después se le pusieron detalles, cada uno con su commit: grosor de la pantalla,
 reflejo en el vidrio, bisagra, cámara en el marco, muesca de enfrente, puertos del costado, rejilla de las
 bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo igual):
 
 - Centrar la laptop completa en la pose del centro: se veía menos centrada; manda la pantalla.
-- Oscurecer el plateado de noche al 42 % (se notaba el cambio de color) o nada (parecía tener luz propia): va al 20 %.
+- La laptop plateada con teclas claras: comparada lado a lado, se prefirió la oscura. Si se vuelve a probar, de
+  noche el plateado bajaba un 20 % (al 42 % se notaba el cambio de color; sin bajar parecía tener luz propia).
 - Un estudio con línea entre pared y piso: se veía demasiado definido.
-- Pedir a la IA imágenes nuevas (teclas o detalles): no hace falta; las teclas salen de la imagen actual con el
-  script y los detalles son formas sencillas que salen mejor en CSS.
+- Pedir a la IA imágenes nuevas (teclas o detalles): no hace falta; las teclas son la imagen actual y los
+  detalles son formas sencillas que salen mejor en CSS.
 - Logo en la tapa: era de maquetas viejas.
 - Un reflejo más tenue, o que bajara en la parte negra: no se distinguía.
 - Una bisagra de cilindro completo (cerrada, su mitad de atrás asomaba detrás de la tapa) o hecha con 6 tiras de
@@ -101,8 +103,8 @@ bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo
   ancho.
 - Una rejilla con agujeros más grandes (unos 2 px en pantalla): de cerca parecía de juguete, y los puntos podían
   hacer un patrón que temblara al moverse la laptop.
-- Un brillo de la base más tenue (con la mitad de fuerza casi no se notaba) o mucho más fuerte (la base se veía
-  con neblina).
+- En la plateada, un brillo de la base más tenue (con la mitad de fuerza casi no se notaba) o mucho más fuerte
+  (la base se veía con neblina). En la oscura va a menos de un cuarto de esa fuerza: con la misma, neblina.
 - Una barra que empezara negra en el cambio a modo noche y se volviera transparente conforme se oscurece la
   escena (con el `--oscuro` de `escena.js`): se prefirió sencilla, transparente desde el cambio.
 - La barra transparente en toda la página: en la hoja, las tarjetas y el footer el contenido sí pasa por debajo
@@ -181,8 +183,8 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
 - Según la marca, el nombre «fragmentless» va en la letra Outfit, peso 200. La barra todavía usa Inter.
 - `prueba/` podría renombrarse (por ejemplo, `media/`). Los archivos que ya no se cargan (`nuevo.mp4`,
   `nuevo.jpg`, `libreta.png`, `mesera.png`, `mesera.webp`, `cuentas.png`, `tableta-manos.webp`,
-  `panel-*.mp4`) no deben subirse al hosting. `teclado.webp` tampoco se carga, pero se queda en el repo: es
-  la imagen de la que `scripts/teclas-claras.py` saca `teclado-claro.webp`.
+  `panel-*.mp4`) no deben subirse al hosting. `teclado-claro.webp` (las teclas de la laptop plateada) tampoco se
+  carga, pero se queda en el repo con `scripts/teclas-claras.py`, por si se regresa a la plateada.
 - `respaldos/2026-10-23-antes-de-portada/` tiene una copia de `index.html`, `style.css` y `escena.js` de antes
   de esconder la laptop hasta que carga; se puede borrar y no debe subirse al hosting.
 - La sección `.clientes` de `index.html` está vacía hasta que haya logos de clientes reales.

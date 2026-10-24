@@ -13,7 +13,7 @@
   --noche: #000000; /* las secciones oscuras: negro total, no el de la marca */
   --barra-noche: #1C1C1E; /* gris un poco oscuro: la barra abierta, con su submenú, sobre la sección oscura */
   --hueco: #0A0A0B; /* negro de la marca: lo que se ve mientras el video carga */
-  --pulido: #F4F5F7; /* las orillas pulidas de la laptop */
+  --pulido: #707177; /* las orillas pulidas de la laptop: un gris más claro que el aluminio, que la marca sobre el negro */
   --velo: rgba(10, 10, 11, 0.45);
   /* Los resortes del carrusel de la sección 3 (de Motion), muestreados en 20 tramos: el de pasar de vista
      (bounce 0.1 en 0.25 s) y el de la pista cuando la sueltas sin pasar de vista (rigidez 200, freno 40) */
@@ -268,14 +268,12 @@ body {
 .laptop {
   --marco: 1;
   --radio: 16px;
-  /* El aluminio plateado del teclado, el trackpad y la tapa: claro junto a la bisagra y un poco más oscuro
-     hacia el frente. En la parte negra baja un poco (--oscuro, escena.js), como el metal con menos luz: tal
-     cual parecía tener luz propia sobre el negro, y al 42 % se notaba que la laptop cambiaba de color. Van
-     aquí y no en :root porque --oscuro solo existe en .laptop. Las orillas (--pulido) no bajan. */
-  --plata-noche: calc(var(--oscuro, 0) * 20%);
-  --plata-clara: color-mix(in srgb, #E9EAED, #3A3B3F var(--plata-noche));
-  --plata: color-mix(in srgb, #D6D7DA, #2E2F33 var(--plata-noche));
-  --plata-oscura: color-mix(in srgb, #C3C4C8, #232427 var(--plata-noche));
+  /* El aluminio gris oscuro del teclado y la tapa: claro junto a la bisagra y un poco más oscuro hacia el
+     frente. No baja en la parte negra, como bajaba la plateada: ya es oscuro y se perdería en el fondo; ahí lo
+     marcan las orillas pulidas (--pulido) y la luz de .noche. */
+  --aluminio-claro: #36363A;
+  --aluminio: #2A2A2D;
+  --aluminio-oscuro: #1F1F22;
   position: absolute;
   top: var(--alto-barra);
   left: var(--margen);
@@ -305,8 +303,8 @@ body {
   padding-inline: 24px;
   background: rgb(10 10 11 / min(1, var(--marco, 0) * 100)); /* el negro de --hueco */
   border-radius: calc(var(--radio) / var(--k, 1));
-  /* La orilla plateada de la tapa alrededor del marco negro, como en una MacBook */
-  box-shadow: inset 0 0 0 calc(2px / var(--k, 1)) rgb(196 197 201 / var(--marco, 0));
+  /* La orilla gris de la tapa alrededor del marco negro, como en una MacBook */
+  box-shadow: inset 0 0 0 calc(2px / var(--k, 1)) rgb(78 78 83 / var(--marco, 0));
   overflow: hidden;
   backface-visibility: hidden; /* al cerrarse la laptop, por detrás se ve la tapa y no el video al revés */
 }
@@ -420,15 +418,15 @@ body {
   pointer-events: none;
 }
 .grosor-pantalla * { backface-visibility: hidden; }
-/* La tapa: la espalda de la pantalla, de aluminio plateado liso, viendo hacia atrás. Se ve cuando la laptop
+/* La tapa: la espalda de la pantalla, de aluminio gris oscuro liso, viendo hacia atrás. Se ve cuando la laptop
    se cierra y la pantalla queda boca abajo sobre el teclado; como va al fondo del grosor, queda encima de
    las teclas y no se pelea con ellas por el mismo plano. */
 .tapa {
   position: absolute;
   inset: 0;
   border-radius: var(--r);
-  background: linear-gradient(200deg, var(--plata-clara), var(--plata-oscura));
-  box-shadow: inset 0 0 0 calc(1.5px / var(--k, 1)) rgb(255 255 255 / 0.5);
+  background: linear-gradient(200deg, var(--aluminio-claro), var(--aluminio-oscuro));
+  box-shadow: inset 0 0 0 calc(1.5px / var(--k, 1)) rgb(255 255 255 / 0.14);
   transform: rotateY(180deg) translateZ(var(--grosor));
 }
 /* Las orillas: tiras dobladas 90° hacia atrás desde las orillas de la pantalla, como las de la base (más
@@ -445,13 +443,13 @@ body {
 }
 .orilla-arriba {
   bottom: 100%;
-  background: linear-gradient(var(--pulido) 0 12%, #B4B5B9 30%, #8F9094);
+  background: linear-gradient(var(--pulido) 0 12%, #3C3C40 30%, #1E1E20);
   transform-origin: 50% 100%;
   transform: rotateX(90deg);
 }
 .orilla-abajo {
   top: 100%;
-  background: linear-gradient(0deg, var(--pulido) 0 12%, #B4B5B9 30%, #8F9094);
+  background: linear-gradient(0deg, var(--pulido) 0 12%, #3C3C40 30%, #1E1E20);
   transform-origin: 50% 0;
   transform: rotateX(-90deg);
 }
@@ -463,26 +461,26 @@ body {
 }
 .orilla-der {
   left: 100%;
-  background: linear-gradient(-90deg, var(--pulido) 0 12%, #B9BABE 30%, #97989C);
+  background: linear-gradient(-90deg, var(--pulido) 0 12%, #424246 30%, #232326);
   transform-origin: 0 50%;
   transform: rotateY(90deg);
 }
 .orilla-izq {
   right: 100%;
-  background: linear-gradient(90deg, var(--pulido) 0 12%, #B9BABE 30%, #97989C);
+  background: linear-gradient(90deg, var(--pulido) 0 12%, #424246 30%, #232326);
   transform-origin: 100% 50%;
   transform: rotateY(-90deg);
 }
 .grosor-pantalla .esquina::before,
 .grosor-pantalla .esquina::after {
   height: var(--grosor);
-  background: linear-gradient(0deg, var(--pulido) 0 12%, #B4B5B9 30%, #8F9094);
+  background: linear-gradient(0deg, var(--pulido) 0 12%, #3C3C40 30%, #1E1E20);
 }
 
 /* El teclado: la otra hoja de la laptop, del ancho de la pantalla, colgada de su orilla de abajo y
    doblada hacia el frente por la bisagra (escena.js le pone el rotateX). De fondo mide lo alto de la
    pantalla, sin pasar de 0.7 veces su ancho (la proporción de una MacBook; en celular la pantalla es
-   vertical). El aluminio plateado y el trackpad son CSS, medidos con su ancho (cqw) y su fondo (cqh);
+   vertical). El aluminio gris oscuro y el trackpad son CSS, medidos con su ancho (cqw) y su fondo (cqh);
    las teclas son una imagen. Van arriba, junto a la bisagra, tan anchas como quepan: hasta el 94 % del
    ancho y el 56 % del fondo (--proporcion: ancho entre alto de la imagen). El trackpad, al frente,
    centrado debajo de las letras (--trackpad: cuánto se corre por el teclado numérico, medido en la imagen).
@@ -501,33 +499,29 @@ body {
   display: grid;
   grid-template-rows: 4% auto 1fr 30% 5%; /* en % y no en cqh: los cq de un contenedor no se miden con él mismo */
   justify-items: center;
-  background: linear-gradient(165deg, var(--plata-clara), var(--plata) 45%, var(--plata-oscura));
+  background: linear-gradient(165deg, var(--aluminio-claro), var(--aluminio) 45%, var(--aluminio-oscuro));
   border-radius: var(--r);
   transform-origin: 50% 0;
   transform-style: preserve-3d; /* para el canto, los costados y las esquinas */
 }
 .teclado,
 .teclado * { backface-visibility: hidden; }
-/* Las teclas: una imagen de teclas claras con letras grises y una sombrita debajo de cada una, vistas desde
-   arriba, con teclado numérico. Salen de prueba/teclado.webp (las negras, generadas en Higgsfield con
-   GPT Image 2.5 Sunburst, job 961d813b…, sin el logo de Windows) con scripts/teclas-claras.py, así que
-   encajan exacto. Entre tecla y tecla es transparente: ahí se ve el plateado de la base. En la parte negra
-   bajan menos que la base (--oscuro), para que sigan viéndose claras. El filtro va en una hoja sin hijos,
-   así que no aplana el 3D. */
+/* Las teclas: una imagen de teclas negras con letras grises, vistas desde arriba, con teclado numérico,
+   generada en Higgsfield (GPT Image 2.5 Sunburst, job 961d813b…), sin el logo de Windows. Entre tecla y tecla
+   es transparente: ahí se ve el aluminio de la base. */
 .teclas {
   grid-row: 2;
   width: var(--ancho-teclas);
   aspect-ratio: var(--proporcion);
-  background: url('prueba/teclado-claro.webp') center / 100% 100% no-repeat;
-  filter: brightness(calc(1 - var(--oscuro, 0) * 0.08));
+  background: url('prueba/teclado.webp') center / 100% 100% no-repeat;
 }
 /* La rejilla de las bocinas: una franja de agujeritos arriba de las teclas, entre la bisagra (que tapa el
    primer 1.4cqh) y la fila de las F, a lo ancho de las teclas, como en una MacBook de 12″. A los lados de las
    teclas no cabía: con el teclado numérico llegan al 94 % del ancho. Los agujeros son de medio milímetro, uno
-   cada milímetro: a 1280 de ancho la franja mide unos 4 px de alto y se ve como una línea gris un poco más
-   oscura; de cerca, como rejilla. Con agujeros más grandes parecía de juguete, y los puntos, de unos 2 px,
-   podían hacer un patrón que temblara al moverse la laptop. Va fuera de la cuadrícula (absolute), para no
-   mover las teclas ni el trackpad. */
+   cada milímetro: a 1280 de ancho la franja mide unos 4 px de alto y se ve como una línea un poco más oscura
+   que la base; de cerca, como rejilla. Sobre el gris oscuro los agujeros van casi negros, o no se ven. Con
+   agujeros más grandes parecía de juguete, y los puntos, de unos 2 px, podían hacer un patrón que temblara al
+   moverse la laptop. Va fuera de la cuadrícula (absolute), para no mover las teclas ni el trackpad. */
 .teclado::before {
   content: '';
   position: absolute;
@@ -535,12 +529,12 @@ body {
   width: var(--ancho-teclas);
   top: 1.9cqh;
   height: 1.6cqh;
-  background: radial-gradient(circle closest-side, rgb(0 0 0 / .5) 0 55%, transparent 80%) 0 0 / 0.45cqh 0.4cqh;
+  background: radial-gradient(circle closest-side, rgb(0 0 0 / .75) 0 55%, transparent 80%) 0 0 / 0.45cqh 0.4cqh;
   pointer-events: none;
 }
-/* El trackpad, plateado como la base, con sus dos botones de click abajo: una franja del 22 % de su alto,
-   partida a la mitad. Las juntas (la de arriba de los botones y la de en medio) son rayas grises de 1.5 px
-   en pantalla. */
+/* El trackpad, del gris de la base, con sus dos botones de click abajo: una franja del 22 % de su alto,
+   partida a la mitad. Las juntas (la de arriba de los botones y la de en medio) son rayas casi negras de
+   1.5 px en pantalla, y su orilla, una línea clarita que lo separa de la base. */
 .trackpad {
   --junta: calc(1.5px / var(--k, 1));
   --botones: 22%;
@@ -550,25 +544,25 @@ body {
   translate: calc(var(--ancho-teclas) * var(--trackpad));
   border-radius: calc(var(--radio) / var(--k, 1) * 0.6);
   background:
-    linear-gradient(90deg, transparent calc(50% - var(--junta) / 2), #8E9094 0 calc(50% + var(--junta) / 2), transparent 0)
+    linear-gradient(90deg, transparent calc(50% - var(--junta) / 2), #141416 0 calc(50% + var(--junta) / 2), transparent 0)
       bottom / 100% var(--botones) no-repeat,
-    linear-gradient(#8E9094, #8E9094) 0 calc(100% - var(--botones)) / 100% var(--junta) no-repeat,
-    linear-gradient(165deg, var(--plata-clara), var(--plata));
-  box-shadow: inset 0 0 0 calc(1px / var(--k, 1)) rgb(0 0 0 / 0.12);
+    linear-gradient(#141416, #141416) 0 calc(100% - var(--botones)) / 100% var(--junta) no-repeat,
+    linear-gradient(165deg, #333337, #29292C);
+  box-shadow: inset 0 0 0 calc(1px / var(--k, 1)) rgb(255 255 255 / 0.07);
 }
 /* El brillo de la base: una luz amplia y sin orilla del lado izquierdo de donde se apoyan las manos, que se
    apaga hacia la derecha y hacia atrás. Viene del mismo lado que el reflejo de la pantalla, para que parezca
    la misma luz. Sin él la base era casi pareja y se veía como gris pintado; con una orilla, como la del vidrio,
    parecería plástico brillante, porque el aluminio es mate y reparte la luz. Va encima de las teclas y el
-   trackpad (en el HTML va después de ellos), para que no se vea solo en el aluminio entre las teclas. Con la
-   mitad de fuerza casi no se notaba, y mucho más fuerte la base se veía con neblina. En la parte negra baja lo
-   mismo que el plateado (--oscuro). */
+   trackpad (en el HTML va después de ellos), para que no se vea solo en el aluminio entre las teclas. Sobre
+   el gris oscuro va tenue: con la fuerza que tenía en la laptop plateada, la base se veía con neblina. En la
+   parte negra baja un poco (--oscuro). */
 .brillo {
   position: absolute;
   inset: 0;
   border-radius: var(--r);
   background: radial-gradient(ellipse 62% 80% at 22% 72%,
-    rgb(255 255 255 / .45), rgb(255 255 255 / .18) 45%, transparent);
+    rgb(255 255 255 / .1), rgb(255 255 255 / .04) 45%, transparent);
   opacity: calc(1 - var(--oscuro, 0) * 0.2);
   pointer-events: none;
 }
@@ -584,7 +578,7 @@ body {
 .esquina::before,
 .esquina::after {
   position: absolute;
-  background: linear-gradient(var(--pulido) 0 12%, #B4B5B9 30%, #8F9094);
+  background: linear-gradient(var(--pulido) 0 12%, #3C3C40 30%, #1E1E20);
 }
 .canto {
   top: 100%;
@@ -598,7 +592,7 @@ body {
 .canto-atras {
   top: auto;
   bottom: 100%;
-  background: linear-gradient(#8F9094, #B4B5B9 70%, var(--pulido) 88%);
+  background: linear-gradient(#1E1E20, #3C3C40 70%, var(--pulido) 88%);
   transform-origin: 50% 100%;
   transform: rotateX(90deg);
 }
@@ -609,13 +603,13 @@ body {
 }
 .costado-der {
   left: 100%;
-  background: linear-gradient(90deg, var(--pulido) 0 12%, #B9BABE 30%, #97989C);
+  background: linear-gradient(90deg, var(--pulido) 0 12%, #424246 30%, #232326);
   transform-origin: 0 50%;
   transform: rotateY(90deg);
 }
 .costado-izq {
   right: 100%;
-  background: linear-gradient(-90deg, var(--pulido) 0 12%, #B9BABE 30%, #97989C);
+  background: linear-gradient(-90deg, var(--pulido) 0 12%, #424246 30%, #232326);
   transform-origin: 100% 50%;
   transform: rotateY(-90deg);
 }
@@ -637,8 +631,8 @@ body {
   width: 1.2cqh;
   height: 3.9cqh;
   border-radius: 0.6cqh;
-  background: #1C1D20;
-  box-shadow: 0 5.3cqh 0 #1C1D20;
+  background: #08080A;
+  box-shadow: 0 5.3cqh 0 #08080A;
 }
 .costado-der::after {
   left: calc(52% - 0.75cqh);
@@ -646,7 +640,7 @@ body {
   width: 1.5cqh;
   height: 1.5cqh;
   border-radius: 50%;
-  background: radial-gradient(circle closest-side, #0B0B0C 0 62%, #2A2B2F 80%, #6E6F73);
+  background: radial-gradient(circle closest-side, #050506 0 62%, #18181B 80%, #48494E);
 }
 /* La muesca de enfrente, para abrir la tapa: un hueco al centro de la orilla de la base, centrado en la laptop
    y no en el trackpad (que se corre por el teclado numérico). Un plano no se puede ahuecar, así que va fingida
@@ -668,14 +662,14 @@ body {
   height: 50%;
   border-bottom: calc(1px / var(--k, 1)) solid var(--pulido);
   border-radius: 0 0 50% 50% / 0 0 100% 100%;
-  background: linear-gradient(#77787C, #A9AAAE 70%, #C4C5C9);
+  background: linear-gradient(#0E0E10, #19191C 70%, #232326);
 }
 .teclado::after {
   bottom: 0;
   height: 1.2cqh;
   border-top: calc(1px / var(--k, 1)) solid var(--pulido);
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  background: linear-gradient(rgb(0 0 0 / .04), rgb(0 0 0 / .16));
+  background: linear-gradient(rgb(0 0 0 / .1), rgb(0 0 0 / .4));
 }
 /* La sombra y el piso: planos debajo de la base, en el mismo 3D que el teclado, así que giran, se encogen y
    se cierran con la laptop sin que escena.js los mueva. La sombra es un rectángulo oscuro un poco
@@ -776,7 +770,7 @@ body {
   width: 100%;
   top: calc(var(--radio-bisagra) * -0.7071);
   height: calc(var(--radio-bisagra) * 1.4142);
-  background: linear-gradient(#F2F3F5, #F4F5F7 25%, #E9EAEC 50%, #D0D1D4 75%, #ABACAF);
+  background: linear-gradient(#505055, #4A4A4F 25%, #3C3C40 50%, #2C2C2F 75%, #1C1C1E);
   transform: rotateX(-45deg) translateZ(calc(var(--radio-bisagra) * 0.7071));
 }
 /* Las puntas: un cuarto de círculo en cada extremo, girado para ver hacia el costado */
@@ -789,14 +783,14 @@ body {
 .bisagra-punta-izq {
   left: 0;
   border-bottom-right-radius: 100%;
-  background: radial-gradient(circle at 0 0, #B9BABE, #8F9094);
+  background: radial-gradient(circle at 0 0, #424246, #1E1E20);
   transform-origin: 0 0;
   transform: rotateY(-90deg);
 }
 .bisagra-punta-der {
   left: calc(100% - var(--radio-bisagra));
   border-bottom-left-radius: 100%;
-  background: radial-gradient(circle at 100% 0, #B9BABE, #97989C);
+  background: radial-gradient(circle at 100% 0, #424246, #232326);
   transform-origin: 100% 0;
   transform: rotateY(90deg);
 }
