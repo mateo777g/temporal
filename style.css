@@ -400,15 +400,18 @@ body {
 }
 .teclado,
 .teclado * { backface-visibility: hidden; }
-/* Las teclas: una imagen generada en Higgsfield (GPT Image 2.5 Sunburst, job 961d813b…), vistas desde
-   arriba, con letras y teclado numérico, sin luz y sin el logo de Windows (se tapó con Pillow). Entre tecla
-   y tecla es transparente: ahí se ve el plateado de la base, como en las laptops plateadas de teclas
-   sueltas. Hubo un pozo negro debajo de todas las teclas, pero se veía como un rectángulo pegado. */
+/* Las teclas: una imagen de teclas claras con letras grises y una sombrita debajo de cada una, vistas desde
+   arriba, con teclado numérico. Salen de prueba/teclado.webp (las negras, generadas en Higgsfield con
+   GPT Image 2.5 Sunburst, job 961d813b…, sin el logo de Windows) con scripts/teclas-claras.py, así que
+   encajan exacto. Entre tecla y tecla es transparente: ahí se ve el plateado de la base. En la parte negra
+   se oscurecen al ritmo de la base (--oscuro); si no, brillaban como si tuvieran luz propia. El filtro va
+   en una hoja sin hijos, así que no aplana el 3D. */
 .teclas {
   grid-row: 2;
   width: var(--ancho-teclas);
   aspect-ratio: var(--proporcion);
-  background: url('prueba/teclado.webp') center / 100% 100% no-repeat;
+  background: url('prueba/teclado-claro.webp') center / 100% 100% no-repeat;
+  filter: brightness(calc(1 - var(--oscuro, 0) * 0.45));
 }
 /* El trackpad, plateado como la base, con sus dos botones de click abajo: una franja del 22 % de su alto,
    partida a la mitad. Las juntas (la de arriba de los botones y la de en medio) son rayas grises de 1.5 px

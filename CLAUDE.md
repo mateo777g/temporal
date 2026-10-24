@@ -33,13 +33,14 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `components/` | Componentes React (fila curva de capturas con OGL, tarjetas, footer con brillo) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` |
 | `prueba/` | Imágenes y videos que usa la página (a pesar del nombre, son los de verdad) |
+| `scripts/teclas-claras.py` | Saca las teclas claras (`teclado-claro.webp`) de las negras (`teclado.webp`) con Pillow |
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.tapa` y `.teclado`. El teclado tiene el grosor de la
 base: `.canto` (enfrente), `.canto-atras` (en la bisagra), `.costado-izq` y `.costado-der`, y `.esquina-*`
 (dos tramos de 45° que cierran cada una de las cuatro esquinas redondas, igual de redondas que la tapa).
 Debajo de la base van `.sombra` y `.piso` (un piso de luz gris que se enciende con la parte negra, con
 `--oscuro` de `escena.js`); como están en el 3D del teclado, siguen a la laptop sin código extra.
-La laptop es plateada, con teclado negro y orillas pulidas. Sus colores (`--plata-*`, `--pulido`) están en
+La laptop es plateada, con teclas claras y orillas pulidas. Sus colores (`--plata-*`, `--pulido`) están en
 `.laptop` y no en `:root`, porque se oscurecen con `--oscuro` en la parte negra. No sigue al cursor: quieta,
 la sombra y la luz se pueden afinar para cada pose del scroll. Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
@@ -77,7 +78,8 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - Según la marca, el nombre «fragmentless» va en la letra Outfit, peso 200. La barra todavía usa Inter.
 - `prueba/` podría renombrarse (por ejemplo, `media/`). Los archivos que ya no se cargan (`nuevo.mp4`,
   `nuevo.jpg`, `libreta.png`, `mesera.png`, `mesera.webp`, `cuentas.png`, `tableta-manos.webp`,
-  `panel-*.mp4`) no deben subirse al hosting.
+  `panel-*.mp4`) no deben subirse al hosting. `teclado.webp` tampoco se carga, pero se queda en el repo: es
+  la imagen de la que `scripts/teclas-claras.py` saca `teclado-claro.webp`.
 - `respaldos/` tiene una copia de `index.html`, `style.css` y `escena.js` de antes de esconder la laptop
   hasta que carga; se puede borrar y no debe subirse al hosting.
 - La sección `.clientes` de `index.html` está vacía hasta que haya logos de clientes reales.
