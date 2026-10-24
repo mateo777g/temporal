@@ -319,6 +319,23 @@ body {
 }
 .video .video-noche { opacity: 1; }
 .video .panel-sistema { opacity: 0; pointer-events: none; }
+/* La cámara: un círculo al centro del marco de arriba (mide 2.6cqmin de alto), del 42 % de ese alto. Negra
+   por dentro, con un anillo gris oscuro y un brillito azulado de lente arriba a la izquierda. Los videos no la
+   tapan porque su recorte deja libre el marco; el reflejo (::after) sí pasa por encima, como el vidrio. */
+.video::before {
+  content: '';
+  position: absolute;
+  top: calc(1.3cqmin - 0.55cqmin);
+  left: calc(50% - 0.55cqmin);
+  width: 1.1cqmin;
+  height: 1.1cqmin;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 36%, rgb(120 140 200 / .6) 0 9%, transparent 22%),
+    radial-gradient(circle, #050506 0 36%, #2A2B30 46% 58%, #151518 70%);
+  opacity: var(--marco, 0);
+  pointer-events: none;
+}
 /* El reflejo del vidrio: una luz tenue en diagonal que entra por la esquina de arriba a la izquierda, de
    donde viene la luz de la escena (la sombra cae a la derecha), con la orilla un poco difuminada, como una
    ventana reflejada. Cubre también el marco negro: en una MacBook el vidrio lo tapa. Sobre el video azul
