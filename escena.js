@@ -1,7 +1,8 @@
 // escena.js — la escena del video en la página de Fragmentless (index.html).
 // Al bajar, el hueco del video se encoge y se gira de lado, el fondo se oscurece (y sobre el video azul
 // aparece la captura del panel) y sale el texto del centro; luego la tarjeta se va a la derecha
-// y sale el texto de la izquierda con su botón. Con mouse, la tarjeta además mira hacia el cursor.
+// y sale el texto de la izquierda con su botón. La tarjeta no sigue al cursor: quieta, su sombra y su
+// luz se ven siempre igual en cada pose.
 // La tarjeta es la pantalla de una laptop: mientras se encoge le sale el marco y el teclado se desdobla
 // desde su orilla de abajo, y la laptop entera hace los mismos movimientos. Cuando sube la hoja de la
 // sección 3, la laptop se cierra y sus videos se pausan.
@@ -42,10 +43,6 @@
   };
   // La perspectiva mide 3.75 veces el ancho de la tarjeta encogida (también medido).
   const PROFUNDIDAD = 3.75;
-  // La tarjeta mira hacia el cursor: se gira hasta estos grados de más, encima de su pose
-  // (x: hacia arriba o abajo, y: hacia los lados). No salta: lo persigue, y en `demora` ms
-  // recorre casi dos tercios del camino.
-  const MIRADA = { x: 10, y: 12, demora: 120 };
   // La bisagra: grados entre la pantalla y el teclado. Arriba, a todo lo ancho, el teclado está doblado
   // hacia atrás, de canto detrás de la pantalla (no se ve); mientras la tarjeta se encoge baja y se abre.
   // Al final se cierra: la pantalla baja sobre el teclado.
@@ -113,7 +110,6 @@
   }
 
   const limitar = (v) => Math.min(1, Math.max(0, v));
-  const deMenosAMasUno = (v) => Math.min(1, Math.max(-1, v));
   const tramo = (p, [desde, hasta]) => limitar((p - desde) / (hasta - desde));
   const adentro = (p, [desde, hasta]) => p >= desde && p < hasta;
   const suave = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
@@ -139,9 +135,6 @@
   }
 
   let pendiente = false;
-  let cursor = null; // dónde está el mouse en la pantalla; null = fuera de la página
-  const mirada = { x: 0, y: 0 }; // los grados de más que lleva ahorita
-  let ultimoCuadro = 0;
 
   function pintar() {
     pendiente = false;
@@ -183,21 +176,6 @@
     const encogida = suave(tramo(p, TRAMOS.encoger));
     const pose = mezclar(mezclar(hueco, enCentro, encogida), alLado, suave(tramo(p, TRAMOS.irseAlLado)));
 
-    // Hacia dónde quiere mirar: el cursor respecto al centro de la tarjeta (a media pantalla de
-    // distancia, el giro completo). Crece conforme se encoge: a todo lo ancho, arriba, no se gira.
-    const metida = giro * abrirIntro;
-    const meta = cursor
-      ? {
-          x: -deMenosAMasUno((cursor.y - pose.y) / (altoPantalla / 2)) * MIRADA.x * metida,
-          y: deMenosAMasUno((cursor.x - pose.x) / (anchoPantalla / 2)) * MIRADA.y * metida,
-        }
-      : { x: 0, y: 0 };
-    const ahora = performance.now();
-    const avance = 1 - Math.exp(-Math.min(ahora - ultimoCuadro, 34) / MIRADA.demora);
-    ultimoCuadro = ahora;
-    mirada.x += (meta.x - mirada.x) * avance;
-    mirada.y += (meta.y - mirada.y) * avance;
-
     // Mientras se encoge, a la pantalla le sale el marco y el teclado se desdobla hasta quedar abierto.
     // Al subir la hoja se cierra: la pantalla gira sobre su orilla de abajo (la bisagra) hacia el teclado,
     // y el teclado gira lo mismo al revés para quedarse quieto.
@@ -210,7 +188,7 @@
     // scale3d y no scale: scale() no encoge lo hondo, y el teclado saldría al frente el doble de lo que mide.
     laptop.style.transform =
       `translate(${pose.x - x0}px, ${pose.y - y0}px) perspective(${PROFUNDIDAD * k * ancho}px) ` +
-      `rotateX(${pose.rx + mirada.x}deg) rotateY(${pose.ry + mirada.y}deg) rotateZ(${pose.rz}deg) ` +
+      `rotateX(${pose.rx}deg) rotateY(${pose.ry}deg) rotateZ(${pose.rz}deg) ` +
       `scale3d(${pose.k}, ${pose.k}, ${pose.k}) ` +
       `translateY(${alto / 2}px) rotateX(${apertura - desdoblada}deg) translateY(${-alto / 2}px)`;
     laptop.style.setProperty('--k', pose.k);
@@ -238,8 +216,8 @@
     centro.toggleAttribute('data-dentro', adentro(p, TEXTOS.centro));
     lado.toggleAttribute('data-dentro', adentro(p, TEXTOS.lado));
 
-    // Si la tarjeta todavía no llega a donde quiere mirar, sigue en el siguiente cuadro.
-    if (!introTerminada || Math.abs(meta.x - mirada.x) > 0.01 || Math.abs(meta.y - mirada.y) > 0.01) pedirCuadro();
+    // Mientras dura la entrada (va con el reloj, no con el scroll), sigue en el siguiente cuadro.
+    if (!introTerminada) pedirCuadro();
   }
 
   function pedirCuadro() {
@@ -252,20 +230,6 @@
   addEventListener('resize', pedirCuadro);
   celular.addEventListener('change', pedirCuadro);
   sinMovimiento.addEventListener('change', pedirCuadro);
-
-  // El cursor: solo el del mouse (con el dedo no hay hacia dónde mirar). Si sale de la página
-  // o la ventana pierde el foco, la tarjeta vuelve a su pose.
-  addEventListener('pointermove', (e) => {
-    if (e.pointerType !== 'mouse') return;
-    cursor = { x: e.clientX, y: e.clientY };
-    pedirCuadro();
-  }, { passive: true });
-  const olvidarCursor = () => {
-    cursor = null;
-    pedirCuadro();
-  };
-  document.documentElement.addEventListener('mouseleave', olvidarCursor);
-  addEventListener('blur', olvidarCursor);
   pintar();
   // Ya acomodada la laptop, se muestra (style.css la esconde hasta aquí).
   document.documentElement.setAttribute('data-escena', '');
