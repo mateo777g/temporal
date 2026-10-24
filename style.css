@@ -1,0 +1,913 @@
+/* style.css — la página de Fragmentless (index.html) */
+
+/* Barra blanca con el logo, los atajos (crece al tocar uno) y los botones a la derecha; debajo, la escena:
+   el hueco del video (negro mientras carga) con el eslogan, que al bajar se gira de lado sobre fondo oscuro (escena.js). */
+:root {
+  --fondo: #FFFFFF;
+  --tinta: #0A0A0B;
+  --tinta-suave: #6E6E73;
+  --borde: #C9C9CC;
+  --azul: #1355E8;
+  --azul-claro: #8AB4FF; /* el primer color que les pasa a los títulos de la escena */
+  --azul-noche: #3D7BFF; /* el azul de la marca más claro (mismo tono), para que la píldora vacía se vea sobre negro */
+  --noche: #000000; /* las secciones oscuras y la barra sobre ellas: negro total, no el de la marca */
+  --barra-noche: #1C1C1E; /* gris un poco oscuro: la barra abierta, con su submenú, sobre la sección oscura */
+  --hueco: #0A0A0B; /* negro de la marca: lo que se ve mientras el video carga */
+  --velo: rgba(10, 10, 11, 0.45);
+  /* Los resortes del carrusel de la sección 3 (de Motion), muestreados en 20 tramos: el de pasar de vista
+     (bounce 0.1 en 0.25 s) y el de la pista cuando la sueltas sin pasar de vista (rigidez 200, freno 40) */
+  --resorte: linear(0, 0.0698, 0.2176, 0.3835, 0.5372, 0.6662, 0.7677, 0.8438, 0.8986, 0.9367, 0.9623, 0.9789,
+    0.9893, 0.9954, 0.9989, 1.0006, 1.0013, 1.0015, 1.0014, 1.0012, 1);
+  --resorte-regreso: linear(0, 0.0794, 0.2179, 0.3532, 0.4701, 0.5675, 0.6474, 0.7127, 0.7659, 0.8093, 0.8446,
+    0.8734, 0.8969, 0.916, 0.9316, 0.9443, 0.9546, 0.963, 0.9699, 0.9755, 1);
+  --letra: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --margen: 28px;
+  --alto-barra: 88px;
+  --abrir: 0.3s ease;
+}
+
+/* El botón de la barra que lleva al sistema baja recorriendo la escena, así se ve la laptop encogerse */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--letra);
+}
+
+/* El texto seleccionado se marca en gris, no en el azul del sistema. Medio transparente para que sirva igual
+   sobre blanco (gris claro con letra negra), sobre negro (gris oscuro con letra blanca) y sobre el video. */
+::selection { background: rgba(142, 142, 147, 0.45); }
+
+/* Barra: fija arriba, de orilla a orilla; al bajar se esconde y al subir regresa (barra.js) */
+.barra {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding-inline: var(--margen);
+  background: var(--fondo);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--tinta) 12%, transparent);
+  transition: transform var(--abrir), background-color var(--abrir);
+}
+.barra[data-escondida] { transform: translateY(-100%); }
+
+/* Barra blanca sobre el carrusel y las tarjetas; negra sobre la escena oscura. */
+:root[data-noche] body { background: var(--noche); }
+:root[data-noche]:not([data-hoja]) .barra {
+  box-shadow: none;
+  --fondo: var(--noche);
+  --tinta: #FFFFFF;
+  --tinta-suave: #A1A1A6;
+  --borde: #3A3A3D;
+}
+:root[data-noche]:not([data-hoja]) .barra[data-abierto] { --fondo: var(--barra-noche); }
+
+.barra-fila {
+  height: var(--alto-barra);
+  display: flex;
+  align-items: center;
+  gap: 56px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tinta);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: color var(--abrir);
+}
+.logo img { display: block; height: 23px; width: auto; flex-shrink: 0; } /* símbolo azul junto a la palabra */
+.logo .logo-oscuro { display: none; }
+/* Sobre negro o gris oscuro, una variante de azul hielo a blanco conserva el relieve. */
+:root[data-noche]:not([data-hoja]) .barra .logo-claro { display: none; }
+:root[data-noche]:not([data-hoja]) .barra .logo-oscuro { display: block; }
+.logo span {
+  font-weight: 400; /* mismo grosor que los atajos */
+  font-size: 17px;
+  line-height: 1;
+  letter-spacing: -0.31px; /* compensa lo que ensancha el 400: la palabra mide lo mismo que en 200 y nada se mueve */
+}
+
+.atajos {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.atajo {
+  padding-block: 12px;
+  padding-inline: 0;
+  border: 0;
+  background: none;
+  color: var(--tinta);
+  font: inherit;
+  font-size: 15px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--abrir);
+}
+/* Con la barra abierta, el atajo activo queda negro y los demás en gris */
+.barra[data-abierto] .atajo { color: var(--tinta-suave); }
+.barra[data-abierto] .atajo[aria-expanded="true"] { color: var(--tinta); }
+
+/* Botones de la derecha: Iniciar Sesión (borde azul) y Conoce el Sistema (azul sólido) */
+.acciones {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.boton {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding-inline: 16px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--abrir), border-color var(--abrir), color var(--abrir), opacity var(--abrir);
+}
+.boton-borde { border-color: var(--azul); color: var(--azul); }
+.boton-borde:hover { background: var(--azul); color: #FFFFFF; }
+.boton-primario { background: var(--azul); color: #FFFFFF; font-weight: 500; }
+.boton-primario:hover { opacity: 0.85; }
+
+/* Lo que se despliega: de borde a borde, crece hacia abajo */
+.despliegue {
+  position: absolute;
+  top: calc(100% - 1px); /* se encima 1 px para que no se vea una raya entre la barra y lo desplegado */
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-rows: 0fr;
+  background: var(--fondo);
+  transition: grid-template-rows var(--abrir), background-color var(--abrir);
+}
+.barra[data-abierto] .despliegue { grid-template-rows: 1fr; }
+.despliegue-dentro { min-height: 0; overflow: hidden; }
+
+.submenu {
+  box-sizing: border-box;
+  min-height: 240px;
+  margin: 0;
+  padding-block: 28px 56px;
+  padding-inline: var(--inicio-atajos, var(--margen)) var(--margen);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.submenu[hidden] { display: none; }
+.submenu a {
+  display: inline-block;
+  color: var(--tinta);
+  font-size: 24px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+/* El mismo paso de azul claro a azul de marca que en la segunda sección. */
+.submenu-brillo {
+  display: inline-block;
+  line-height: 1.3em;
+  vertical-align: top;
+  white-space: nowrap;
+}
+.submenu-brillo span { color: inherit; }
+@keyframes brillo-submenu {
+  0%, 100% { color: var(--tinta); }
+  25% { color: var(--azul-claro); }
+  50% { color: var(--azul); }
+}
+.submenu a.brillando .submenu-brillo span {
+  animation: brillo-submenu .4s ease-in-out calc(var(--i) * 18ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .submenu-brillo span { transition: none; }
+  .submenu a.brillando .submenu-brillo span {
+    animation: none;
+    color: var(--tinta);
+  }
+}
+
+/* Al abrir la barra, los submenús suben un poco desde abajo */
+@keyframes subir {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.barra[data-abierto] .submenu li { animation: subir 0.25s ease-out both; }
+
+.logo:focus-visible,
+.atajo:focus-visible,
+.boton:focus-visible,
+.submenu a:focus-visible { outline: 2px solid var(--tinta); outline-offset: 4px; }
+
+/* Velo: oscurece la página mientras la barra está abierta, sin desenfocarla */
+.velo {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: var(--velo);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--abrir);
+}
+.barra[data-abierto] ~ .velo { opacity: 1; pointer-events: auto; }
+
+/* La escena: mide 3.5 pantallas de scroll, más la que se queda fija, más una en la que la hoja de la
+   sección 3 sube encima. Mientras la recorres, lo de adentro no se mueve de la pantalla; escena.js
+   lo acomoda según cuánto has bajado. */
+.escena { height: 550vh; }
+.escena-fija {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--fondo);
+}
+.noche {
+  position: absolute;
+  inset: 0;
+  background: var(--noche);
+  opacity: 0;
+}
+
+/* La laptop: la pantalla (el hueco del video) y el teclado, unidos por una bisagra. Arranca debajo de la
+   barra, a todo lo ancho, del tamaño de la pantalla; escena.js la encoge y la gira entera sin cambiarle
+   la forma. Es 3D de verdad (preserve-3d), así que no lleva overflow, opacidad ni filtros: la aplanarían.
+   --k es cuánto la encoge: las esquinas crecen lo mismo para que en pantalla se vean siempre igual de redondas. */
+.laptop {
+  --marco: 1;
+  --radio: 16px;
+  --aluminio: #2A2A2D; /* el del teclado y el de la tapa */
+  position: absolute;
+  top: var(--alto-barra);
+  left: var(--margen);
+  right: var(--margen);
+  height: calc(100vh - var(--alto-barra) - var(--margen));
+  height: calc(100svh - var(--alto-barra) - var(--margen));
+  min-height: 420px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+/* Hasta que escena.js la acomoda (data-escena), la laptop y el eslogan no se muestran: sin eso, mientras
+   baja el bundle de React (escena.js corre después de él), se veía la pantalla azul a todo lo ancho y el
+   eslogan quieto, y luego saltaban a su lugar. visibility y no opacity, para no aplanar el 3D. */
+:root:not([data-escena]) :is(.laptop, .portada-copy) { visibility: hidden; }
+
+/* La pantalla: el hueco del video (negro mientras carga el video), con un marco negro alrededor como el
+   de una MacBook. --marco (escena.js) va de 0, a todo lo ancho y sin marco, a 1, con el marco entero.
+   El marco es el fondo de la pantalla, que se ve donde se recorta el video; sin marco no hay fondo:
+   detrás del video asomaría por la orilla redonda. */
+.video {
+  position: absolute;
+  inset: 0;
+  container-type: size; /* el marco se mide con el lado corto de la pantalla (cqmin) */
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  padding-inline: 24px;
+  background: rgb(10 10 11 / min(1, var(--marco, 0) * 100)); /* el negro de --hueco */
+  border-radius: calc(var(--radio) / var(--k, 1));
+  /* La orilla de aluminio de la tapa, para que el marco no se pierda en el fondo negro */
+  box-shadow: inset 0 0 0 calc(1.5px / var(--k, 1)) rgb(255 255 255 / calc(var(--marco, 0) * 0.14));
+  overflow: hidden;
+  backface-visibility: hidden; /* al cerrarse la laptop, por detrás se ve la tapa y no el video al revés */
+}
+/* Los videos llenan la pantalla (recortando lo que sobre), uno encima del otro: el del panel claro
+   empieza invisible y entra cuando se oscurece la página (escena.js). El negro de --hueco va en los
+   videos (se ve si no cargan). El marco les recorta la orilla: 2.6 % del lado corto arriba y a los
+   lados, y 4.4 % abajo, como la barbilla de una MacBook. */
+.video video,
+.video .panel-sistema {
+  --bisel: calc(var(--marco, 0) * 2.6cqmin);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--hueco);
+  clip-path: inset(var(--bisel) var(--bisel) calc(var(--marco, 0) * 4.4cqmin)
+    round max(0px, calc(var(--radio) / var(--k, 1) - var(--bisel))));
+}
+.video .video-noche { opacity: 1; }
+.video .panel-sistema { opacity: 0; pointer-events: none; }
+/* Entrada inicial; los hijos se animan sin competir con la salida por scroll. */
+.intro-activa .barra { animation: entrada-barra .7s cubic-bezier(.2,.7,.2,1) both; }
+.intro-activa .portada-copy > :is(h1, p, .portada-botones) {
+  animation: entrada-portada .7s cubic-bezier(.2,.7,.2,1) both;
+}
+.intro-activa .portada-botones { animation-delay: .6s; }
+.intro-activa .portada-copy h1 span {
+  --color-final-titulo: #0A0A0B;
+  animation: pintar .53s linear calc(var(--i) * 35ms) both;
+}
+.intro-activa .portada-resumen span {
+  animation: encender-portada .4s ease calc(.35s + var(--i) * 70ms) both;
+}
+@keyframes entrada-barra {
+  from { translate: 0 -100%; }
+  to { translate: 0 0; }
+}
+@keyframes entrada-portada {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes encender-portada {
+  from { opacity: .3; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-activa .barra,
+  .intro-activa .portada-copy > :is(h1, p, .portada-botones),
+  .intro-activa .portada-copy h1 span,
+  .intro-activa .portada-resumen span { animation: none; }
+}
+.portada-copy {
+  position: absolute;
+  z-index: 2;
+  left: calc(clamp(28px, 6vw, 112px) + 64px);
+  top: 50%;
+  translate: 0 -50%;
+  width: 40%;
+  max-width: 620px;
+  color: #0a0a0b;
+  will-change: opacity, transform;
+}
+/* El titular pesa tanto como la laptop: crece con la pantalla y se parte en dos renglones parejos */
+.portada-copy h1 { margin: 0; font-size: clamp(2.25rem, 3.6vw, 4rem); font-weight: 500; line-height: 1.05; letter-spacing: -.045em; text-wrap: balance; }
+.portada-copy .portada-resumen { color: #515154; font-size: clamp(1rem, 0.95vw, 1.125rem); line-height: 1.6; max-width: 30em; margin: 20px 0 0; }
+.portada-botones { margin-top: 28px; }
+@media (max-width: 760px) {
+  .portada-copy { top: calc(var(--alto-barra) + 28px); translate: none; left: 24px; width: calc(100% - 48px); max-width: none; }
+}
+/* La tapa: la espalda de la pantalla, de aluminio liso, viendo hacia atrás. Se ve cuando la laptop se cierra
+   y la pantalla queda boca abajo sobre el teclado; va 2 px (en pantalla) detrás de ella para quedar encima
+   de las teclas y no pelearse con ellas por el mismo plano. */
+.tapa {
+  position: absolute;
+  inset: 0;
+  border-radius: calc(var(--radio) / var(--k, 1));
+  background: var(--aluminio);
+  box-shadow: inset 0 0 0 calc(1.5px / var(--k, 1)) rgb(255 255 255 / 0.14);
+  transform: rotateY(180deg) translateZ(calc(2px / var(--k, 1)));
+  backface-visibility: hidden;
+}
+
+/* El teclado: la otra hoja de la laptop, del ancho de la pantalla, colgada de su orilla de abajo y
+   doblada hacia el frente por la bisagra (escena.js le pone el rotateX). De fondo mide lo alto de la
+   pantalla, sin pasar de 0.7 veces su ancho (la proporción de una MacBook; en celular la pantalla es
+   vertical). El aluminio gris oscuro y el trackpad son CSS, medidos con su ancho (cqw) y su fondo (cqh);
+   las teclas son una imagen. Van arriba, junto a la bisagra, tan anchas como quepan: hasta el 94 % del
+   ancho y el 56 % del fondo (--proporcion: ancho entre alto de la imagen). El trackpad, al frente,
+   centrado debajo de las letras (--trackpad: cuánto se corre por el teclado numérico, medido en la imagen).
+   Ser contenedor no le quita el 3D: se comprobó que el canto se ve igual. */
+.teclado {
+  --proporcion: 3.16; /* 2000×633 */
+  --trackpad: -0.116;
+  --ancho-teclas: min(94cqw, 56cqh * var(--proporcion));
+  --r: calc(var(--radio) / var(--k, 1)); /* el radio de sus esquinas, el mismo de la tapa */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: min(100%, calc((100vw - 2 * var(--margen)) * 0.7));
+  container-type: size;
+  display: grid;
+  grid-template-rows: 4% auto 1fr 30% 5%; /* en % y no en cqh: los cq de un contenedor no se miden con él mismo */
+  justify-items: center;
+  background: var(--aluminio);
+  border-radius: var(--r);
+  transform-origin: 50% 0;
+  transform-style: preserve-3d; /* para el canto, los costados y las esquinas */
+}
+.teclado,
+.teclado * { backface-visibility: hidden; }
+/* Las teclas: una imagen generada en Higgsfield (GPT Image 2.5 Sunburst, job 961d813b…), vistas desde
+   arriba, con letras y teclado numérico, sin luz y sin el logo de Windows (se tapó con Pillow). Entre tecla
+   y tecla es transparente: ahí se ve el aluminio. */
+.teclas {
+  grid-row: 2;
+  width: var(--ancho-teclas);
+  aspect-ratio: var(--proporcion);
+  background: url('prueba/teclado.webp') center / 100% 100% no-repeat;
+}
+/* El trackpad, con sus dos botones de click abajo: una franja del 22 % de su alto, partida a la mitad.
+   Las juntas (la de arriba de los botones y la de en medio) son rayas oscuras de 1.5 px en pantalla. */
+.trackpad {
+  --junta: calc(1.5px / var(--k, 1));
+  --botones: 22%;
+  grid-row: 4;
+  height: 100%;
+  aspect-ratio: 1.6;
+  translate: calc(var(--ancho-teclas) * var(--trackpad));
+  border-radius: calc(var(--radio) / var(--k, 1) * 0.6);
+  background:
+    linear-gradient(90deg, transparent calc(50% - var(--junta) / 2), #1C1C1E 0 calc(50% + var(--junta) / 2), transparent 0)
+      bottom / 100% var(--botones) no-repeat,
+    linear-gradient(#1C1C1E, #1C1C1E) 0 calc(100% - var(--botones)) / 100% var(--junta) no-repeat,
+    linear-gradient(#2C2C2F, #2C2C2F) bottom / 100% var(--botones) no-repeat,
+    #313134;
+  box-shadow: inset 0 0 0 calc(1px / var(--k, 1)) rgb(255 255 255 / 0.06);
+}
+/* El grosor de la base: los cantos de enfrente y de atrás y los dos costados, tiras de 3 % del fondo del
+   teclado dobladas 90° hacia abajo desde sus orillas. Sin los costados, del lado que mira a la cámara la base
+   se veía como una hoja sin grosor. Las cuatro esquinas del teclado son redondas (--r), como las de la tapa:
+   con las de atrás cuadradas, al cerrarse la laptop asomaban en pico debajo de la tapa. Las tiras rectas se
+   quedan donde empieza la curva y la vuelta la dan dos tramos por esquina (.esquina), cada uno de 45°. */
+.canto,
+.costado,
+.esquina::before,
+.esquina::after {
+  position: absolute;
+  background: linear-gradient(#47474C, #1E1E20);
+}
+.canto {
+  top: 100%;
+  left: var(--r);
+  width: calc(100% - 2 * var(--r));
+  height: 3%;
+  transform-origin: 50% 0;
+  transform: rotateX(-90deg);
+}
+/* El de atrás, junto a la bisagra, sale de la orilla de arriba hacia afuera y se dobla igual hacia abajo */
+.canto-atras {
+  top: auto;
+  bottom: 100%;
+  background: linear-gradient(#1E1E20, #47474C);
+  transform-origin: 50% 100%;
+  transform: rotateX(90deg);
+}
+.costado {
+  top: var(--r);
+  width: 3cqh;
+  height: calc(100% - 2 * var(--r));
+}
+.costado-der {
+  left: 100%;
+  background: linear-gradient(90deg, #47474C, #1E1E20);
+  transform-origin: 0 50%;
+  transform: rotateY(90deg);
+}
+.costado-izq {
+  right: 100%;
+  background: linear-gradient(-90deg, #47474C, #1E1E20);
+  transform-origin: 100% 50%;
+  transform: rotateY(-90deg);
+}
+/* Cada esquina es un punto donde termina el canto; sus tramos miden la cuerda de 45° de la curva
+   (2 · sen 22.5° = 0.7654 veces el radio) y el segundo arranca donde acaba el primero. Las de atrás son las
+   de enfrente del otro lado, giradas media vuelta sobre su punto: la de atrás a la derecha es la de
+   enfrente a la izquierda volteada, y al revés. */
+.esquina {
+  --tramo: calc(var(--r) * 0.7654);
+  position: absolute;
+  top: 100%;
+  transform-style: preserve-3d;
+}
+.esquina::before,
+.esquina::after {
+  content: '';
+  width: var(--tramo);
+  height: 3cqh;
+  backface-visibility: hidden;
+}
+.esquina-der { left: calc(100% - var(--r)); }
+.esquina-izq { left: var(--r); }
+.esquina-atras-izq,
+.esquina-atras-der { top: 0; transform: rotateZ(180deg); }
+.esquina-atras-izq { left: var(--r); }
+.esquina-atras-der { left: calc(100% - var(--r)); }
+:is(.esquina-der, .esquina-atras-izq)::before,
+:is(.esquina-der, .esquina-atras-izq)::after { transform-origin: 0 0; }
+:is(.esquina-der, .esquina-atras-izq)::before { left: 0; top: 0; transform: rotateZ(-22.5deg) rotateX(-90deg); }
+:is(.esquina-der, .esquina-atras-izq)::after {
+  left: calc(var(--r) * 0.7071);
+  top: calc(var(--r) * -0.2929);
+  transform: rotateZ(-67.5deg) rotateX(-90deg);
+}
+:is(.esquina-izq, .esquina-atras-der)::before,
+:is(.esquina-izq, .esquina-atras-der)::after { transform-origin: 100% 0; }
+:is(.esquina-izq, .esquina-atras-der)::before { right: 0; top: 0; transform: rotateZ(22.5deg) rotateX(-90deg); }
+:is(.esquina-izq, .esquina-atras-der)::after {
+  right: calc(var(--r) * 0.7071);
+  top: calc(var(--r) * -0.2929);
+  transform: rotateZ(67.5deg) rotateX(-90deg);
+}
+
+/* Textos de la escena, blancos sobre lo oscuro. Se animan solos, con el reloj y no con el scroll:
+   cuando llegas a su momento, escena.js les pone data-dentro y sube el título con su párrafo, se
+   encienden las palabras una tras otra y al final sale el botón. Al quitárselo se desvanecen juntos. */
+.texto-centro,
+.texto-lado {
+  --entrar: 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  --salir: 0.35s;
+  --palabras: 0.35s; /* cuándo empiezan a encenderse las palabras */
+  --paso: 70ms;      /* entre una palabra y la siguiente */
+  position: absolute;
+  color: #FFFFFF;
+  visibility: hidden; /* fuera, tampoco se pueden tocar ni tabular; se esconden cuando terminan de irse */
+  transition: visibility 0s var(--salir);
+}
+:is(.texto-centro, .texto-lado)[data-dentro] { visibility: visible; transition: none; }
+
+/* Entran subiendo 16 px; al irse solo se desvanecen, y ya invisibles vuelven abajo */
+:is(.texto-centro, .texto-lado) :is(h2, p, .texto-botones) {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--salir) ease, transform 0s var(--salir);
+}
+:is(.texto-centro, .texto-lado)[data-dentro] :is(h2, p, .texto-botones) {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--entrar) var(--espera, 0s), transform var(--entrar) var(--espera, 0s);
+}
+/* El botón, cuando ya se encendió la última palabra (--n: cuántas son, escena.js) */
+.texto-botones { --espera: calc(var(--palabras) + var(--n) * var(--paso) + 0.15s); }
+.escena h2 {
+  margin: 0;
+  font-weight: 400;
+  font-size: clamp(1.625rem, 1.7vw, 2.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.escena p {
+  margin: 14px 0 0;
+  font-size: clamp(0.875rem, 0.74vw, 1rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* El texto del centro va debajo de la tarjeta */
+.texto-centro {
+  top: 78vh;
+  top: 78svh;
+  left: var(--margen);
+  right: var(--margen);
+  text-align: center;
+}
+.texto-centro p {
+  max-width: 34em;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+
+/* El de la izquierda, a media altura, cuando la tarjeta ya se fue a la derecha */
+.texto-lado {
+  top: 50%;
+  left: 9.3vw;
+  max-width: 30vw;
+  transform: translateY(-50%);
+}
+/* Más información y Comprar, uno junto al otro (si no caben en el ancho del texto, uno debajo del otro) */
+.texto-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 17px;
+  margin-top: 40px;
+}
+
+/* Las palabras de los párrafos se encienden una tras otra (--i: su lugar, escena.js) */
+.se-enciende span {
+  opacity: 0.3;
+  transition: opacity var(--salir) ease;
+}
+:is(.texto-centro, .texto-lado)[data-dentro] .se-enciende span,
+.hoja[data-textos] .panel-copy .se-enciende span,
+.glass-feature-card[data-visible] .se-enciende span {
+  opacity: 1;
+  transition: opacity 0.4s ease calc(var(--palabras) + var(--i) * var(--paso));
+}
+
+/* A los títulos les pasan dos colores encima, palabra por palabra de izquierda a derecha, mientras entran
+   (--i: su lugar, escena.js): llegan en azul claro, el azul de la marca las va cubriendo y luego el blanco,
+   y se quedan blancos. Medido de un video de scale.com a 30 cuadros por segundo: cada palabra empieza 35 ms
+   después de la de su izquierda y tarda 0.13 s en cambiar de color; el azul entra a los 50 ms y el blanco
+   a los 0.4 s. */
+:is(.texto-centro, .texto-lado)[data-dentro] .se-pinta span,
+.hoja[data-textos] .panel-copy .se-pinta span,
+.glass-feature-card[data-visible] .se-pinta span {
+  animation: pintar 0.53s linear calc(var(--i) * 35ms) both;
+}
+@keyframes pintar {
+  0%, 9.4% { color: var(--azul-claro); }
+  34%, 75.5% { color: var(--azul); }
+  100% { color: var(--color-final-titulo, #FFFFFF); }
+}
+
+
+/* Sección 3: la hoja blanca. Se monta sobre la última pantalla de la escena (margin-top negativo),
+   así sube encima de ella en vez de empujarla. hoja.js le da --subida (0 = su borde de arriba toca
+   el de abajo de la pantalla, 1 = llegó arriba): arranca al 90 % con las esquinas redondas y crece
+   desde su borde de abajo hasta llenar la pantalla. Medido de la página vieja. */
+.hoja {
+  --subida: 0;
+  --aparecer: 0;
+  position: relative;
+  z-index: 1;
+  margin-top: -100vh;
+  min-height: 100vh;
+  background: var(--fondo); /* el mismo blanco de la barra */
+  color: var(--tinta);
+  border-radius: calc(20px * (1 - var(--subida))) calc(20px * (1 - var(--subida))) 0 0;
+  transform: scale(calc(0.9 + 0.1 * var(--subida)));
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+/* El carrusel sigue el desplazamiento normal de la página. */
+.hoja-fija {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  place-items: start center;
+}
+/* Lo de adentro aparece entre el 25 % y el 75 % de la subida, subiendo 24 px */
+.hoja-contenido {
+  opacity: var(--aparecer);
+  transform: translateY(calc((1 - var(--aparecer)) * 24px));
+  transition: opacity 120ms linear, transform 120ms linear;
+  width: 100%;
+}
+
+/* Fila curva automática del panel: título arriba, capturas al centro y resumen abajo. */
+#panel-showcase {
+  box-sizing: border-box;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  /* Mueve el bloque completo 32px hacia arriba conservando el espacio total. */
+  padding: var(--alto-barra) 0 64px;
+}
+.panel-reel {
+  box-sizing: border-box;
+  width: 100%;
+  height: clamp(400px, 58svh, 560px);
+  background: #fff;
+  color: var(--tinta);
+}
+.panel-copy {
+  --color-final-titulo: #0A0A0B;
+  --salir: .35s;
+  --palabras: .35s;
+  --paso: 70ms;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: clamp(32px, 5svh, 48px) 24px;
+  text-align: center;
+  pointer-events: none;
+}
+.panel-copy h2 {
+  margin: 0;
+  font-size: clamp(1.625rem, 1.7vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -.01em;
+}
+.panel-copy p {
+  max-width: 34em;
+  margin: 0;
+  font-size: clamp(.875rem, .74vw, 1rem);
+  line-height: 1.6;
+  color: var(--tinta-suave);
+  text-wrap: balance;
+}
+
+.panel-copy :is(h2, p) {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .35s ease, transform 0s .35s;
+}
+.hoja[data-textos] .panel-copy :is(h2, p) {
+  opacity: 1;
+  transform: none;
+  transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .panel-copy :is(h2, p), .hoja[data-textos] .panel-copy :is(h2, p) { transform: none; transition: none; }
+  .hoja .panel-copy .se-pinta span { animation: none; }
+  .hoja .panel-copy .se-enciende span { opacity: 1; transition: none; }
+}
+
+/* Tres ventanas de producto, con las imágenes y sus descripciones completas. */
+.franja { position: relative; background: var(--fondo); color: var(--tinta); }
+.feature-grid {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: min(100%, 1680px);
+  margin-inline: auto;
+  padding: clamp(64px, 8vw, 120px) 28px;
+}
+.glass-feature-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #F0F0F2;
+  backdrop-filter: blur(12px);
+}
+.glass-feature-image { position: relative; flex-shrink: 0; aspect-ratio: 16 / 9; overflow: hidden; }
+.glass-feature-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.glass-feature-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: .3;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.glass-feature-content {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  flex: 1;
+  --color-final-titulo: #0A0A0B;
+  --salir: .35s;
+  --palabras: .35s;
+  --paso: 70ms;
+  box-sizing: border-box; min-height: 250px; padding: 24px;
+}
+.glass-feature-icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 24px;
+  color: var(--tinta);
+  transition: color .3s ease;
+}
+.glass-feature-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--azul);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .45s cubic-bezier(.2,.7,.2,1);
+  pointer-events: none;
+}
+.glass-feature-content :is(h2, p) {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1), color .3s ease;
+}
+.glass-feature-card[data-visible] .glass-feature-content :is(h2, p) { opacity: 1; transform: none; }
+.glass-feature-content h2 { margin: 0; font-size: clamp(1.25rem, 1.7vw, 1.625rem); font-weight: 400; line-height: 1.2; letter-spacing: -.01em; }
+.glass-feature-content p { margin: 14px 0 0; font-size: .875rem; line-height: 1.6; color: var(--tinta-suave); }
+@media (hover: hover) {
+  .glass-feature-card:hover .glass-feature-image::after { opacity: 0; }
+  .glass-feature-card:hover .glass-feature-content::before { transform: scaleY(1); }
+  .glass-feature-card:hover .glass-feature-content { --color-final-titulo: #FFFFFF; }
+  .glass-feature-card:hover .glass-feature-content :is(h2, p, .glass-feature-icon) { color: #FFFFFF; }
+}
+@media (max-width: 760px) {
+  .feature-grid { grid-template-columns: 1fr; max-width: 480px; padding: 48px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glass-feature-card, .glass-feature-card[data-visible] { opacity: 1; transform: none; transition: none; }
+  .glass-feature-image::after { transition: none; }
+  .glass-feature-content::before { transition: none; }
+  .glass-feature-icon { transition: none; }
+  .glass-feature-card .glass-feature-content :is(h2, p) { opacity: 1; transform: none; transition: none; }
+  .glass-feature-card .glass-feature-content span { opacity: 1; animation: none; transition: none; }
+}
+/* Sección 6: un espacio blanco de media pantalla para los logos de los restaurantes que trabajen con
+   Fragmentless (vacío hasta que haya clientes). El fondo va puesto porque el de la página es negro desde
+   la escena. */
+.clientes {
+  min-height: 50vh;
+  min-height: 50svh;
+  background: var(--fondo);
+}
+
+/* Footer con letras sólidas en Inter y el mismo brillo de sus atajos. */
+.hwf-root {
+  position: relative;
+  width: 100%;
+  min-height: 560px;
+  box-sizing: border-box;
+  padding-bottom: clamp(150px, 22vw, 380px);
+  overflow: hidden;
+  isolation: isolate;
+  background: #000;
+  color: #fff;
+  font-family: var(--letra);
+}
+.hwf-wordmark {
+  position: absolute;
+  bottom: -3.6vw;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  font-family: inherit;
+  height: auto;
+  display: block;
+  pointer-events: none;
+}
+.hwf-wordmark text {
+  font-family: inherit;
+  font-size: 180px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -9.9px;
+  fill: currentColor;
+  pointer-events: visiblePainted;
+}
+.hwf-top {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(max-content, 1.5fr) repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  padding: clamp(32px, 4vw, 64px) clamp(20px, 3.4vw, 64px) 0;
+  font-size: 12px;
+  letter-spacing: .08em;
+  line-height: 1.8;
+}
+.hwf-root a, .hwf-rule button { color: inherit; text-decoration: none; }
+.hwf-letter { color: inherit; }
+@keyframes brillo-footer {
+  0%, 100% { color: inherit; }
+  25% { color: var(--azul-claro); }
+  50% { color: var(--azul); }
+}
+.hwf-shining .hwf-letter { animation: brillo-footer .4s ease-in-out calc(var(--i) * 18ms); }
+@media (prefers-reduced-motion: reduce) {
+  .hwf-shining .hwf-letter { animation: none; }
+}
+.hwf-root :is(a, button):focus-visible { outline: 2px solid #8ab4ff; outline-offset: 5px; }
+.hwf-brand-link { display: inline-flex; align-items: center; gap: 10px; font-size: 17px; letter-spacing: -.02em; }
+.hwf-brand p { color: #a1a1a6; margin: 12px 0; font-size: clamp(9px, 2.6vw, 11px); letter-spacing: 0; white-space: nowrap; }
+.hwf-col h2 { margin: 0 0 8px; color: #a1a1a6; font-size: inherit; font-weight: 500; text-transform: uppercase; }
+.hwf-col ul { margin: 0; padding: 0; list-style: none; }
+.hwf-col a { text-transform: uppercase; }
+.hwf-rule {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 30px clamp(20px, 3.4vw, 64px) 0;
+  padding-top: 16px;
+  border-top: 1px solid #ffffff29;
+  font-size: 11px;
+  color: #a1a1a6;
+}
+.hwf-legal { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.hwf-rule button { background: none; border: 0; padding: 0; font: inherit; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+@media (max-width: 1000px) {
+  .hwf-top { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+  .hwf-brand { grid-column: 1 / -1; }
+}
+
+@media (max-width: 760px) {
+  /* En celular: logo y botones arriba; los atajos bajan a una segunda fila */
+  :root { --margen: 16px; --alto-barra: 96px; }
+  .barra-fila { flex-wrap: wrap; align-content: center; gap: 4px 0; }
+  .atajos { order: 3; width: 100%; gap: 20px; }
+  .acciones { order: 2; gap: 8px; }
+  .boton { height: 36px; padding-inline: 12px; font-size: 13px; }
+  .atajo { padding-block: 8px; }
+  .submenu a { font-size: 22px; }
+  .laptop { --radio: 12px; height: calc((100vw - 2 * var(--margen)) * .5625); min-height: 0; }
+  /* No cabe un texto al lado de la tarjeta: los dos textos salen debajo, uno después del otro */
+  .texto-centro { top: 66vh; top: 66svh; }
+  .texto-lado {
+    top: 66vh;
+    top: 66svh;
+    left: var(--margen);
+    right: var(--margen);
+    max-width: none;
+    transform: none;
+  }
+  .texto-botones { margin-top: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --abrir: 0s; }
+  .barra[data-abierto] .submenu li { animation: none; }
+  :is(.texto-centro, .texto-lado) :is(h2, p, .texto-botones) { transform: none; }
+  /* La tarjeta no se gira: el teclado de frente no se vería, solo estorbaría */
+  .teclado { display: none; }
+}
