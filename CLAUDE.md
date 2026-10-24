@@ -35,18 +35,26 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `prueba/` | Imágenes y videos que usa la página (a pesar del nombre, son los de verdad) |
 | `scripts/teclas-claras.py` | Saca las teclas claras (`teclado-claro.webp`) de las negras (`teclado.webp`) con Pillow |
 
-La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`. El teclado tiene el grosor de la
-base: `.canto` (enfrente), `.canto-atras` (en la bisagra), `.costado-izq` y `.costado-der`, y `.esquina-*`
-(dos tramos de 45° que cierran cada una de las cuatro esquinas redondas, igual de redondas que la tapa).
-La pantalla también tiene grosor, la mitad del de la base: `.grosor-pantalla` es una caja del tamaño de la
-pantalla con `.tapa` al fondo, las `.orilla-*` y las mismas `.esquina-*` (ahí las «de atrás» son las de arriba).
-Sus orillas llevan el brillo del lado de la tapa, así que cerrada se ven dos orillas pulidas, una sobre otra.
-La bisagra (`.bisagra`, dentro del teclado) es un cuarto de cilindro en el rincón entre la pantalla y el
-teclado: una tira lisa en diagonal (`.bisagra-frente`) con un degradado que hace la curva, y dos puntas de cuarto
-de círculo. Su eje es la línea donde gira la pantalla, así que no se mueve; cerrada queda guardada dentro de la
-pantalla. Con 6 tiras de 15° se veía un punteado donde se encimaban.
-Debajo de la base van `.sombra` y `.piso` (un piso de luz gris que se enciende con la parte negra, con
-`--oscuro` de `escena.js`); como están en el 3D del teclado, siguen a la laptop sin código extra.
+La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
+
+- **Pantalla** (`.video`): el marco negro, los videos recortados por dentro, la cámara al centro del marco de
+  arriba (`.video::before`) y el reflejo del vidrio (`.video::after`, una diagonal tenue arriba a la izquierda).
+- **Grosor de la pantalla** (`.grosor-pantalla`): una caja del tamaño de la pantalla con `.tapa` al fondo, las
+  `.orilla-*` y las mismas `.esquina-*` de la base (ahí las «de atrás» son las de arriba). Mide la mitad que la
+  base. Sus orillas llevan el brillo del lado de la tapa, así que cerrada se ven dos orillas pulidas, una sobre otra.
+- **Base** (`.teclado`): teclas (imagen), trackpad y su grosor: `.canto` (enfrente), `.canto-atras` (en la
+  bisagra), `.costado-izq` y `.costado-der`, y `.esquina-*` (dos tramos de 45° que cierran cada una de las cuatro
+  esquinas redondas, igual de redondas que la tapa). El grosor mide 3 % del fondo del teclado (`3cqh`).
+- **Muesca de enfrente** para abrir la tapa: fingida con `.canto:not(.canto-atras)::after` (el hueco visto de
+  frente) y `.teclado::after` (la sombra en el teclado). Va centrada en la laptop, no en el trackpad, que se corre
+  a la izquierda por el teclado numérico.
+- **Bisagra** (`.bisagra`, dentro del teclado): un cuarto de cilindro en el rincón entre la pantalla y el
+  teclado, hecho con una tira lisa en diagonal (`.bisagra-frente`) con un degradado que hace la curva, y dos
+  puntas de cuarto de círculo. Su eje es la línea donde gira la pantalla, así que no se mueve; cerrada queda
+  guardada dentro de la pantalla.
+- **Debajo de la base**: `.sombra` y `.piso` (un piso de luz gris que se enciende con la parte negra, con
+  `--oscuro` de `escena.js`). Como están en el 3D del teclado, siguen a la laptop sin código extra.
+
 La laptop es plateada, con teclas claras y orillas pulidas. En la parte negra el plateado baja un 20 % con
 `--oscuro` (por eso `--plata-*` está en `.laptop` y no en `:root`); al 42 % se notaba que cambiaba de color, y
 sin bajar parecía tener luz propia. No sigue al cursor: quieta, la sombra y la luz se pueden afinar para cada
@@ -61,21 +69,28 @@ están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo 
 
 ## Dónde nos quedamos (23 de octubre de 2026)
 
-Se pulió la laptop de la escena: esquinas redondas, sombra, plateada con teclas claras, quieta (sin cursor),
-y el fondo de la parte negra. Ya se probó y se descartó (no volver a proponerlo igual):
+Se pulió la laptop de la escena: esquinas redondas, sombra, plateada con teclas claras, quieta (sin cursor) y
+el fondo de la parte negra. Después se le pusieron detalles, cada uno con su commit: grosor de la pantalla,
+reflejo en el vidrio, bisagra, cámara en el marco y muesca de enfrente. Ya se probó y se descartó (no volver a
+proponerlo igual):
 
 - Centrar la laptop completa en la pose del centro: se veía menos centrada; manda la pantalla.
 - Oscurecer el plateado de noche al 42 % (se notaba el cambio de color) o nada (parecía tener luz propia): va al 20 %.
 - Un estudio con línea entre pared y piso: se veía demasiado definido.
-- Pedir a la IA una imagen nueva de teclas: no hace falta, salen de la actual con el script.
-- Una bisagra de cilindro completo: cerrada, su mitad de atrás asomaba detrás de la tapa. Va solo el cuarto de enfrente.
+- Pedir a la IA imágenes nuevas (teclas o detalles): no hace falta; las teclas salen de la imagen actual con el
+  script y los detalles son formas sencillas que salen mejor en CSS.
+- Logo en la tapa: era de maquetas viejas.
+- Un reflejo más tenue, o que bajara en la parte negra: no se distinguía.
+- Una bisagra de cilindro completo (cerrada, su mitad de atrás asomaba detrás de la tapa) o hecha con 6 tiras de
+  15° (se veía un punteado donde se encimaban): va el cuarto de enfrente, con una sola tira.
 
-Lo que sigue: detalles extra para la laptop. Nada de logo en la tapa (era de maquetas viejas). Ya tiene
-grosor la pantalla, un reflejo en el vidrio (`.video::after`, una diagonal tenue arriba a la izquierda; más
-tenue no se distinguía), bisagra, cámara en el marco (`.video::before`) y muesca de enfrente para abrirla
-(fingida con `.canto::after` y `.teclado::after`, centrada en la laptop y no en el trackpad). Le faltan:
-rejillas de bocinas y puertos en los costados. Nada de eso necesita imágenes de IA: son formas sencillas que salen mejor
-en CSS.
+Lo que sigue: los dos últimos detalles de la laptop, que casi no se van a notar al tamaño en que sale.
+
+- Puertos en el costado: solo el derecho (`.costado-der`) se ve en las poses, y mide unos 10 px en pantalla.
+- Rejillas de bocinas: junto a las teclas no hay lugar, porque con el teclado numérico ocupan hasta el 94 % del
+  ancho. Solo cabrían en la franja de arriba de las teclas (4 % del fondo, junto a la bisagra).
+
+En celular la escena de la laptop se va a cambiar por otra cosa, así que sus detalles se revisan solo en escritorio.
 
 ## Comandos
 
@@ -89,6 +104,27 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - Para verla: `.claude/launch.json` tiene el servidor `fragmentless` (`python -m http.server 5510`).
   También sirve Live Server.
 - Imágenes y video se comprimen con ffmpeg (ver `README.md`): fotos a WebP de 1200 px y video H.264 de 1280 px sin audio.
+- Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=muesca-1`),
+  para que el navegador no use la copia vieja guardada.
+
+## Cómo probar la laptop en el navegador integrado
+
+Los cambios a la laptop se prueban primero en la pestaña del usuario, inyectando estilos o elementos con JS,
+sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que funcionaron:
+
+- **Poses por scroll:** `recorrido = .escena.offsetHeight - 2 × .escena-fija.offsetHeight`. Portada: 0; centro:
+  0.35 del recorrido; derecha: 0.76; a medio cierre: el recorrido menos 0.6 pantallas; cerrada: menos 0.2.
+  Usar `scrollTo({ top, behavior: 'instant' })`, porque `html` tiene `scroll-behavior: smooth`.
+- **Lupa:** para ver de cerca, escalar `.escena-fija` con `transform` (`translate` + `scale`) alrededor del
+  punto que interesa. No cambia la geometría. Quitarla al terminar.
+- **Dónde cae un punto del 3D:** meter un `div` de 1 px en ese lugar (por ejemplo, en `.teclado` a `left: 50%;
+  top: 100%`), leer su `getBoundingClientRect()` y quitarlo.
+- **Panel escondido o chico:** no se pintan cuadros. La primera captura puede salir vieja (tomar dos seguidas),
+  las medidas no cambian hasta que se pinta, y esperar `requestAnimationFrame` se cuelga.
+- **Consola:** la del navegador integrado guarda errores de cargas viejas (como «cursor is not defined» de una
+  versión anterior de `escena.js`). Para comprobar que está limpia, cargar la página en un `iframe` escondido con
+  `srcdoc`: el HTML con un script al principio que anote errores y avisos, y sin el script que mete Live Server
+  (si no, sale un error de WebSocket «srcdoc»). Luego recorrer las poses y leer lo anotado.
 
 ## Convenciones
 
@@ -96,7 +132,9 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - Cada archivo empieza con un comentario de qué es, y los comentarios explican el *por qué*, en frases completas.
 - Colores en variables de `:root` (`--azul: #1355E8`, `--tinta`, `--noche`, …). Letra: Inter.
 - Respetar `prefers-reduced-motion` en toda animación nueva.
-- Probar en escritorio y en celular (375 px) sin scroll horizontal, y revisar la consola.
+- Probar en escritorio y en celular (375 px) sin scroll horizontal, y revisar la consola. Los detalles de la
+  laptop, solo en escritorio (1280, 1440 y 1920 px): en celular va a ir otra cosa.
+- Un commit por cambio, subido a GitHub, para poder regresar solo esa parte.
 - Es un repositorio de git (rama `main`, `core.autocrlf false` para dejar los archivos como están), con copia en
   GitHub: https://github.com/mateo777g/temporal (público). Antes de un cambio grande, hacer commit y subirlo
   para poder regresar a la versión anterior.
@@ -111,6 +149,6 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
   `nuevo.jpg`, `libreta.png`, `mesera.png`, `mesera.webp`, `cuentas.png`, `tableta-manos.webp`,
   `panel-*.mp4`) no deben subirse al hosting. `teclado.webp` tampoco se carga, pero se queda en el repo: es
   la imagen de la que `scripts/teclas-claras.py` saca `teclado-claro.webp`.
-- `respaldos/` tiene una copia de `index.html`, `style.css` y `escena.js` de antes de esconder la laptop
-  hasta que carga; se puede borrar y no debe subirse al hosting.
+- `respaldos/2026-10-23-antes-de-portada/` tiene una copia de `index.html`, `style.css` y `escena.js` de antes
+  de esconder la laptop hasta que carga; se puede borrar y no debe subirse al hosting.
 - La sección `.clientes` de `index.html` está vacía hasta que haya logos de clientes reales.
