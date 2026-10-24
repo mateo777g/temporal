@@ -547,6 +547,22 @@ body {
     linear-gradient(165deg, var(--plata-clara), var(--plata));
   box-shadow: inset 0 0 0 calc(1px / var(--k, 1)) rgb(0 0 0 / 0.12);
 }
+/* El brillo de la base: una luz amplia y sin orilla del lado izquierdo de donde se apoyan las manos, que se
+   apaga hacia la derecha y hacia atrás. Viene del mismo lado que el reflejo de la pantalla, para que parezca
+   la misma luz. Sin él la base era casi pareja y se veía como gris pintado; con una orilla, como la del vidrio,
+   parecería plástico brillante, porque el aluminio es mate y reparte la luz. Va encima de las teclas y el
+   trackpad (en el HTML va después de ellos), para que no se vea solo en el aluminio entre las teclas. Con la
+   mitad de fuerza casi no se notaba, y mucho más fuerte la base se veía con neblina. En la parte negra baja lo
+   mismo que el plateado (--oscuro). */
+.brillo {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r);
+  background: radial-gradient(ellipse 62% 80% at 22% 72%,
+    rgb(255 255 255 / .45), rgb(255 255 255 / .18) 45%, transparent);
+  opacity: calc(1 - var(--oscuro, 0) * 0.2);
+  pointer-events: none;
+}
 /* El grosor de la base: los cantos de enfrente y de atrás y los dos costados, tiras de 3 % del fondo del
    teclado dobladas 90° hacia abajo desde sus orillas. Sin los costados, del lado que mira a la cámara la base
    se veía como una hoja sin grosor. Las cuatro esquinas del teclado son redondas (--r), como las de la tapa:

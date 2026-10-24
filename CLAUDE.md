@@ -49,6 +49,10 @@ La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclad
   teclado): una franja de agujeritos de medio milímetro, uno cada milímetro, entre la bisagra y la fila de las F,
   a lo ancho de las teclas. A 1280 mide unos 4 px de alto y se ve como una línea gris un poco más oscura; de
   cerca, como rejilla. No se comprobó si tiembla mientras se mueve la laptop, ni cómo se ve en una pantalla Retina.
+- **Brillo de la base** (`.brillo`, un `div` después del trackpad, para quedar encima de él y de las teclas): una
+  luz blanca amplia y sin orilla del lado izquierdo de donde se apoyan las manos, el mismo lado del reflejo de la
+  pantalla, que se apaga hacia la derecha y hacia atrás. Sin orilla, porque el aluminio es mate. En la parte
+  negra baja lo mismo que el plateado (`--oscuro`). A 1280 aclara la zona de la izquierda unos 10 niveles de 255.
 - **Muesca de enfrente** para abrir la tapa: fingida con `.canto:not(.canto-atras)::after` (el hueco visto de
   frente) y `.teclado::after` (la sombra en el teclado). Va centrada en la laptop, no en el trackpad, que se corre
   a la izquierda por el teclado numérico.
@@ -74,12 +78,12 @@ Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
 están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo lo ancho.
 
-## Dónde nos quedamos (23 de octubre de 2026)
+## Dónde nos quedamos (24 de octubre de 2026)
 
 Se pulió la laptop de la escena: esquinas redondas, sombra, plateada con teclas claras, quieta (sin cursor) y
 el fondo de la parte negra. Después se le pusieron detalles, cada uno con su commit: grosor de la pantalla,
-reflejo en el vidrio, bisagra, cámara en el marco, muesca de enfrente, puertos del costado y rejilla de las
-bocinas. Ya se probó y se descartó (no volver a proponerlo igual):
+reflejo en el vidrio, bisagra, cámara en el marco, muesca de enfrente, puertos del costado, rejilla de las
+bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo igual):
 
 - Centrar la laptop completa en la pose del centro: se veía menos centrada; manda la pantalla.
 - Oscurecer el plateado de noche al 42 % (se notaba el cambio de color) o nada (parecía tener luz propia): va al 20 %.
@@ -97,9 +101,12 @@ bocinas. Ya se probó y se descartó (no volver a proponerlo igual):
   ancho.
 - Una rejilla con agujeros más grandes (unos 2 px en pantalla): de cerca parecía de juguete, y los puntos podían
   hacer un patrón que temblara al moverse la laptop.
+- Un brillo de la base más tenue (con la mitad de fuerza casi no se notaba) o mucho más fuerte (la base se veía
+  con neblina).
 
-Con eso la laptop ya tiene todos los detalles que se planearon. En celular la escena de la laptop se va a cambiar
-por otra cosa, así que sus detalles se revisan solo en escritorio.
+Con eso la laptop ya tiene todos los detalles que se planearon, más el brillo de la base, que salió de compararla
+con la maqueta. En celular la escena de la laptop se va a cambiar por otra cosa, así que sus detalles se revisan
+solo en escritorio.
 
 ## Comandos
 
@@ -113,7 +120,7 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - Para verla: `.claude/launch.json` tiene el servidor `fragmentless` (`python -m http.server 5510`).
   También sirve Live Server.
 - Imágenes y video se comprimen con ffmpeg (ver `README.md`): fotos a WebP de 1200 px y video H.264 de 1280 px sin audio.
-- Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=bocinas-1`),
+- Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=brillo-1`),
   para que el navegador no use la copia vieja guardada.
 
 ## Cómo probar la laptop en el navegador integrado
