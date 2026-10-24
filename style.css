@@ -13,6 +13,13 @@
   --noche: #000000; /* las secciones oscuras y la barra sobre ellas: negro total, no el de la marca */
   --barra-noche: #1C1C1E; /* gris un poco oscuro: la barra abierta, con su submenú, sobre la sección oscura */
   --hueco: #0A0A0B; /* negro de la marca: lo que se ve mientras el video carga */
+  /* El aluminio plateado de la laptop (teclado, trackpad y tapa): claro junto a la bisagra y un poco más
+     oscuro hacia el frente, y las orillas pulidas. Es el mismo en la parte blanca y en la negra: se probó
+     oscurecerlo con la página y se veía como si la laptop cambiara de color. */
+  --plata-clara: #E9EAED;
+  --plata: #D6D7DA;
+  --plata-oscura: #C3C4C8;
+  --pulido: #F4F5F7;
   --velo: rgba(10, 10, 11, 0.45);
   /* Los resortes del carrusel de la sección 3 (de Motion), muestreados en 20 tramos: el de pasar de vista
      (bounce 0.1 en 0.25 s) y el de la pista cuando la sueltas sin pasar de vista (rigidez 200, freno 40) */
@@ -258,15 +265,6 @@ body {
 .laptop {
   --marco: 1;
   --radio: 16px;
-  /* El aluminio plateado del teclado, el trackpad y la tapa: claro junto a la bisagra y un poco más oscuro
-     hacia el frente. En la parte negra se oscurece con la página (--oscuro, escena.js), como el metal en un
-     cuarto oscuro: tal cual brillaba como si tuviera luz propia, y el texto blanco que pasa encima de la
-     base casi no se leía. Las orillas pulidas (--pulido) no se oscurecen: son las que siguen brillando. */
-  --plata-noche: calc(var(--oscuro, 0) * 42%);
-  --plata-clara: color-mix(in srgb, #E9EAED, #3A3B3F var(--plata-noche));
-  --plata: color-mix(in srgb, #D6D7DA, #2E2F33 var(--plata-noche));
-  --plata-oscura: color-mix(in srgb, #C3C4C8, #232427 var(--plata-noche));
-  --pulido: #F4F5F7;
   position: absolute;
   top: var(--alto-barra);
   left: var(--margen);
@@ -413,15 +411,12 @@ body {
 /* Las teclas: una imagen de teclas claras con letras grises y una sombrita debajo de cada una, vistas desde
    arriba, con teclado numérico. Salen de prueba/teclado.webp (las negras, generadas en Higgsfield con
    GPT Image 2.5 Sunburst, job 961d813b…, sin el logo de Windows) con scripts/teclas-claras.py, así que
-   encajan exacto. Entre tecla y tecla es transparente: ahí se ve el plateado de la base. En la parte negra
-   se oscurecen un poco (--oscuro), mucho menos que la base: al ritmo de ella quedaban del mismo gris que
-   el aluminio y ya no parecían teclas claras. El filtro va en una hoja sin hijos, así que no aplana el 3D. */
+   encajan exacto. Entre tecla y tecla es transparente: ahí se ve el plateado de la base. */
 .teclas {
   grid-row: 2;
   width: var(--ancho-teclas);
   aspect-ratio: var(--proporcion);
   background: url('prueba/teclado-claro.webp') center / 100% 100% no-repeat;
-  filter: brightness(calc(1 - var(--oscuro, 0) * 0.15));
 }
 /* El trackpad, plateado como la base, con sus dos botones de click abajo: una franja del 22 % de su alto,
    partida a la mitad. Las juntas (la de arriba de los botones y la de en medio) son rayas grises de 1.5 px
