@@ -465,10 +465,13 @@ body {
   transform: rotateY(-90deg);
 }
 /* La sombra y el piso: planos debajo de la base, en el mismo 3D que el teclado, así que giran, se encogen y
-   persiguen el cursor con la laptop sin que escena.js los mueva. La sombra es un rectángulo oscuro un poco
-   más chico que la base, para que su orilla dura quede escondida debajo y solo asome lo difuminado: oscuro
-   pegado a la orilla, luego cada vez más amplio y claro hacia el frente, y un poco hacia atrás, donde la
-   pantalla también da sombra. El piso es una mancha de luz gris que solo se enciende con la parte negra
+   se cierran con la laptop sin que escena.js los mueva. La sombra es un rectángulo oscuro un poco
+   más chico que la base (lo mismo por los cuatro lados, en cqh), para que su orilla dura quede escondida
+   debajo y solo asome lo difuminado: oscuro pegado a la orilla y luego cada vez más amplio y claro. La luz
+   viene de enfrente a la izquierda, así que la sombra cae hacia la derecha y al frente, y la de la pantalla
+   hacia atrás a la derecha. Cargarla a la derecha no es solo por la luz: la cámara ve ese costado muy de
+   lado y una sombra pareja ahí se veía angosta, como cortada; los lados de atrás e izquierdo ni se ven,
+   la base los tapa. El piso es una mancha de luz gris que solo se enciende con la parte negra
    (--oscuro, escena.js): sobre negro una sombra no se ve si no hay algo de luz alrededor. Van más abajo que
    el grosor de la base (3cqh) para no pelearse con ella por el mismo plano, y el piso debajo de la sombra. */
 .sombra,
@@ -477,15 +480,15 @@ body {
   pointer-events: none;
 }
 .sombra {
-  inset: 3% 3% 2%;
+  inset: 2.5cqh;
   border-radius: var(--r);
   background: rgb(0 0 0 / .8);
   box-shadow:
-    0 1cqh 2.5cqh 2.6cqh rgb(0 0 0 / .72),
-    0 3cqh 8cqh 3.5cqh rgb(0 0 0 / .38),
-    0 7cqh 22cqh 7cqh rgb(0 0 0 / .2),
-    0 12cqh 44cqh 14cqh rgb(0 0 0 / .1),
-    0 -5cqh 16cqh 3cqh rgb(0 0 0 / .12);
+    2cqh 1cqh 2.4cqh 2.8cqh rgb(0 0 0 / .75),
+    5cqh 2.5cqh 8cqh 4cqh rgb(0 0 0 / .38),
+    10cqh 6cqh 22cqh 7cqh rgb(0 0 0 / .2),
+    16cqh 10cqh 46cqh 12cqh rgb(0 0 0 / .1),
+    8cqh -7cqh 16cqh 2cqh rgb(0 0 0 / .14);
   transform: translateZ(calc(-3cqh - 1px));
 }
 .piso {
