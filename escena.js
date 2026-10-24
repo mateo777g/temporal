@@ -28,18 +28,21 @@
   // x, y: dónde queda su centro (fracción de la pantalla). ancho, alto: lo más que puede medir
   // en la portada. rx, ry, rz: giros en grados (ry negativo = el lado izquierdo se va hacia atrás).
   // k: cuánto se encoge respecto a la portada (sin k, nada).
+  // teclado (en la del centro): cuánto sale el teclado a la izquierda de la pantalla por el giro, en anchos
+  // de la laptop encogida (medido). x centra la pantalla; la pose se corre eso a la derecha para que quede en
+  // medio la laptop completa, alineada con el texto de abajo. Sin eso quedaba hasta un 10 % a la izquierda.
   // La del lado iba más abajo (y: 0.495) y el teclado se cortaba con la orilla de la pantalla: ahora se
   // queda a la altura de la del centro, así se va derecho a la derecha sin bajar y se ve entera.
   // La del centro en escritorio va un poco más chica y más arriba (antes k 1, y 0.413), y su texto un poco
   // más abajo (style.css): con la laptop plateada, el texto blanco le pasaba encima a la base y no se leía.
   const POSES = {
     escritorio: {
-      centro: { x: 0.5, y: 0.38, k: 0.86, ancho: 0.497, alto: 0.462, rx: 0, ry: -53, rz: 0 },
+      centro: { x: 0.5, y: 0.38, k: 0.86, teclado: 0.2, ancho: 0.497, alto: 0.462, rx: 0, ry: -53, rz: 0 },
       lado: { x: 0.645, y: 0.413, k: 0.9, rx: -9.6, ry: -47.2, rz: 1.8 },
     },
     // En celular la tarjeta no se va a la derecha: se queda arriba y los textos salen debajo.
     celular: {
-      centro: { x: 0.5, y: 0.36, ancho: 0.62, alto: 0.42, rx: 0, ry: -40, rz: 0 },
+      centro: { x: 0.5, y: 0.36, teclado: 0.16, ancho: 0.62, alto: 0.42, rx: 0, ry: -40, rz: 0 },
       lado: { x: 0.5, y: 0.34, k: 0.9, rx: -9.6, ry: -47.2, rz: 1.8 },
     },
   };
@@ -167,8 +170,11 @@
     const hueco = celular.matches
       ? { x: anchoPantalla * .57, y: altoPantalla * .60, k, rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro }
       : { x: anchoPantalla * .72, y: altoPantalla * .43, k, rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro };
+    const kCentro = k * (poses.centro.k ?? 1);
     const enCentro = {
-      x: poses.centro.x * anchoPantalla, y: poses.centro.y * altoPantalla, k: k * (poses.centro.k ?? 1),
+      // Sin giro (movimiento reducido) el teclado no sale de lado: no hay nada que compensar.
+      x: poses.centro.x * anchoPantalla + ancho * kCentro * poses.centro.teclado * giro,
+      y: poses.centro.y * altoPantalla, k: kCentro,
       rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro,
     };
     const alLado = {
