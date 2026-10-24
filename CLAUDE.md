@@ -105,16 +105,21 @@ bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo
   con neblina).
 - Una barra que empezara negra en el cambio a modo noche y se volviera transparente conforme se oscurece la
   escena (con el `--oscuro` de `escena.js`): se prefirió sencilla, transparente desde el cambio.
+- La barra transparente en toda la página: en la hoja, las tarjetas y el footer el contenido sí pasa por debajo
+  de ella. Ahí se queda blanca.
 
 Con eso la laptop ya tiene todos los detalles que se planearon, más el brillo de la base, que salió de compararla
 con la maqueta. En celular la escena de la laptop se va a cambiar por otra cosa, así que sus detalles se revisan
 solo en escritorio.
 
-La barra, sobre la parte negra de la escena, es transparente con letra blanca (en `style.css`, la regla de
-`:root[data-noche]`): negra se veía como un bloque, porque ese fondo no es negro plano. Nada de la escena pasa por
-debajo de ella. Lo único que queda: al subir con la barra visible, justo después del cambio a modo noche el fondo
-todavía es gris y «Iniciar Sesión» (azul) se lee débil un momento. Si molesta, la idea es que en modo noche ese
-botón vaya con borde y letra blancos.
+La barra, sobre toda la escena (la portada blanca y la parte negra), es transparente y sin su línea: en
+`style.css`, la regla de `:root[data-escena]:not([data-hoja])`. Blanca se veía como un bloque en el gris del paso a
+la parte negra, y negra, sobre ese fondo que no es negro plano. La letra va negra mientras el fondo es claro y
+blanca desde el cambio a modo noche (`data-noche`). Nada de la escena pasa por debajo de ella, ni en celular.
+Sobre la hoja y lo que sigue es blanca con su línea, como antes; abierta, con su submenú, tiene fondo (blanco de
+día, gris oscuro de noche). `data-escena` solo lo pone `escena.js`, así que en `nosotros.html` la barra sigue
+blanca. Lo único que queda: en el tramo gris del paso a la parte negra, «Iniciar Sesión» (azul) se lee débil. Si
+molesta, la idea es que ahí ese botón vaya con borde y letra blancos.
 
 ## Comandos
 
@@ -128,7 +133,7 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - Para verla: `.claude/launch.json` tiene el servidor `fragmentless` (`python -m http.server 5510`).
   También sirve Live Server.
 - Imágenes y video se comprimen con ffmpeg (ver `README.md`): fotos a WebP de 1200 px y video H.264 de 1280 px sin audio.
-- Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=barra-transparente-1`),
+- Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=barra-transparente-2`),
   para que el navegador no use la copia vieja guardada.
 
 ## Cómo probar la laptop en el navegador integrado

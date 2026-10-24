@@ -57,14 +57,20 @@ body {
 }
 .barra[data-escondida] { transform: translateY(-100%); }
 
-/* Barra blanca sobre el carrusel y las tarjetas; transparente sobre la escena oscura, con letra blanca. Negra
-   se veía como un bloque encima, porque el fondo de la escena no es negro plano (tiene la luz gris detrás de la
-   laptop). Ahí no pasa nada por debajo de ella: lo más alto de la laptop queda más abajo que la barra.
-   Abierta, con su submenú, es gris oscura para que se lea. */
+/* Sobre la escena (la portada blanca y la parte negra) la barra es transparente y sin su línea: blanca o negra
+   se veía como un bloque encima, sobre todo en el gris del paso a la parte negra, y el fondo de la escena no es
+   plano (tiene la luz gris detrás de la laptop). Ahí no pasa nada por debajo de ella: lo más alto de la laptop
+   queda más abajo que la barra. Sobre la hoja y lo que sigue (data-hoja) es blanca con su línea, porque ahí el
+   contenido sí pasa por debajo. Abierta, con su submenú, tiene fondo para que se lea: blanca de día y gris
+   oscura en la parte negra. data-escena solo lo pone escena.js, así que en nosotros.html la barra sigue blanca. */
+:root[data-escena]:not([data-hoja]) .barra:not([data-abierto]) {
+  --fondo: transparent;
+  box-shadow: none;
+}
+/* En la parte negra, letra blanca */
 :root[data-noche] body { background: var(--noche); }
 :root[data-noche]:not([data-hoja]) .barra {
   box-shadow: none;
-  --fondo: transparent;
   --tinta: #FFFFFF;
   --tinta-suave: #A1A1A6;
   --borde: #3A3A3D;
