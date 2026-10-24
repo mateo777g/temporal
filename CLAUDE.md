@@ -40,9 +40,11 @@ base: `.canto` (enfrente), `.canto-atras` (en la bisagra), `.costado-izq` y `.co
 (dos tramos de 45° que cierran cada una de las cuatro esquinas redondas, igual de redondas que la tapa).
 Debajo de la base van `.sombra` y `.piso` (un piso de luz gris que se enciende con la parte negra, con
 `--oscuro` de `escena.js`); como están en el 3D del teclado, siguen a la laptop sin código extra.
-La laptop es plateada, con teclas claras y orillas pulidas (`--plata-*`, `--pulido` en `:root`). Es del mismo
-color en la parte blanca y en la negra: no se oscurece con la página. No sigue al cursor: quieta, la sombra
-y la luz se pueden afinar para cada pose del scroll.
+La laptop es plateada, con teclas claras y orillas pulidas. En la parte negra el plateado baja un 20 % con
+`--oscuro` (por eso `--plata-*` está en `.laptop` y no en `:root`); al 42 % se notaba que cambiaba de color, y
+sin bajar parecía tener luz propia. No sigue al cursor: quieta, la sombra y la luz se pueden afinar para cada
+pose del scroll. En la pose del centro va más chica y más arriba (`k` y `y` en `POSES`) para que el texto
+«Presentamos nuestro nuevo software» quepa debajo sin pasarle encima.
 La parte negra (`.noche`) no es negro plano: una luz gris suave detrás de la laptop, cargada a la derecha, y
 el fondo que se aclara poquito hacia abajo, sin línea de piso. La luz sigue a la laptop de lado (`--luz-x`) y
 su altura (`--luz-y`) no cambia; las dos variables las pone `escena.js`. Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
@@ -86,6 +88,3 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 - `respaldos/` tiene una copia de `index.html`, `style.css` y `escena.js` de antes de esconder la laptop
   hasta que carga; se puede borrar y no debe subirse al hosting.
 - La sección `.clientes` de `index.html` está vacía hasta que haya logos de clientes reales.
-- En la pose del centro (parte negra), el texto «Presentamos nuestro nuevo software» pasa encima del frente
-  de la base plateada, que en la parte negra ya no se oscurece: el texto blanco se lee mal donde cruza el
-  plateado. Se arregla bajando un poco el texto o subiendo la laptop en esa pose (`POSES` en `escena.js`).

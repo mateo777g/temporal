@@ -26,13 +26,15 @@
 
   // Poses de la tarjeta, medidas del video de referencia (pantalla de 1896×916).
   // x, y: dónde queda su centro (fracción de la pantalla). ancho, alto: lo más que puede medir
-  // ya encogida. rx, ry, rz: giros en grados (ry negativo = el lado izquierdo se va hacia atrás).
-  // k: cuánto se encoge al irse al lado, respecto a la pose del centro.
+  // en la portada. rx, ry, rz: giros en grados (ry negativo = el lado izquierdo se va hacia atrás).
+  // k: cuánto se encoge respecto a la portada (sin k, nada).
   // La del lado iba más abajo (y: 0.495) y el teclado se cortaba con la orilla de la pantalla: ahora se
   // queda a la altura de la del centro, así se va derecho a la derecha sin bajar y se ve entera.
+  // La del centro en escritorio va un poco más chica y más arriba (antes k 1, y 0.413), y su texto un poco
+  // más abajo (style.css): con la laptop plateada, el texto blanco le pasaba encima a la base y no se leía.
   const POSES = {
     escritorio: {
-      centro: { x: 0.5, y: 0.413, ancho: 0.497, alto: 0.462, rx: 0, ry: -53, rz: 0 },
+      centro: { x: 0.5, y: 0.38, k: 0.86, ancho: 0.497, alto: 0.462, rx: 0, ry: -53, rz: 0 },
       lado: { x: 0.645, y: 0.413, k: 0.9, rx: -9.6, ry: -47.2, rz: 1.8 },
     },
     // En celular la tarjeta no se va a la derecha: se queda arriba y los textos salen debajo.
@@ -166,7 +168,7 @@
       ? { x: anchoPantalla * .57, y: altoPantalla * .60, k, rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro }
       : { x: anchoPantalla * .72, y: altoPantalla * .43, k, rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro };
     const enCentro = {
-      x: poses.centro.x * anchoPantalla, y: poses.centro.y * altoPantalla, k,
+      x: poses.centro.x * anchoPantalla, y: poses.centro.y * altoPantalla, k: k * (poses.centro.k ?? 1),
       rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro,
     };
     const alLado = {
