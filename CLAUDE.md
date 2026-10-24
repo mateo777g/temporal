@@ -47,9 +47,24 @@ pose del scroll. En la pose del centro va más chica y más arriba (`k` y `y` en
 «Presentamos nuestro nuevo software» quepa debajo sin pasarle encima.
 La parte negra (`.noche`) no es negro plano: una luz gris suave detrás de la laptop, cargada a la derecha, y
 el fondo que se aclara poquito hacia abajo, sin línea de piso. La luz sigue a la laptop de lado (`--luz-x`) y
-su altura (`--luz-y`) no cambia; las dos variables las pone `escena.js`. Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
+su altura (`--luz-y`) no cambia; las dos variables las pone `escena.js`.
+Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
 están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo lo ancho.
+
+## Dónde nos quedamos (23 de octubre de 2026)
+
+Se pulió la laptop de la escena: esquinas redondas, sombra, plateada con teclas claras, quieta (sin cursor),
+y el fondo de la parte negra. Ya se probó y se descartó (no volver a proponerlo igual):
+
+- Centrar la laptop completa en la pose del centro: se veía menos centrada; manda la pantalla.
+- Oscurecer el plateado de noche al 42 % (se notaba el cambio de color) o nada (parecía tener luz propia): va al 20 %.
+- Un estudio con línea entre pared y piso: se veía demasiado definido.
+- Pedir a la IA una imagen nueva de teclas: no hace falta, salen de la actual con el script.
+
+Ideas que quedaron sueltas, por si se retoman: detalles con imagen (logo en la tapa, bocinas, puertos), un
+grano fino si el fondo negro se ve con escalones en algún monitor, y subir un poco la laptop de la portada,
+donde la sombra de enfrente se corta con la orilla de la pantalla.
 
 ## Comandos
 
