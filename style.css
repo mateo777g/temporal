@@ -10,7 +10,7 @@
   --azul: #1355E8;
   --azul-claro: #8AB4FF; /* el primer color que les pasa a los títulos de la escena */
   --azul-noche: #3D7BFF; /* el azul de la marca más claro (mismo tono), para que la píldora vacía se vea sobre negro */
-  --noche: #000000; /* las secciones oscuras y la barra sobre ellas: negro total, no el de la marca */
+  --noche: #000000; /* las secciones oscuras: negro total, no el de la marca */
   --barra-noche: #1C1C1E; /* gris un poco oscuro: la barra abierta, con su submenú, sobre la sección oscura */
   --hueco: #0A0A0B; /* negro de la marca: lo que se ve mientras el video carga */
   --pulido: #F4F5F7; /* las orillas pulidas de la laptop */
@@ -57,11 +57,14 @@ body {
 }
 .barra[data-escondida] { transform: translateY(-100%); }
 
-/* Barra blanca sobre el carrusel y las tarjetas; negra sobre la escena oscura. */
+/* Barra blanca sobre el carrusel y las tarjetas; transparente sobre la escena oscura, con letra blanca. Negra
+   se veía como un bloque encima, porque el fondo de la escena no es negro plano (tiene la luz gris detrás de la
+   laptop). Ahí no pasa nada por debajo de ella: lo más alto de la laptop queda más abajo que la barra.
+   Abierta, con su submenú, es gris oscura para que se lea. */
 :root[data-noche] body { background: var(--noche); }
 :root[data-noche]:not([data-hoja]) .barra {
   box-shadow: none;
-  --fondo: var(--noche);
+  --fondo: transparent;
   --tinta: #FFFFFF;
   --tinta-suave: #A1A1A6;
   --borde: #3A3A3D;
