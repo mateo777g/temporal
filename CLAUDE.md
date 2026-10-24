@@ -62,9 +62,9 @@ y el fondo de la parte negra. Ya se probó y se descartó (no volver a proponerl
 - Un estudio con línea entre pared y piso: se veía demasiado definido.
 - Pedir a la IA una imagen nueva de teclas: no hace falta, salen de la actual con el script.
 
-Ideas que quedaron sueltas, por si se retoman: detalles con imagen (logo en la tapa, bocinas, puertos), un
-grano fino si el fondo negro se ve con escalones en algún monitor, y subir un poco la laptop de la portada,
-donde la sombra de enfrente se corta con la orilla de la pantalla.
+Lo que sigue: detalles extra para la laptop. Nada de logo en la tapa (era de maquetas viejas). Le faltan:
+grosor de la pantalla (la tapa es un plano sin canto), bisagra, cámara en el marco, rejillas de bocinas,
+puertos en los costados, muesca de enfrente para abrirla y un reflejo suave en la pantalla.
 
 ## Comandos
 
