@@ -66,8 +66,10 @@ y el fondo de la parte negra. Ya se probó y se descartó (no volver a proponerl
 - Pedir a la IA una imagen nueva de teclas: no hace falta, salen de la actual con el script.
 
 Lo que sigue: detalles extra para la laptop. Nada de logo en la tapa (era de maquetas viejas). Ya tiene
-grosor la pantalla. Le faltan: bisagra, cámara en el marco, rejillas de bocinas, puertos en los costados,
-muesca de enfrente para abrirla y un reflejo suave en la pantalla.
+grosor la pantalla y un reflejo en el vidrio (`.video::after`, una diagonal tenue arriba a la izquierda; más
+tenue no se distinguía). Le faltan: bisagra, cámara en el marco, rejillas de bocinas, puertos en los costados
+y muesca de enfrente para abrirla. Nada de eso necesita imágenes de IA: son formas sencillas que salen mejor
+en CSS.
 
 ## Comandos
 

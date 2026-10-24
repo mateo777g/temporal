@@ -319,6 +319,18 @@ body {
 }
 .video .video-noche { opacity: 1; }
 .video .panel-sistema { opacity: 0; pointer-events: none; }
+/* El reflejo del vidrio: una luz tenue en diagonal que entra por la esquina de arriba a la izquierda, de
+   donde viene la luz de la escena (la sombra cae a la derecha), con la orilla un poco difuminada, como una
+   ventana reflejada. Cubre también el marco negro: en una MacBook el vidrio lo tapa. Sobre el video azul
+   casi no se nota; sobre el panel oscuro, sí, sin taparlo. Más tenue, o bajando en la parte negra, no se
+   distinguía. */
+.video::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(122deg, rgb(255 255 255 / .16), rgb(255 255 255 / .07) 31%, transparent 33.5%);
+  pointer-events: none;
+}
 /* Entrada inicial; los hijos se animan sin competir con la salida por scroll. */
 .intro-activa .barra { animation: entrada-barra .7s cubic-bezier(.2,.7,.2,1) both; }
 .intro-activa .portada-copy > :is(h1, p, .portada-botones) {
