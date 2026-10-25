@@ -42,8 +42,10 @@ La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclad
   azul en vivo (`.pantalla-azul`, un `canvas`) y la captura del panel encima, la cámara al centro del marco de
   arriba (`.video::before`) y el reflejo del vidrio (`.video::after`, una diagonal tenue arriba a la izquierda).
 - **El azul en vivo** (`pantalla.js`): un shader de WebGL de manchas azul marino que se deforman, con líneas que
-  brillan. Sus colores se midieron contra el video que había antes, y va a dos tercios de su velocidad (con la del
-  video, medida cuadro contra cuadro, se veía rápido). Dibuja
+  brillan. Sus colores se midieron contra el video que había antes. Como en el video, la luz y lo oscuro no se
+  deslizan: salen de la nada en su lugar y se van (un ruido con el tiempo como tercera dimensión, `ruido3`), y lo
+  oscuro dura lo mismo que en el video (medido punto por punto). Las formas van lentas, y todo junto al 80 % de
+  esas velocidades, porque se veía un poco rápido. Dibuja
   a 1280 de ancho como mucho; mientras la captura del panel lo tapa (toda la parte negra) no dibuja, pero revisa
   cada cuadro, porque esperar al scroll fallaba: su cuadro corre antes que el de `escena.js`. Con «reducir
   movimiento», un cuadro quieto. Sin WebGL se ve `fondo-azul.webp`. El de 21st.dev («Silk») no se usó: es otra
@@ -120,7 +122,9 @@ bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo
   de ella. Ahí se queda blanca.
 - Un azul de la pantalla con formas más redondas, burbujas que dejaban anillos y líneas finas medidas en píxeles,
   con los colores sacados del video entero: aunque los números cuadraban, no se parecía al video. Se quedó la
-  primera versión de `pantalla.js`, solo más lenta.
+  primera versión de `pantalla.js`, más lenta y con la luz y lo oscuro que salen en su lugar.
+- Acelerar el reloj de la luz para que lo claro durara menos: lo claro ya estaba bien; lo que se quedaba de más
+  era lo oscuro.
 
 Con eso la laptop ya tiene todos los detalles que se planearon, más el brillo de la base, que salió de compararla
 con la maqueta. En celular la escena de la laptop se va a cambiar por otra cosa, así que sus detalles se revisan

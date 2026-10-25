@@ -1,7 +1,8 @@
 // pantalla.js — el fondo azul de la pantalla de la laptop (index.html), dibujado en vivo con WebGL.
 // Son manchas azul marino que se deforman en su lugar, con líneas que brillan en azul claro, como agua con
 // luz. Sale de un ruido suave deformado por otro ruido (domain warping); el tiempo cambia las deformaciones,
-// así que las formas se transforman casi donde están, como en el video que había antes.
+// así que las formas se transforman casi donde están, como en el video que había antes. La luz y lo oscuro van
+// aparte: como en el video, no se deslizan, salen de la nada en un lugar, crecen y se van.
 // Sin WebGL, el lienzo deja ver su fondo de CSS, una imagen fija del mismo azul.
 (() => {
   const lienzo = document.querySelector('.pantalla-azul');
@@ -60,6 +61,30 @@ float capas(vec2 p) {
   return v;
 }
 
+// Tres números al azar, de -1 a 1, para cada esquina de una cuadrícula en 3D (la tercera es el tiempo)
+vec3 azar3(vec3 p) {
+  p = fract(p * vec3(0.1031, 0.1030, 0.0973));
+  p += dot(p, p.yxz + 33.33);
+  return fract((p.xxy + p.yxx) * p.zyx) * 2.0 - 1.0;
+}
+
+// El mismo ruido de gradientes, pero con el tiempo como tercera dimensión: avanzar en el tiempo no lo
+// desliza de lado, lo hace subir y bajar donde está. Por eso con él la luz aparece y se va en su lugar.
+float ruido3(vec3 p) {
+  vec3 i = floor(p);
+  vec3 f = fract(p);
+  vec3 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+  float a = dot(azar3(i), f);
+  float b = dot(azar3(i + vec3(1.0, 0.0, 0.0)), f - vec3(1.0, 0.0, 0.0));
+  float c = dot(azar3(i + vec3(0.0, 1.0, 0.0)), f - vec3(0.0, 1.0, 0.0));
+  float d = dot(azar3(i + vec3(1.0, 1.0, 0.0)), f - vec3(1.0, 1.0, 0.0));
+  float e = dot(azar3(i + vec3(0.0, 0.0, 1.0)), f - vec3(0.0, 0.0, 1.0));
+  float g = dot(azar3(i + vec3(1.0, 0.0, 1.0)), f - vec3(1.0, 0.0, 1.0));
+  float h = dot(azar3(i + vec3(0.0, 1.0, 1.0)), f - vec3(0.0, 1.0, 1.0));
+  float k = dot(azar3(i + vec3(1.0, 1.0, 1.0)), f - vec3(1.0, 1.0, 1.0));
+  return mix(mix(mix(a, b, u.x), mix(c, d, u.x), u.y), mix(mix(e, g, u.x), mix(h, k, u.x), u.y), u.z);
+}
+
 // Los azules del video, de lo más oscuro (0) a lo más claro (1)
 vec3 paleta(float x) {
   vec3 c = mix(vec3(0.043, 0.075, 0.263), vec3(0.055, 0.141, 0.424), smoothstep(0.0, 0.25, x));
@@ -73,21 +98,36 @@ vec3 paleta(float x) {
 void main() {
   // El lado corto del lienzo mide 2: caben unas tres manchas de alto, como en el video
   vec2 p = (gl_FragCoord.xy - 0.5 * u_tamano) / u_tamano.y * 2.0;
-  // Dos tercios de la velocidad del video (0.45, medida cuadro contra cuadro): igual que el video se veía rápido
-  float t = u_tiempo * 0.3;
+  // Todo al 80 %: con los relojes de abajo tal cual, que se midieron contra el video, se veía un poco rápido.
+  // Se baja todo junto para que las formas, la luz y lo oscuro no se descuadren entre ellos.
+  float tiempo = u_tiempo * 0.8;
+  // Las formas, despacio: a la velocidad del video (0.45, medida cuadro contra cuadro) y a 0.3 se veía rápido.
+  // Lo que cambia más rápido es la luz, y lo oscuro se llena y se vacía en su lugar (abajo, hondo).
+  float t = tiempo * 0.2;
+  // La luz, con su propio reloj, más rápido que las formas: en el video una mancha clara tarda como un
+  // segundo en encenderse
+  float tl = tiempo * 0.55;
   // Las manchas: un ruido deformado por otro, que se mueve con el tiempo
   vec2 q = vec2(capas(p + vec2(0.0, t)), capas(p + vec2(5.2, 1.3) - vec2(t, 0.0)));
   float n = capas(p + q + vec2(0.3 * t, -0.2 * t));
-  // Qué tanto brillan las líneas aquí: unas fuertes y otras apenas, como en el video
-  float fuerza = smoothstep(-0.3, 0.35, ruido(p * 0.55 + vec2(7.1 - 0.4 * t, 3.3 + 0.3 * t)));
-  // Una luz amplia y suave aparte de las líneas, que aclara algunas zonas
-  float charco = smoothstep(-0.15, 0.45, capas(p * 0.7 + 1.5 * q + vec2(3.3, 7.7) + 0.5 * t));
+  // Qué tanto brillan las líneas aquí: unas fuertes y otras apenas, y cambian en su lugar
+  float fuerza = smoothstep(-0.3, 0.35, ruido3(vec3(p * 0.55 + vec2(7.1, 3.3), tl)));
+  // Una luz amplia y suave aparte de las líneas: la mitad de su forma sigue a las manchas y la otra mitad sube
+  // y baja en su lugar con el tiempo; por eso se enciende de la nada y se apaga
+  float charco = smoothstep(-0.15, 0.45,
+    0.5 * capas(p * 0.7 + 1.5 * q + vec2(3.3, 7.7)) + 0.9 * ruido3(vec3(p * 0.8 + 0.5 * q, tl + 5.0)));
 
   // Las líneas que brillan van donde el ruido pasa por cero: una fina y su halo, más claros que los dos
   // lados. Lo de abajo de cero es lo oscuro de las manchas, y lo de arriba, el azul medio.
   float d = abs(n);
   float linea = 0.6 * exp(-d * 22.0) + 0.3 * exp(-d * 5.0);
-  float brillo = 0.5 * smoothstep(-0.25, 0.35, n) + 0.45 * charco + linea * (0.3 + 0.7 * fuerza);
+  // Qué tan oscuro es cada lugar: las manchas más un ruido que sube y baja en su lugar con el tiempo. Solo con
+  // las manchas, que van lentas, había partes oscuras que se quedaban mucho más que en el video; con este reloj, y
+  // antes de bajar todo al 80 %, cada punto duraba oscuro lo mismo que en el video (el 90 % de las veces, hasta
+  // unos 2 s; medido punto por punto). Las líneas siguen saliendo de n, sin ese ruido. El rango va un poco más
+  // arriba que el de n porque, si no, con el ruido todo salía más claro.
+  float hondo = n + 0.6 * ruido3(vec3(p * 1.2 + 0.5 * q + vec2(2.7, 8.1), tiempo * 0.8 + 11.0));
+  float brillo = 0.5 * smoothstep(-0.2, 0.5, hondo) + 0.45 * charco + linea * (0.3 + 0.7 * fuerza);
   gl_FragColor = vec4(paleta(clamp(brillo, 0.0, 1.0)), 1.0);
 }`;
 
