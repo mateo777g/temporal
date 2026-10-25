@@ -33,8 +33,7 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `src/wave-entry.tsx` | Entrada React: monta `#panel-showcase`, `#feature-cards` y `#site-footer` |
 | `components/` | Componentes React (fila curva de capturas con OGL, tarjetas, footer con brillo) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` |
-| `prueba/` | Imágenes y videos que usa la página (a pesar del nombre, son los de verdad) |
-| `scripts/teclas-claras.py` | Sacaba las teclas claras de la laptop plateada (`teclado-claro.webp`) de las negras (`teclado.webp`) con Pillow |
+| `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
 
@@ -205,11 +204,8 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
   «Comprar» de la escena en `index.html`.
 - Cuando haya dominio: `og:image` en `index.html` y `nosotros.html` debe ser una dirección completa (`https://…`).
 - Según la marca, el nombre «fragmentless» va en la letra Outfit, peso 200. La barra todavía usa Inter.
-- `prueba/` podría renombrarse (por ejemplo, `media/`). Los archivos que ya no se cargan (`nuevo.mp4`,
-  `nuevo.jpg`, `libreta.png`, `mesera.png`, `mesera.webp`, `cuentas.png`, `tableta-manos.webp`,
-  `panel-*.mp4`, `fondo-azul.mp4`) no deben subirse al hosting; `fondo-azul.webp` sí, porque es lo que se ve
-  sin WebGL. `teclado-claro.webp` (las teclas de la laptop plateada) tampoco se
-  carga, pero se queda en el repo con `scripts/teclas-claras.py`, por si se regresa a la plateada.
-- `respaldos/2026-10-23-antes-de-portada/` tiene una copia de `index.html`, `style.css` y `escena.js` de antes
-  de esconder la laptop hasta que carga; se puede borrar y no debe subirse al hosting.
+- `prueba/` podría renombrarse (por ejemplo, `media/`). Ya solo tiene lo que carga la página (`fondo-azul.webp`
+  es lo que se ve sin WebGL). El 24 de octubre se borraron los respaldos, las fotos y videos viejos que ya no se
+  cargaban y las teclas claras de la plateada (`teclado-claro.webp` y `scripts/teclas-claras.py`); si hacen falta,
+  siguen en el historial de git (por ejemplo, en el commit `ceb8af1`).
 - La sección `.clientes` de `index.html` está vacía hasta que haya logos de clientes reales.
