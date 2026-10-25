@@ -10,7 +10,8 @@
   --azul: #1355E8;
   --azul-claro: #8AB4FF; /* el primer color que les pasa a los títulos de la escena */
   --azul-noche: #3D7BFF; /* el azul de la marca más claro (mismo tono), para que la píldora vacía se vea sobre negro */
-  --noche: #000000; /* las secciones oscuras: negro total, no el de la marca */
+  --noche: #000000; /* las secciones oscuras (como la de Nosotros): negro total, no el de la marca */
+  --noche-escena: #141415; /* la parte negra de la escena de la laptop, que en realidad es gris muy oscuro */
   --barra-noche: #1C1C1E; /* gris un poco oscuro: la barra abierta, con su submenú, sobre la sección oscura */
   --hueco: #0A0A0B; /* negro de la marca: lo que se ve mientras el video carga */
   --pulido: #707177; /* las orillas pulidas de la laptop: un gris más claro que el aluminio, que la marca sobre el negro */
@@ -68,7 +69,7 @@ body {
   box-shadow: none;
 }
 /* En la parte negra, letra blanca */
-:root[data-noche] body { background: var(--noche); }
+:root[data-noche] body { background: var(--noche-escena); }
 :root[data-noche]:not([data-hoja]) .barra {
   box-shadow: none;
   --tinta: #FFFFFF;
@@ -244,9 +245,11 @@ body {
   overflow: hidden;
   background: var(--fondo);
 }
-/* La parte negra no es negro plano: una luz gris muy suave cae detrás de la laptop, cargada a la derecha de
-   ella, y otra más tenue en el suelo frente a ella; abajo el fondo se aclara poquito, sin una línea que
-   marque dónde empieza el piso (con línea parecía un estudio de fotos y se veía demasiado definido).
+/* La parte negra no es negro: es un gris muy oscuro (--noche-escena), que se comparó en una página de prueba
+   con el negro de antes y con un gris más claro, y se prefirió. Tampoco es plana: una luz gris muy suave cae
+   detrás de la laptop, cargada a la derecha de ella, y otra más tenue en el suelo frente a ella; abajo el fondo
+   se aclara poquito, sin una línea que marque dónde empieza el piso (con línea parecía un estudio de fotos y se
+   veía demasiado definido).
    --luz-x y --luz-y (escena.js) son el centro de la laptop y la altura de su bisagra en la pose del centro:
    la luz la sigue de lado cuando se va a la derecha, pero no sube ni baja. Se ve con la opacidad de .noche. */
 .noche {
@@ -257,7 +260,7 @@ body {
   background:
     radial-gradient(ellipse 55% 70% at calc(var(--luz-x) + 14%) calc(var(--luz-y) - 22%), rgb(255 255 255 / .085), transparent 70%),
     radial-gradient(ellipse 45% 30% at var(--luz-x) calc(var(--luz-y) + 20%), rgb(255 255 255 / .05), transparent 72%),
-    linear-gradient(var(--noche), #040405 35%, #0D0D0E 70%, #151517);
+    linear-gradient(var(--noche-escena), #19191A 35%, #1F1F20 70%, #252527);
   opacity: 0;
 }
 
@@ -1106,7 +1109,7 @@ body {
   .glass-feature-card .glass-feature-content span { opacity: 1; animation: none; transition: none; }
 }
 /* Sección 6: un espacio blanco de media pantalla para los logos de los restaurantes que trabajen con
-   Fragmentless (vacío hasta que haya clientes). El fondo va puesto porque el de la página es negro desde
+   Fragmentless (vacío hasta que haya clientes). El fondo va puesto porque el de la página es oscuro desde
    la escena. */
 .clientes {
   min-height: 50vh;

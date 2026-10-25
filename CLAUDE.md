@@ -84,8 +84,9 @@ oscura y se perdería en el fondo. Fue plateada con teclas claras un tiempo; se 
 prueba y se quedó la oscura (la plateada está en el commit `b55967e`). No sigue al cursor: quieta, la sombra y la luz se pueden afinar para cada
 pose del scroll. En la pose del centro va más chica y más arriba (`k` y `y` en `POSES`) para que el texto
 «Presentamos nuestro nuevo software» quepa debajo sin pasarle encima.
-La parte negra (`.noche`) no es negro plano: una luz gris suave detrás de la laptop, cargada a la derecha, y
-el fondo que se aclara poquito hacia abajo, sin línea de piso. La luz sigue a la laptop de lado (`--luz-x`) y
+La parte negra (`.noche`) en realidad es gris muy oscuro (`--noche-escena`, de `#141415` arriba a `#252527` abajo;
+`--noche`, el negro total, se quedó para la sección negra de Nosotros). Tampoco es plana: una luz gris suave detrás
+de la laptop, cargada a la derecha, y el fondo que se aclara poquito hacia abajo, sin línea de piso. La luz sigue a la laptop de lado (`--luz-x`) y
 su altura (`--luz-y`) no cambia; las dos variables las pone `escena.js`.
 Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
@@ -118,6 +119,8 @@ bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo
 - En la plateada, un brillo de la base más tenue (con la mitad de fuerza casi no se notaba) o mucho más fuerte
   (la base se veía con neblina). En la oscura, una luz pareja sobre toda la base también daba neblina; por eso la
   franja de ahora se queda en el reposamanos.
+- La parte negra en negro total (como estaba) o en un gris más claro (de `#1E1E1F` a `#313132`, el de la página
+  donde se compararon la plateada y la oscura): se comparó en una página de prueba y se quedó el gris oscuro.
 - Un brillo de la base como el de la maqueta pero más fuerte (franja al 32 %, línea de la orilla al 70 %, canto al
   20 %): comparado con el de ahora (20, 45 y 12 %), se prefirió el suave.
 - Una barra que empezara negra en el cambio a modo noche y se volviera transparente conforme se oscurece la
