@@ -60,10 +60,11 @@ La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclad
   teclado): una franja de agujeritos de medio milímetro, uno cada milímetro, entre la bisagra y la fila de las F,
   a lo ancho de las teclas. A 1280 mide unos 4 px de alto y se ve como una línea un poco más oscura que la base;
   de cerca, como rejilla. Sobre el gris oscuro los agujeros van casi negros. No se comprobó si tiembla mientras se mueve la laptop, ni cómo se ve en una pantalla Retina.
-- **Brillo de la base** (`.brillo`, un `div` después del trackpad, para quedar encima de él y de las teclas): una
-  luz blanca tenue, amplia y sin orilla del lado izquierdo de donde se apoyan las manos, el mismo lado del reflejo
-  de la pantalla, que se apaga hacia la derecha y hacia atrás. Sin orilla, porque el aluminio es mate. En la parte
-  negra baja un poco (`--oscuro`).
+- **Brillo de la base** (`.brillo`, un `div` después del trackpad, para quedar encima de él y de las teclas): como
+  en la maqueta, una franja de luz sin orilla (el aluminio es mate) que entra por enfrente a la izquierda, donde se
+  apoyan las manos, el mismo lado del reflejo de la pantalla, y se apaga hacia la derecha y hacia atrás, casi sin
+  llegar a las teclas (`::before`), más una línea de luz en la orilla de enfrente (`::after`). El canto de enfrente
+  también va más claro de ese lado. En la parte negra baja un poco (`--oscuro`).
 - **Muesca de enfrente** para abrir la tapa: fingida con `.canto:not(.canto-atras)::after` (el hueco visto de
   frente) y `.teclado::after` (la sombra en el teclado). Va centrada en la laptop, no en el trackpad, que se corre
   a la izquierda por el teclado numérico.
@@ -115,7 +116,10 @@ bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo
 - Una rejilla con agujeros más grandes (unos 2 px en pantalla): de cerca parecía de juguete, y los puntos podían
   hacer un patrón que temblara al moverse la laptop.
 - En la plateada, un brillo de la base más tenue (con la mitad de fuerza casi no se notaba) o mucho más fuerte
-  (la base se veía con neblina). En la oscura va a menos de un cuarto de esa fuerza: con la misma, neblina.
+  (la base se veía con neblina). En la oscura, una luz pareja sobre toda la base también daba neblina; por eso la
+  franja de ahora se queda en el reposamanos.
+- Un brillo de la base como el de la maqueta pero más fuerte (franja al 32 %, línea de la orilla al 70 %, canto al
+  20 %): comparado con el de ahora (20, 45 y 12 %), se prefirió el suave.
 - Una barra que empezara negra en el cambio a modo noche y se volviera transparente conforme se oscurece la
   escena (con el `--oscuro` de `escena.js`): se prefirió sencilla, transparente desde el cambio.
 - La barra transparente en toda la página: en la hoja, las tarjetas y el footer el contenido sí pasa por debajo
@@ -127,7 +131,7 @@ bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo
   era lo oscuro.
 
 Con eso la laptop ya tiene todos los detalles que se planearon, más el brillo de la base, que salió de compararla
-con la maqueta. En celular la escena de la laptop se va a cambiar por otra cosa, así que sus detalles se revisan
+con la maqueta (y después se hizo más parecido al de ella: una franja de luz y la orilla de enfrente brillante). En celular la escena de la laptop se va a cambiar por otra cosa, así que sus detalles se revisan
 solo en escritorio.
 
 La barra, sobre toda la escena (la portada blanca y la parte negra), es transparente y sin su línea: en
