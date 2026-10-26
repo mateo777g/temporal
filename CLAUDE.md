@@ -23,12 +23,12 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 
 | Archivo | Qué es |
 | --- | --- |
-| `index.html` | Inicio. Portada → escena de la laptop (scroll) → sección del panel (`#sistema`) → tarjetas → clientes → footer |
+| `index.html` | Inicio. Portada → escena de la laptop (scroll), que termina con zoom a su pantalla → sección del panel (`#sistema`) → tarjetas → clientes → footer |
 | `style.css` | Estilos de `index.html` y de lo compartido: barra, botones (`.boton`, `.boton-borde`, `.boton-primario`), footer |
-| `escena.js` | La laptop 3D que se encoge, gira, se va al lado y se cierra con el scroll |
+| `escena.js` | La laptop 3D que se encoge, gira, se va al lado y se cierra con el scroll; luego la cámara la ve de frente, se reabre en blanco y avanza hasta que su pantalla llena todo |
 | `pantalla.js` | El azul de la pantalla de la laptop, dibujado en vivo con WebGL (antes era un video) |
 | `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí |
-| `hoja.js` | La hoja blanca de la sección del panel, que sube encima de la escena |
+| `hoja.js` | La sección del panel: marca cuándo llega (`data-llego`) para que entren su fila curva y sus textos, y cuándo se van los textos (`data-textos`) |
 | `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
 | `src/wave-entry.tsx` | Entrada React: monta `#panel-showcase`, `#feature-cards` y `#site-footer` |
 | `components/` | Componentes React (fila curva de capturas con OGL, tarjetas, footer con brillo) |
@@ -38,8 +38,10 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
 
 - **Pantalla** (`.video`, el nombre es de cuando tenía un video): el marco negro, recortados por dentro el
-  azul en vivo (`.pantalla-azul`, un `canvas`) y la captura del panel encima, la cámara al centro del marco de
-  arriba (`.video::before`) y el reflejo del vidrio (`.video::after`, una diagonal tenue arriba a la izquierda).
+  azul en vivo (`.pantalla-azul`, un `canvas`), la captura del panel encima y, encima de todo, la pantalla en
+  blanco de la sección 3 (`.pantalla-seccion`, solo con `data-seccion`), la cámara al centro del marco de
+  arriba (`.video::before`) y el reflejo del vidrio (`.video::after`, una diagonal tenue arriba a la izquierda;
+  sobre el blanco se quita).
 - **El azul en vivo** (`pantalla.js`): un shader de WebGL de manchas azul marino que se deforman, con líneas que
   brillan. Sus colores se midieron contra el video que había antes. Como en el video, la luz y lo oscuro no se
   deslizan: salen de la nada en su lugar y se van (un ruido con el tiempo como tercera dimensión, `ruido3`), y lo
@@ -88,10 +90,36 @@ La parte negra (`.noche`) en realidad es gris muy oscuro (`--noche-escena`, de `
 de la laptop, cargada a la derecha, y el fondo que se aclara poquito hacia abajo, sin línea de piso. La luz sigue a la laptop de lado (`--luz-x`) y
 su altura (`--luz-y`) no cambia; las dos variables las pone `escena.js`.
 Todo es 3D real (`preserve-3d`); ver los comentarios en `style.css`.
+
+**El paso a la sección 3 (la cámara).** La escena mide 700vh: las 3.5 pantallas de antes, 1.5 para la cámara, la
+fija y la de la sección 3. En `escena.js` todo lo de antes se cuenta sin las de la cámara (`recorrido`), y el
+cierre y la cámara en pantallas contadas desde el final del recorrido (`despues`): la laptop se cierra de lado
+(`CIERRE`), la cámara gira hasta verla de frente (`GIRO`, `FRENTE_CERRADA`: desde unos 40° y con más
+perspectiva, `PROFUNDIDAD_FRENTE`, para que se vea su fondo), se vuelve a abrir con la pantalla en blanco
+(`REABRIR`, `FRENTE_ABIERTA`: desde unos 34°, con la tapa y la perspectiva de siempre, centrada con su teclado) y
+la cámara avanza (`ZOOM`, la escala en veces, como una cámara) hasta que lo de adentro del marco cubre la pantalla
+(`kLlena`). Con eso la barra regresa a letra negra. Un poco después la sección 3 llega arriba (`CAMARA + 1`):
+`.hoja` ya no tiene fondo ni sube como hoja con esquinas; el blanco es la pantalla de la laptop y luego el de la
+página. `hoja.js` le pone `data-llego` y la fila curva (`.panel-reel > [aria-hidden]`, de TiltedGridHero) y los
+textos entran a la vez, con las animaciones de siempre (el título se pinta de azul claro a azul y a negro); al
+regresar se desvanecen juntos en 0.35 s. Las posiciones de frente se midieron a 1280, 1440 y 1920 (el espacio
+de arriba y el de abajo quedan casi iguales).
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
 están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo lo ancho.
 
-## Dónde nos quedamos (24 de octubre de 2026)
+## Dónde nos quedamos (26 de octubre de 2026)
+
+El 26 se cambió el paso de la sección 2 a la 3: la hoja blanca que subía se veía pobre junto al cierre de la
+laptop, y cualquier transición aparte (se probaron un desvanecido a blanco, un círculo blanco que salía de la
+laptop y varias de 21st.dev) quedaba fuera de lugar. Va la idea del usuario: la cámara gira a ver la laptop de
+frente, se reabre y hace zoom a la pantalla (ver «El paso a la sección 3» arriba). Ya se probó y se descartó:
+
+- Echar la tapa más hacia atrás al reabrirse (128°, con la cámara más abajo y más perspectiva): va la de siempre.
+- El título de la sección 3 en la pantalla de la laptop, cuadrado al pixel con el de verdad: va toda blanca.
+- Que la fila curva entrara antes que los textos: entran juntos. Si el bloque entero se desvanece a la vez que
+  los textos, el azul del título se pierde y parece salir en seco; por eso solo se desvanece la fila curva.
+
+Del 24 de octubre:
 
 Se pulió la laptop de la escena: esquinas redondas, sombra, quieta (sin cursor) y el fondo de la parte negra.
 Al final se regresó al gris oscuro con teclas negras de antes, con todos los detalles. Después se le pusieron detalles, cada uno con su commit: grosor de la pantalla,
@@ -166,9 +194,14 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
 Los cambios a la laptop se prueban primero en la pestaña del usuario, inyectando estilos o elementos con JS,
 sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que funcionaron:
 
-- **Poses por scroll:** `recorrido = .escena.offsetHeight - 2 × .escena-fija.offsetHeight`. Portada: 0; centro:
+- **Poses por scroll:** `recorrido = .escena.offsetHeight - 3.5 × .escena-fija.offsetHeight`. Portada: 0; centro:
   0.35 del recorrido; derecha: 0.76; a medio cierre: el recorrido menos 0.6 pantallas; cerrada: menos 0.2.
-  Usar `scrollTo({ top, behavior: 'instant' })`, porque `html` tiene `scroll-behavior: smooth`.
+  La cámara, en pantallas después del recorrido: de frente cerrada, 0.5; abierta, 1.17; pantalla llena, 2.4;
+  llega la sección 3, 2.5. Usar `scrollTo({ top, behavior: 'instant' })`, porque `html` tiene
+  `scroll-behavior: smooth`.
+- **Animaciones cuadro por cuadro:** justo después de lo que las dispara, `document.getAnimations()` (filtrando por
+  el elemento), `pause()` a todas y luego `currentTime = 120`, `250`… con una captura en cada una. Así se comparó
+  la entrada del título de la sección 3 con la de antes.
 - **Lupa:** para ver de cerca, escalar `.escena-fija` con `transform` (`translate` + `scale`) alrededor del
   punto que interesa. No cambia la geometría. Quitarla al terminar.
 - **Dónde cae un punto del 3D:** meter un `div` de 1 px en ese lugar (por ejemplo, en `.teclado` a `left: 50%;

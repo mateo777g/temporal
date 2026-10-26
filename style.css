@@ -234,10 +234,10 @@ body {
 }
 .barra[data-abierto] ~ .velo { opacity: 1; pointer-events: auto; }
 
-/* La escena: mide 3.5 pantallas de scroll, más la que se queda fija, más una en la que la hoja de la
-   sección 3 sube encima. Mientras la recorres, lo de adentro no se mueve de la pantalla; escena.js
-   lo acomoda según cuánto has bajado. */
-.escena { height: 550vh; }
+/* La escena: mide 3.5 pantallas de scroll, 1.5 más para la cámara (el giro, la apertura y el zoom de
+   escena.js), más la que se queda fija, más una en la que llega la sección 3. Mientras la recorres, lo de
+   adentro no se mueve de la pantalla; escena.js lo acomoda según cuánto has bajado. */
+.escena { height: 700vh; }
 .escena-fija {
   position: sticky;
   top: 0;
@@ -316,7 +316,8 @@ body {
    de --hueco se ve si no cargan. El marco les recorta la orilla: 2.6 % del lado corto arriba y a los
    lados, y 4.4 % abajo, como la barbilla de una MacBook. */
 .video .pantalla-azul,
-.video .panel-sistema {
+.video .panel-sistema,
+.video .pantalla-seccion {
   --bisel: calc(var(--marco, 0) * 2.6cqmin);
   position: absolute;
   inset: 0;
@@ -330,6 +331,11 @@ body {
 /* Sin WebGL, el lienzo no se dibuja y deja ver este fondo: un cuadro fijo del video que había antes */
 .video .pantalla-azul { background: url('prueba/fondo-azul.webp') center / cover, var(--hueco); }
 .video .panel-sistema { opacity: 0; pointer-events: none; }
+/* La pantalla en blanco, como el fondo de la sección 3: la laptop, ya cerrada, cambia la captura por ella
+   (data-seccion, escena.js), y al reabrirse de frente la cámara avanza hasta que llena todo. Ahí llega la
+   sección 3, sin fondo propio (.hoja), así que no se nota el cambio. */
+.video .pantalla-seccion { background: var(--fondo); opacity: 0; }
+.laptop[data-seccion] .pantalla-seccion { opacity: 1; }
 /* La cámara: un círculo al centro del marco de arriba (mide 2.6cqmin de alto), del 42 % de ese alto. Negra
    por dentro, con un anillo gris oscuro y un brillito azulado de lente arriba a la izquierda. Los videos no la
    tapan porque su recorte deja libre el marco; el reflejo (::after) sí pasa por encima, como el vidrio. */
@@ -359,6 +365,8 @@ body {
   background: linear-gradient(122deg, rgb(255 255 255 / .16), rgb(255 255 255 / .07) 31%, transparent 33.5%);
   pointer-events: none;
 }
+/* Sobre la pantalla en blanco el reflejo no se ve, pero al llenar todo dejaba una diagonal apenas marcada */
+.laptop[data-seccion] .video::after { opacity: 0; }
 /* Entrada inicial; los hijos se animan sin competir con la salida por scroll. */
 .intro-activa .barra { animation: entrada-barra .7s cubic-bezier(.2,.7,.2,1) both; }
 .intro-activa .portada-copy > :is(h1, p, .portada-botones) {
@@ -901,7 +909,7 @@ body {
   transition: opacity var(--salir) ease;
 }
 :is(.texto-centro, .texto-lado)[data-dentro] .se-enciende span,
-.hoja[data-textos] .panel-copy .se-enciende span,
+.hoja[data-llego][data-textos] .panel-copy .se-enciende span,
 .glass-feature-card[data-visible] .se-enciende span {
   opacity: 1;
   transition: opacity 0.4s ease calc(var(--palabras) + var(--i) * var(--paso));
@@ -913,7 +921,7 @@ body {
    después de la de su izquierda y tarda 0.13 s en cambiar de color; el azul entra a los 50 ms y el blanco
    a los 0.4 s. */
 :is(.texto-centro, .texto-lado)[data-dentro] .se-pinta span,
-.hoja[data-textos] .panel-copy .se-pinta span,
+.hoja[data-llego][data-textos] .panel-copy .se-pinta span,
 .glass-feature-card[data-visible] .se-pinta span {
   animation: pintar 0.53s linear calc(var(--i) * 35ms) both;
 }
@@ -924,23 +932,17 @@ body {
 }
 
 
-/* Sección 3: la hoja blanca. Se monta sobre la última pantalla de la escena (margin-top negativo),
-   así sube encima de ella en vez de empujarla. hoja.js le da --subida (0 = su borde de arriba toca
-   el de abajo de la pantalla, 1 = llegó arriba): arranca al 90 % con las esquinas redondas y crece
-   desde su borde de abajo hasta llenar la pantalla. Medido de la página vieja. */
+/* Sección 3. Se monta sobre la última pantalla de la escena (margin-top negativo) y no se ve: no tiene fondo.
+   Llega cuando la laptop, de frente, hizo zoom hasta que su pantalla en blanco llena todo (hoja.js le pone
+   data-llego); el blanco es esa pantalla y luego el de la página, que ya no es de noche. Así solo entra y
+   sale lo de adentro: ni una orilla que suba ni nada que desaparezca de golpe al regresar. Antes era una
+   hoja blanca con las esquinas redondas que subía encima de la escena. */
 .hoja {
-  --subida: 0;
-  --aparecer: 0;
   position: relative;
   z-index: 1;
   margin-top: -100vh;
   min-height: 100vh;
-  background: var(--fondo); /* el mismo blanco de la barra */
   color: var(--tinta);
-  border-radius: calc(20px * (1 - var(--subida))) calc(20px * (1 - var(--subida))) 0 0;
-  transform: scale(calc(0.9 + 0.1 * var(--subida)));
-  transform-origin: 50% 100%;
-  will-change: transform;
 }
 /* El carrusel sigue el desplazamiento normal de la página. */
 .hoja-fija {
@@ -949,13 +951,7 @@ body {
   display: grid;
   place-items: start center;
 }
-/* Lo de adentro aparece entre el 25 % y el 75 % de la subida, subiendo 24 px */
-.hoja-contenido {
-  opacity: var(--aparecer);
-  transform: translateY(calc((1 - var(--aparecer)) * 24px));
-  transition: opacity 120ms linear, transform 120ms linear;
-  width: 100%;
-}
+.hoja-contenido { width: 100%; }
 
 /* Fila curva automática del panel: título arriba, capturas al centro y resumen abajo. */
 #panel-showcase {
@@ -966,12 +962,24 @@ body {
   /* Mueve el bloque completo 32px hacia arriba conservando el espacio total. */
   padding: var(--alto-barra) 0 64px;
 }
+/* Sin fondo propio, como la hoja: uno blanco se veía encima de la laptop mientras la hoja subía */
 .panel-reel {
   box-sizing: border-box;
   width: 100%;
   height: clamp(400px, 58svh, 560px);
-  background: #fff;
   color: var(--tinta);
+}
+/* La fila curva (el primer hijo de .panel-reel, de TiltedGridHero) entra con los textos cuando llega la hoja:
+   aparece subiendo 24 px. Al regresar se desvanece como ellos, en 0.35 s, y ya sin verse vuelve a su lugar. */
+.panel-reel > [aria-hidden] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .35s ease, transform 0s .35s;
+}
+.hoja[data-llego] .panel-reel > [aria-hidden] {
+  opacity: 1;
+  transform: none;
+  transition: opacity .6s ease, transform .6s ease;
 }
 .panel-copy {
   --color-final-titulo: #0A0A0B;
@@ -1011,13 +1019,16 @@ body {
   transform: translateY(16px);
   transition: opacity .35s ease, transform 0s .35s;
 }
-.hoja[data-textos] .panel-copy :is(h2, p) {
+/* Los textos entran cuando llega la hoja, a la vez que la fila curva, y salen cuando se acercan las tarjetas
+   (data-textos, hoja.js) o al regresar */
+.hoja[data-llego][data-textos] .panel-copy :is(h2, p) {
   opacity: 1;
   transform: none;
   transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
 }
 @media (prefers-reduced-motion: reduce) {
-  .panel-copy :is(h2, p), .hoja[data-textos] .panel-copy :is(h2, p) { transform: none; transition: none; }
+  .panel-copy :is(h2, p), .hoja[data-llego][data-textos] .panel-copy :is(h2, p) { transform: none; transition: none; }
+  .panel-reel > [aria-hidden], .hoja[data-llego] .panel-reel > [aria-hidden] { transform: none; transition: none; }
   .hoja .panel-copy .se-pinta span { animation: none; }
   .hoja .panel-copy .se-enciende span { opacity: 1; transition: none; }
 }

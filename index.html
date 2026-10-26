@@ -21,14 +21,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=fondo-gris-1">
+<link rel="stylesheet" href="style.css?v=camara-1">
 <link rel="stylesheet" href="assets/components.css">
 <script src="assets/wave-background.js" defer></script>
 <script src="barra.js?v=submenu-brillo-2" defer></script>
 <!-- Antes que escena.js: así el azul ya está dibujado cuando la laptop se muestra -->
 <script src="pantalla.js?v=luz-en-su-lugar-1" defer></script>
-<script src="escena.js?v=pantalla-en-vivo-1" defer></script>
-<script src="hoja.js" defer></script>
+<script src="escena.js?v=camara-1" defer></script>
+<script src="hoja.js?v=camara-1" defer></script>
 
 </head>
 <body>
@@ -91,13 +91,16 @@
 
       <!-- La laptop (escena.js la mueve entera): la pantalla es la tarjeta del video, y el teclado va pegado
            a su orilla de abajo, como con una bisagra. Arriba, a todo lo ancho, no se ven ni el marco de la
-           pantalla ni el teclado: aparecen mientras se encoge. Al subir la hoja de la sección 3 se cierra,
-           y entonces se ve la tapa por detrás. -->
+           pantalla ni el teclado: aparecen mientras se encoge. Al final se cierra (y entonces se ve la tapa
+           por detrás), la cámara gira para verla de frente, se vuelve a abrir con la pantalla en blanco y la
+           cámara avanza hasta que esa pantalla llena todo: ahí llega la sección 3. -->
       <div class="laptop">
         <!-- El azul en vivo (pantalla.js) da paso a la captura del panel al encogerse la laptop. -->
         <div class="video">
           <canvas class="pantalla-azul" aria-hidden="true"></canvas>
           <img class="panel-sistema" src="prueba/vista-inicio.webp" alt="Panel del agente de IA de Fragmentless" decoding="async">
+          <!-- La pantalla en blanco que se ve al reabrirse de frente, como el fondo de la sección 3 -->
+          <div class="pantalla-seccion" aria-hidden="true"></div>
         </div>
         <!-- El grosor de la pantalla: sus orillas y sus cuatro esquinas redondas, y al fondo la tapa, que solo
              se ve al cerrarse -->
@@ -157,8 +160,8 @@
     </div>
   </section>
 
-  <!-- Sección 3 (hoja.js): una hoja blanca que sube encima de la escena ya quieta, como entraban los
-       planes en la página vieja, y sigue con el scroll sin detenerse. -->
+  <!-- Sección 3 (hoja.js): llega cuando la pantalla de la laptop llena todo; no tiene fondo, así que solo
+       se ve entrar lo de adentro, y sigue con el scroll sin detenerse. -->
   <section class="hoja" id="sistema">
     <div class="hoja-fija">
       <div class="hoja-contenido">

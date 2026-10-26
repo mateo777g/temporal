@@ -4,8 +4,10 @@
 // y sale el texto de la izquierda con su botón. La tarjeta no sigue al cursor: quieta, su sombra y su
 // luz se ven siempre igual en cada pose.
 // La tarjeta es la pantalla de una laptop: mientras se encoge le sale el marco y el teclado se desdobla
-// desde su orilla de abajo, y la laptop entera hace los mismos movimientos. Cuando sube la hoja de la
-// sección 3, la laptop se cierra. El azul deja de dibujarse solo, en cuanto la captura lo tapa (pantalla.js).
+// desde su orilla de abajo, y la laptop entera hace los mismos movimientos. Al final la laptop se cierra, la
+// cámara gira para verla de frente, se vuelve a abrir con la pantalla en blanco y la cámara avanza hasta que
+// esa pantalla llena todo: ahí está la sección 3 (hoja.js). El azul deja de dibujarse solo, en cuanto la
+// captura lo tapa (pantalla.js).
 // La tarjeta y el fondo los mueve el scroll: cada cuadro se calcula de cuánto has bajado dentro de la
 // escena. Los textos no: al llegar a su momento entran solos, con el reloj (style.css), y al pasarlo se van.
 (() => {
@@ -55,10 +57,25 @@
     noche: [0.06, 0.25],
     irseAlLado: [0.48, 0.72],
   };
-  // Cuándo se cierra la laptop, en pantallas de scroll contadas desde que la hoja de la sección 3 asoma por
-  // abajo (0; en 1 ya llegó arriba): empieza casi una pantalla antes, al terminar de irse al lado,
-  // y queda cerrada un cuarto de pantalla antes de que asome la hoja.
+  // Cuándo se cierra la laptop, en pantallas de scroll contadas desde el final del recorrido (antes es
+  // negativo): empieza casi una pantalla antes, al terminar de irse al lado, y queda cerrada un cuarto de
+  // pantalla antes del final.
   const CIERRE = [-0.95, -0.25];
+  // La cámara, contada igual. Después del recorrido vienen CAMARA pantallas más (style.css alarga la escena) y
+  // la última, en la que llega la sección 3 (hoja.js): llega arriba en CAMARA + 1. Ya cerrada, la cámara gira
+  // para ver la laptop de frente (GIRO), la laptop se vuelve a abrir con la pantalla en blanco (REABRIR) y la
+  // cámara avanza hasta que esa pantalla llena todo (ZOOM), un poco antes de que llegue la sección 3.
+  const CAMARA = 1.5;
+  const GIRO = [-0.2, 0.7];
+  const REABRIR = [0.5, 1.2];
+  const ZOOM = [1.15, 2.35];
+  // De frente, en dos tiempos (la cámara ve la base desde 20° − rx de alto). Cerrada, desde unos 40° y con más
+  // perspectiva (PROFUNDIDAD_FRENTE), para que se vea su fondo y no una tira. Abierta, desde unos 34°, con la
+  // perspectiva y la tapa de siempre (echarla más hacia atrás, con la cámara más abajo, se probó y se
+  // prefirió así), y más abajo, para quedar centrada con su teclado.
+  const FRENTE_CERRADA = { x: 0.5, y: 0.17, k: 0.9, rx: -20, ry: 0, rz: 0 };
+  const FRENTE_ABIERTA = { x: 0.5, y: 0.38, k: 0.9, rx: -14, ry: 0, rz: 0 };
+  const PROFUNDIDAD_FRENTE = 2.4;
   // El bloque lateral también sale; reutiliza el mismo desvanecimiento que el texto central.
   const TEXTOS = {
     centro: [0.25, 0.48],
@@ -127,8 +144,8 @@
     pendiente = false;
     const anchoPantalla = fija.clientWidth; // sin la barra de desplazamiento
     const altoPantalla = innerHeight;
-    // La última pantalla de la escena no cuenta: en ella la hoja de la sección 3 sube encima (hoja.js).
-    const recorrido = escena.offsetHeight - fija.offsetHeight * 2;
+    // El recorrido no cuenta las pantallas de la cámara ni la última, en la que llega la sección 3 (hoja.js)
+    const recorrido = escena.offsetHeight - fija.offsetHeight * (2 + CAMARA);
     const bajado = -escena.getBoundingClientRect().top;
     const p = recorrido > 0 ? limitar(bajado / recorrido) : 0;
     const introTiempo = performance.now() - introInicio;
@@ -137,8 +154,8 @@
       document.documentElement.classList.remove('intro-activa');
     }
     const abrirIntro = introTerminada ? 1 : suave(limitar((introTiempo - 200) / 1500));
-    // Cuánto ha subido la hoja, en pantallas (antes de que asome es negativo; 1 = llegó arriba).
-    const subida = (bajado - recorrido) / fija.offsetHeight;
+    // Cuántas pantallas lleva después del recorrido (antes es negativo): con esto van el cierre y la cámara.
+    const despues = (bajado - recorrido) / fija.offsetHeight;
 
     // La tarjeta: del hueco a todo lo ancho, a la pose del centro y de ahí a la del lado.
     // Se mide la laptop, que es del tamaño de la pantalla (el teclado cuelga de su orilla de abajo).
@@ -161,20 +178,57 @@
       rx: poses.lado.rx * giro, ry: poses.lado.ry * giro, rz: poses.lado.rz * giro,
     };
     const encogida = suave(tramo(p, TRAMOS.encoger));
-    const pose = mezclar(mezclar(hueco, enCentro, encogida), alLado, suave(tramo(p, TRAMOS.irseAlLado)));
+    let pose = mezclar(mezclar(hueco, enCentro, encogida), alLado, suave(tramo(p, TRAMOS.irseAlLado)));
+
+    // La cámara. Ya cerrada, gira hasta verla de frente (en realidad gira la laptop, que es lo mismo), y
+    // mientras se abre baja y la acomoda al centro.
+    const enPantalla = (frente) => ({
+      x: frente.x * anchoPantalla, y: frente.y * altoPantalla, k: k * frente.k,
+      rx: frente.rx * giro, ry: frente.ry * giro, rz: frente.rz * giro,
+    });
+    const girada = suave(tramo(despues, GIRO));
+    pose = mezclar(pose, enPantalla(FRENTE_CERRADA), girada);
+    const reabierta = delicada(tramo(despues, REABRIR));
+    pose = mezclar(pose, enPantalla(FRENTE_ABIERTA), reabierta);
+    // Llena: la pantalla de frente, tan grande que lo de adentro del marco cubre toda la pantalla del usuario.
+    // El marco mide 2.6 % del lado corto de la pantalla arriba y a los lados, y 4.4 % abajo (style.css).
+    const ladoCorto = Math.min(ancho, alto);
+    const bisel = 0.026 * ladoCorto;
+    const biselAbajo = 0.044 * ladoCorto;
+    const kLlena = Math.max(anchoPantalla / (ancho - 2 * bisel), altoPantalla / (alto - bisel - biselAbajo)) * 1.01;
+    const llena = { x: anchoPantalla / 2, y: altoPantalla / 2 - kLlena * (bisel - biselAbajo) / 2, k: kLlena };
+    // El zoom: el tamaño crece parejo en escala de veces (como una cámara que avanza), y el centro se va
+    // corriendo al de la pantalla al mismo paso que se agranda, para no barrer de lado.
+    const zoom = suave(tramo(despues, ZOOM));
+    if (zoom > 0) {
+      const kz = Math.exp(Math.log(pose.k) + Math.log(llena.k / pose.k) * zoom);
+      const avance = (1 / kz - 1 / pose.k) / (1 / llena.k - 1 / pose.k);
+      pose = {
+        x: pose.x + (llena.x - pose.x) * avance, y: pose.y + (llena.y - pose.y) * avance, k: kz,
+        rx: pose.rx * (1 - zoom), ry: pose.ry * (1 - zoom), rz: pose.rz * (1 - zoom),
+      };
+    }
 
     // Mientras se encoge, a la pantalla le sale el marco y el teclado se desdobla hasta quedar abierto.
-    // Al subir la hoja se cierra: la pantalla gira sobre su orilla de abajo (la bisagra) hacia el teclado,
-    // y el teclado gira lo mismo al revés para quedarse quieto.
+    // Al final se cierra: la pantalla gira sobre su orilla de abajo (la bisagra) hacia el teclado, y el
+    // teclado gira lo mismo al revés para quedarse quieto. De frente se vuelve a abrir igual; con la cámara a
+    // 0°, al llenar todo la pantalla queda de frente.
     laptop.style.setProperty('--marco', 1);
     const desdoblada = BISAGRA.abierta;
-    const cierre = delicada(tramo(subida, CIERRE));
-    const apertura = (desdoblada + (BISAGRA.cerrada - BISAGRA.abierta) * cierre) * abrirIntro;
+    const angulo = reabierta > 0
+      ? desdoblada * reabierta
+      : desdoblada + (BISAGRA.cerrada - desdoblada) * delicada(tramo(despues, CIERRE));
+    const apertura = angulo * abrirIntro;
     teclado.style.transform = `rotateX(${180 - apertura}deg)`;
+    // Ya cerrada, la pantalla cambia la captura del panel por el blanco de la sección 3 (style.css)
+    laptop.toggleAttribute('data-seccion', despues > CIERRE[1]);
 
+    // Cerrada de frente la perspectiva es más fuerte (la cámara más cerca), para que se note su fondo: con la
+    // de siempre se veía como una tira. Mientras se abre regresa a la de siempre.
+    const profundidad = PROFUNDIDAD + (PROFUNDIDAD_FRENTE - PROFUNDIDAD) * girada * (1 - reabierta);
     // scale3d y no scale: scale() no encoge lo hondo, y el teclado saldría al frente el doble de lo que mide.
     laptop.style.transform =
-      `translate(${pose.x - x0}px, ${pose.y - y0}px) perspective(${PROFUNDIDAD * k * ancho}px) ` +
+      `translate(${pose.x - x0}px, ${pose.y - y0}px) perspective(${profundidad * k * ancho}px) ` +
       `rotateX(${pose.rx}deg) rotateY(${pose.ry}deg) rotateZ(${pose.rz}deg) ` +
       `scale3d(${pose.k}, ${pose.k}, ${pose.k}) ` +
       `translateY(${alto / 2}px) rotateX(${apertura - desdoblada}deg) translateY(${-alto / 2}px)`;
@@ -197,7 +251,8 @@
     noche.style.setProperty('--luz-y', `${enCentro.y + alto * enCentro.k / 2 - altoPantalla * 0.07}px`);
     noche.style.setProperty('--luz-x', `${pose.x - ancho * pose.k * 0.2}px`);
     if (panelSistema) panelSistema.style.opacity = oscuro;
-    document.documentElement.toggleAttribute('data-noche', oscuro >= 0.5);
+    // Con el zoom, la pantalla blanca va cubriendo todo: la barra regresa a letra negra
+    document.documentElement.toggleAttribute('data-noche', oscuro >= 0.5 && zoom < 0.6);
 
     // Los textos: aquí solo se decide si están dentro; la animación la hace style.css. El del centro
     // se va cuando la tarjeta empieza a moverse, y el de la izquierda entra cuando ya va llegando.
