@@ -31,7 +31,7 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `hoja.js` | La sección del panel: marca cuándo llega (`data-llego`) para que entren su fila curva y sus textos, y cuándo se van los textos (`data-textos`) |
 | `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
 | `src/wave-entry.tsx` | Entrada React: monta `#panel-showcase`, `#feature-cards` y `#site-footer` |
-| `components/` | Componentes React (fila curva de capturas con OGL, tarjetas, footer con brillo) |
+| `components/` | Componentes React (fila curva de capturas con OGL, tarjetas que cambian de color con el efecto luma, footer con brillo) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` |
 | `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
 
@@ -118,6 +118,17 @@ frente, se reabre y hace zoom a la pantalla (ver «El paso a la sección 3» arr
 - El título de la sección 3 en la pantalla de la laptop, cuadrado al pixel con el de verdad: va toda blanca.
 - Que la fila curva entrara antes que los textos: entran juntos. Si el bloque entero se desvanece a la vez que
   los textos, el azul del título se pierde y parece salir en seco; por eso solo se desvanece la fila curva.
+
+También el 26, las tarjetas del producto (`.franja`): la parte de los textos ya no es gris con un azul que subía
+con el mouse. Siempre es de color, con los tres degradados del efecto «luma» de 21st.dev (shader-reveal): azul
+(cian a índigo), verde (a amarillo) y naranja (a rosa), en ese orden, en `--degradado-*`. Cada vez que el mouse
+entra a la imagen pasa al siguiente, con los listones del efecto encima (en celular, al tocar la imagen); el
+clic con mouse no hace nada. Letra blanca y una sombra suave en la tarjeta completa. El efecto está en
+`components/ui/luma-transicion.ts` (el shader del original, solo esa variante, sin React ni framer-motion); el
+WebGL se prepara la primera vez que hace falta. Se compararon en una página de prueba con selector y se
+descartaron: el azul que sube con los listones en su orilla, el efecto en toda la tarjeta al pasar el mouse con
+regreso a gris, y un color fijo por tarjeta («que del azul cambie al tal color», como en el video del ejemplo).
+Sin resolver: el blanco sobre el verde a amarillo se lee poco (así viene en el ejemplo).
 
 Del 24 de octubre:
 
