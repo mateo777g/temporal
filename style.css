@@ -449,8 +449,19 @@ body {
 .portada-copy h1 { margin: 0; font-size: clamp(2.25rem, 3.6vw, 4rem); font-weight: 500; line-height: 1.05; letter-spacing: -.045em; text-wrap: balance; }
 .portada-copy .portada-resumen { color: #515154; font-size: clamp(1rem, 0.95vw, 1.125rem); line-height: 1.6; max-width: 30em; margin: 20px 0 0; }
 .portada-botones { margin-top: 28px; }
+/* En celular, arriba de la laptop y centrado, como ella. No pegado a la barra: a 28 px quedaba un hueco muy grande
+   entre el botón y la laptop. El párrafo, en renglones parejos, para que no quede una palabra sola abajo. */
 @media (max-width: 760px) {
-  .portada-copy { top: calc(var(--alto-barra) + 28px); translate: none; left: 24px; width: calc(100% - 48px); max-width: none; }
+  .portada-copy {
+    top: calc(var(--alto-barra) + 10vh);
+    top: calc(var(--alto-barra) + 10svh);
+    translate: none;
+    left: var(--margen);
+    width: calc(100% - 2 * var(--margen));
+    max-width: none;
+    text-align: center;
+  }
+  .portada-copy .portada-resumen { margin-inline: auto; text-wrap: balance; }
 }
 /* El grosor de la pantalla: una caja del tamaño de la pantalla, con la tapa al fondo y las orillas entre las
    dos. Sin él, de lado y al cerrarse la pantalla se veía como una hoja de papel. Mide la mitad que el de la
@@ -942,6 +953,9 @@ body {
 .texto-botones .boton-borde { border-color: #FFFFFF; color: #FFFFFF; }
 .texto-botones .boton-borde:hover { background: #FFFFFF; color: var(--hueco); }
 .texto-botones .boton-primario { background: #FFFFFF; color: var(--hueco); }
+/* El texto del centro lleva los mismos botones, pero solo se ven en celular (abajo, en su @media), donde no sale el
+   de la izquierda */
+.texto-centro .texto-botones { display: none; }
 
 /* Las palabras de los párrafos se encienden una tras otra (--i: su lugar, escena.js) */
 .se-enciende span {
@@ -1352,18 +1366,17 @@ body {
 @media (max-width: 760px) {
   :root { --margen: 16px; --alto-barra: 64px; }
   .boton { height: 36px; padding-inline: 12px; font-size: 13px; }
+  /* La laptop no se va al lado ni sale el texto de la izquierda (Moderniza tu negocio): después del texto del
+     centro se cierra ahí mismo. La escena mide lo que duraba esa parte menos: 6.1 pantallas y no 7 (escena.js,
+     RECORRIDO). */
+  .escena { height: 610vh; }
+  .texto-lado { display: none; }
   .laptop { --radio: 12px; height: calc((100vw - 2 * var(--margen)) * .5625); min-height: 0; }
-  /* No cabe un texto al lado de la tarjeta: los dos textos salen debajo, uno después del otro */
-  .texto-centro { top: 66vh; top: 66svh; }
-  .texto-lado {
-    top: 66vh;
-    top: 66svh;
-    left: var(--margen);
-    right: var(--margen);
-    max-width: none;
-    transform: none;
-  }
-  .texto-botones { margin-top: 28px; }
+  /* El texto sale debajo de la laptop, con Más información y Comprar, que en escritorio van en el de la izquierda.
+     A 63 % queda al centro entre la laptop y la orilla de abajo (medido de 330 × 715 a 375 × 812); a 66 %, con los
+     botones, en un celular bajito casi tocaba la orilla. */
+  .texto-centro { top: 63vh; top: 63svh; }
+  .texto-centro .texto-botones { display: flex; justify-content: center; margin-top: 28px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

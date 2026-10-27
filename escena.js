@@ -1,8 +1,8 @@
 // escena.js — la escena de la laptop en la página de Fragmentless (index.html).
 // Al bajar, la pantalla se encoge y se gira de lado, el fondo se oscurece (y una franja de luz cambia el azul
 // en vivo de pantalla.js por la captura del panel, barrido.js) y sale el texto del centro; luego la tarjeta se
-// va a la derecha y sale el texto de la izquierda con su botón. La tarjeta no sigue al cursor: quieta, su
-// sombra y su luz se ven siempre igual en cada pose.
+// va a la derecha y sale el texto de la izquierda con su botón (en celular no: ahí se cierra después del texto
+// del centro). La tarjeta no sigue al cursor: quieta, su sombra y su luz se ven siempre igual en cada pose.
 // La tarjeta es la pantalla de una laptop: mientras se encoge le sale el marco y el teclado se desdobla
 // desde su orilla de abajo, y la laptop entera hace los mismos movimientos. Al final la laptop se cierra, la
 // cámara gira para verla de frente, se vuelve a abrir con la pantalla en blanco y la cámara avanza hasta que
@@ -31,15 +31,23 @@
   // queda a la altura de la del centro, así se va derecho a la derecha sin bajar y se ve entera.
   // La del centro en escritorio va un poco más chica y más arriba (antes k 1, y 0.413), y su texto un poco
   // más abajo (style.css): con la laptop plateada, el texto blanco le pasaba encima a la base y no se leía.
+  // hueco: dónde va en la portada (con el tamaño y los giros de la del centro).
   const POSES = {
     escritorio: {
+      hueco: { x: 0.72, y: 0.43 },
       centro: { x: 0.5, y: 0.38, k: 0.86, ancho: 0.497, alto: 0.462, rx: 0, ry: -53, rz: 0 },
       lado: { x: 0.645, y: 0.413, k: 0.9, rx: -9.6, ry: -47.2, rz: 1.8 },
     },
-    // En celular la tarjeta no se va a la derecha: se queda arriba y los textos salen debajo.
+    // En celular no hay pose del lado: después del texto del centro la laptop se cierra ahí mismo (TRAMOS_CELULAR).
+    // Ahí x pasa del medio: de lado, el teclado sale hacia la izquierda, y con la pantalla al centro la laptop se
+    // veía cargada a ese lado (unos 37 px en 375). Con la laptop entera al centro (x 0.6) se veía cargada a la
+    // derecha, porque ahí queda la pantalla, que es lo que más pesa: va a medio camino (como todo en la laptop
+    // crece con el ancho, sirve en cualquier celular). En la portada va al centro del espacio que deja el texto
+    // debajo de él (pintar() saca su y de dónde termina el texto: en fracción de la pantalla, en un celular bajito
+    // quedaba casi pegada al botón).
     celular: {
-      centro: { x: 0.5, y: 0.36, ancho: 0.62, alto: 0.42, rx: 0, ry: -40, rz: 0 },
-      lado: { x: 0.5, y: 0.34, k: 0.9, rx: -9.6, ry: -47.2, rz: 1.8 },
+      hueco: { x: 0.548 },
+      centro: { x: 0.55, y: 0.36, ancho: 0.62, alto: 0.42, rx: 0, ry: -40, rz: 0 },
     },
   };
   // La perspectiva mide 3.75 veces el ancho de la tarjeta encogida (también medido).
@@ -74,12 +82,27 @@
   // prefirió así), y más abajo, para quedar centrada con su teclado.
   const FRENTE_CERRADA = { x: 0.5, y: 0.17, k: 0.9, rx: -20, ry: 0, rz: 0 };
   const FRENTE_ABIERTA = { x: 0.5, y: 0.38, k: 0.9, rx: -14, ry: 0, rz: 0 };
+  // En celular, de frente, no hay nada más en la pantalla: la laptop va a media altura (y es dónde va el
+  // centro de su pantalla; se midió para que la laptop entera quede a la mitad, cerrada y abierta).
+  const FRENTE_CELULAR = { cerrada: 0.367, abierta: 0.453 };
   const PROFUNDIDAD_FRENTE = 2.4;
   // El bloque lateral también sale; reutiliza el mismo desvanecimiento que el texto central.
   const TEXTOS = {
     centro: [0.25, 0.48],
     lado: [0.62, 0.80],
   };
+  // En celular la laptop no se va al lado ni sale el texto de la izquierda: del texto del centro pasa directo a
+  // cerrarse, para que la escena no sea tan larga. Su recorrido mide 2.6 pantallas y no 3.5 (style.css acorta la
+  // escena), y lo de antes pasa en las mismas pantallas que en escritorio: los tramos se estiran en esa proporción.
+  // Así el texto del centro se va justo cuando empieza a cerrarse (CIERRE, que va contado desde el final).
+  const RECORRIDO = { escritorio: 3.5, celular: 2.6 };
+  const aCelular = (tramo) => tramo.map((v) => (v * RECORRIDO.escritorio) / RECORRIDO.celular);
+  const TRAMOS_CELULAR = {
+    encoger: aCelular(TRAMOS.encoger),
+    eslogan: aCelular(TRAMOS.eslogan),
+    noche: aCelular(TRAMOS.noche),
+  };
+  const TEXTOS_CELULAR = { centro: aCelular(TEXTOS.centro) };
 
   // Cada palabra de los párrafos que se encienden y de los títulos que se pintan va en su propio <span>
   // (ver .se-enciende y .se-pinta en style.css), con su lugar en --i.
@@ -156,28 +179,39 @@
     // Cuántas pantallas lleva después del recorrido (antes es negativo): con esto van el cierre y la cámara.
     const despues = (bajado - recorrido) / fija.offsetHeight;
 
-    // La tarjeta: del hueco a todo lo ancho, a la pose del centro y de ahí a la del lado.
+    // La tarjeta: del hueco a todo lo ancho, a la pose del centro y de ahí a la del lado (en celular no).
     // Se mide la laptop, que es del tamaño de la pantalla (el teclado cuelga de su orilla de abajo).
     const poses = celular.matches ? POSES.celular : POSES.escritorio;
+    const tramos = celular.matches ? TRAMOS_CELULAR : TRAMOS;
+    const textos = celular.matches ? TEXTOS_CELULAR : TEXTOS;
     const ancho = laptop.offsetWidth;
     const alto = laptop.offsetHeight;
     const x0 = laptop.offsetLeft + ancho / 2;
     const y0 = laptop.offsetTop + alto / 2;
     const k = Math.min(poses.centro.ancho * anchoPantalla / ancho, poses.centro.alto * altoPantalla / alto);
     const giro = sinMovimiento.matches ? 0 : 1;
-    const hueco = celular.matches
-      ? { x: anchoPantalla * .57, y: altoPantalla * .60, k, rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro }
-      : { x: anchoPantalla * .72, y: altoPantalla * .43, k, rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro };
+    // En celular, la laptop entera al centro del espacio debajo del texto. y es dónde va el centro de su pantalla,
+    // que de lado queda un cuarto de su alto arriba del centro de la laptop entera (medido).
+    const yHueco = poses.hueco.y === undefined
+      ? (portada.offsetTop + portada.offsetHeight + altoPantalla) / 2 - 0.25 * k * alto
+      : poses.hueco.y * altoPantalla;
+    const hueco = {
+      x: poses.hueco.x * anchoPantalla, y: yHueco, k,
+      rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro,
+    };
     const enCentro = {
       x: poses.centro.x * anchoPantalla, y: poses.centro.y * altoPantalla, k: k * (poses.centro.k ?? 1),
       rx: poses.centro.rx * giro, ry: poses.centro.ry * giro, rz: poses.centro.rz * giro,
     };
-    const alLado = {
-      x: poses.lado.x * anchoPantalla, y: poses.lado.y * altoPantalla, k: k * poses.lado.k,
-      rx: poses.lado.rx * giro, ry: poses.lado.ry * giro, rz: poses.lado.rz * giro,
-    };
-    const encogida = suave(tramo(p, TRAMOS.encoger));
-    let pose = mezclar(mezclar(hueco, enCentro, encogida), alLado, suave(tramo(p, TRAMOS.irseAlLado)));
+    const encogida = suave(tramo(p, tramos.encoger));
+    let pose = mezclar(hueco, enCentro, encogida);
+    if (poses.lado) {
+      const alLado = {
+        x: poses.lado.x * anchoPantalla, y: poses.lado.y * altoPantalla, k: k * poses.lado.k,
+        rx: poses.lado.rx * giro, ry: poses.lado.ry * giro, rz: poses.lado.rz * giro,
+      };
+      pose = mezclar(pose, alLado, suave(tramo(p, tramos.irseAlLado)));
+    }
 
     // La cámara. Ya cerrada, gira hasta verla de frente (en realidad gira la laptop, que es lo mismo), y
     // mientras se abre baja y la acomoda al centro.
@@ -185,10 +219,12 @@
       x: frente.x * anchoPantalla, y: frente.y * altoPantalla, k: k * frente.k,
       rx: frente.rx * giro, ry: frente.ry * giro, rz: frente.rz * giro,
     });
+    const frenteCerrada = celular.matches ? { ...FRENTE_CERRADA, y: FRENTE_CELULAR.cerrada } : FRENTE_CERRADA;
+    const frenteAbierta = celular.matches ? { ...FRENTE_ABIERTA, y: FRENTE_CELULAR.abierta } : FRENTE_ABIERTA;
     const girada = suave(tramo(despues, GIRO));
-    pose = mezclar(pose, enPantalla(FRENTE_CERRADA), girada);
+    pose = mezclar(pose, enPantalla(frenteCerrada), girada);
     const reabierta = delicada(tramo(despues, REABRIR));
-    pose = mezclar(pose, enPantalla(FRENTE_ABIERTA), reabierta);
+    pose = mezclar(pose, enPantalla(frenteAbierta), reabierta);
     // Llena: la pantalla de frente, tan grande que lo de adentro del marco cubre toda la pantalla del usuario.
     // El marco mide 2.6 % del lado corto de la pantalla arriba y a los lados, y 4.4 % abajo (style.css).
     const ladoCorto = Math.min(ancho, alto);
@@ -234,14 +270,14 @@
     laptop.style.setProperty('--k', pose.k);
 
     // El eslogan se va.
-    const quedaEslogan = 1 - tramo(p, TRAMOS.eslogan);
+    const quedaEslogan = 1 - tramo(p, tramos.eslogan);
     portada.style.opacity = quedaEslogan;
     portada.style.transform = `translateY(${-24 * (1 - quedaEslogan)}px)`;
     portada.inert = quedaEslogan < .1;
     portada.style.visibility = quedaEslogan === 0 ? 'hidden' : 'visible';
 
     // El fondo pasa a negro, y a la mitad la pantalla cambia del azul al panel.
-    const oscuro = delicada(tramo(p, TRAMOS.noche));
+    const oscuro = delicada(tramo(p, tramos.noche));
     noche.style.opacity = oscuro;
     laptop.style.setProperty('--oscuro', oscuro); // enciende el piso de luz debajo de la laptop
     // La luz del fondo (style.css): de alto, un poco arriba de la bisagra de la pose del centro, y no se
@@ -256,8 +292,8 @@
 
     // Los textos: aquí solo se decide si están dentro; la animación la hace style.css. El del centro
     // se va cuando la tarjeta empieza a moverse, y el de la izquierda entra cuando ya va llegando.
-    centro.toggleAttribute('data-dentro', adentro(p, TEXTOS.centro));
-    lado.toggleAttribute('data-dentro', adentro(p, TEXTOS.lado));
+    centro.toggleAttribute('data-dentro', adentro(p, textos.centro));
+    lado.toggleAttribute('data-dentro', Boolean(textos.lado) && adentro(p, textos.lado));
 
     // Mientras dura la entrada (va con el reloj, no con el scroll), sigue en el siguiente cuadro.
     if (!introTerminada) pedirCuadro();
