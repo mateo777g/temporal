@@ -153,6 +153,11 @@ body {
 .boton-borde:hover { background: var(--azul); color: #FFFFFF; }
 .boton-primario { background: var(--azul); color: #FFFFFF; font-weight: 500; }
 .boton-primario:hover { opacity: 0.85; }
+/* En la parte negra los dos botones de la barra van en blanco: en azul se veían apagados sobre el gris oscuro.
+   Iniciar Sesión, con borde y letra blancos, se llena de blanco al pasar el mouse, como de día se llena de azul. */
+:root[data-noche]:not([data-hoja]) .barra .boton-borde { border-color: #FFFFFF; color: #FFFFFF; }
+:root[data-noche]:not([data-hoja]) .barra .boton-borde:hover { background: #FFFFFF; color: var(--hueco); }
+:root[data-noche]:not([data-hoja]) .barra .boton-primario { background: #FFFFFF; color: var(--hueco); }
 
 /* Lo que se despliega: de borde a borde, crece hacia abajo */
 .despliegue {

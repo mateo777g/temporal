@@ -180,8 +180,10 @@ la parte negra, y negra, sobre ese fondo que no es negro plano. La letra va negr
 blanca desde el cambio a modo noche (`data-noche`). Nada de la escena pasa por debajo de ella, ni en celular.
 Sobre la hoja y lo que sigue es blanca con su línea, como antes; abierta, con su submenú, tiene fondo (blanco de
 día, gris oscuro de noche). `data-escena` solo lo pone `escena.js`, así que en `nosotros.html` la barra sigue
-blanca. Lo único que queda: en el tramo gris del paso a la parte negra, «Iniciar Sesión» (azul) se lee débil. Si
-molesta, la idea es que ahí ese botón vaya con borde y letra blancos.
+blanca. Desde el cambio a modo noche, sus dos botones van en blanco: «Iniciar Sesión» con borde y letra blancos (al
+pasar el mouse se llena de blanco) y «Conoce el Sistema» blanco con letra negra. En azul se veían apagados sobre el
+gris oscuro; se comparó con dejar «Conoce el Sistema» en el azul claro (`--azul-noche`) y se prefirió todo blanco.
+Antes del cambio, en el tramo gris, siguen azules (ahí «Iniciar Sesión» se lee un poco débil).
 
 ## Comandos
 
