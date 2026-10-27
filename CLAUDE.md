@@ -27,6 +27,7 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `style.css` | Estilos de `index.html` y de lo compartido: barra, botones (`.boton`, `.boton-borde`, `.boton-primario`), footer |
 | `escena.js` | La laptop 3D que se encoge, gira, se va al lado y se cierra con el scroll; luego la cámara la ve de frente, se reabre en blanco y avanza hasta que su pantalla llena todo |
 | `pantalla.js` | El azul de la pantalla de la laptop, dibujado en vivo con WebGL (antes era un video) |
+| `barrido.js` | La franja de luz que cruza la pantalla de la laptop y cambia el azul por la captura del panel (y de regreso) |
 | `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí |
 | `hoja.js` | La sección del panel: marca cuándo llega (`data-llego`) para que entren su fila curva y sus textos, y cuándo se van los textos (`data-textos`) |
 | `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
@@ -38,7 +39,8 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
 
 - **Pantalla** (`.video`, el nombre es de cuando tenía un video): el marco negro, recortados por dentro el
-  azul en vivo (`.pantalla-azul`, un `canvas`), la captura del panel encima y, encima de todo, la pantalla en
+  azul en vivo (`.pantalla-azul`, un `canvas`), la captura del panel encima, la franja de luz (`.barrido-luz`,
+  otro `canvas`) y, encima de todo, la pantalla en
   blanco de la sección 3 (`.pantalla-seccion`, solo con `data-seccion`), la cámara al centro del marco de
   arriba (`.video::before`) y el reflejo del vidrio (`.video::after`, una diagonal tenue arriba a la izquierda;
   sobre el blanco se quita).
@@ -51,6 +53,16 @@ La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclad
   cada cuadro, porque esperar al scroll fallaba: su cuadro corre antes que el de `escena.js`. Con «reducir
   movimiento», un cuadro quieto. Sin WebGL se ve `fondo-azul.webp`. El de 21st.dev («Silk») no se usó: es otra
   forma, en grises y en React.
+- **La franja de luz** (`barrido.js`): a la mitad del paso a negro (`escena.js` pone `data-panel` en `.video`),
+  una franja blanca y tenue, como un reflejo en el vidrio, cruza la pantalla y deja la captura del panel detrás,
+  pegada a ella (con `data-recorte`, una máscara en `--corte`: de un lado el panel y del otro el azul, con la
+  orilla debajo de la luz). Va hacia donde va el scroll (al subir, hacia la izquierda) y con el reloj, 1.24 s; si
+  cambia de dirección a medio camino, sigue desde donde iba. Sale del «Prism Sweep Transition» de SmoothUI: su
+  sombreador y sus tiempos tal cual, en blanco y con el panel pegado a la franja. Mientras cruza, la captura va a
+  0.999, porque en 1 `pantalla.js` deja de dibujar el azul. Con «reducir movimiento» o sin WebGL, el cambio es de
+  golpe. Antes la captura entraba desvaneciéndose con el scroll y se veían los dos encimados. Ya se probó y se
+  descartó: el tono de prisma del componente (cian y rosa; bonito, pero rompía lo sobrio), la franja blanca que
+  cambia todo de golpe a la mitad y una línea de luz delgada sin franja.
 - **Grosor de la pantalla** (`.grosor-pantalla`): una caja del tamaño de la pantalla con `.tapa` al fondo, las
   `.orilla-*` y las mismas `.esquina-*` de la base (ahí las «de atrás» son las de arriba). Mide la mitad que la
   base. Sus orillas llevan el brillo del lado de la tapa, así que cerrada se ven dos orillas pulidas, una sobre otra.

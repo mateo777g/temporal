@@ -21,13 +21,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=botones-noche-2">
+<link rel="stylesheet" href="style.css?v=barrido-luz-1">
 <link rel="stylesheet" href="assets/components.css">
 <script src="assets/wave-background.js?v=tarjetas-azul-1" defer></script>
 <script src="barra.js?v=submenu-brillo-2" defer></script>
 <!-- Antes que escena.js: así el azul ya está dibujado cuando la laptop se muestra -->
 <script src="pantalla.js?v=luz-en-su-lugar-1" defer></script>
-<script src="escena.js?v=camara-1" defer></script>
+<script src="escena.js?v=barrido-3" defer></script>
+<!-- Después de escena.js: el cambio del azul al panel con una franja de luz -->
+<script src="barrido.js?v=luz-1" defer></script>
 <script src="hoja.js?v=camara-1" defer></script>
 
 </head>
@@ -95,10 +97,13 @@
            por detrás), la cámara gira para verla de frente, se vuelve a abrir con la pantalla en blanco y la
            cámara avanza hasta que esa pantalla llena todo: ahí llega la sección 3. -->
       <div class="laptop">
-        <!-- El azul en vivo (pantalla.js) da paso a la captura del panel al encogerse la laptop. -->
+        <!-- El azul en vivo (pantalla.js) da paso a la captura del panel al encogerse la laptop, detrás de una
+             franja de luz (barrido.js). -->
         <div class="video">
           <canvas class="pantalla-azul" aria-hidden="true"></canvas>
           <img class="panel-sistema" src="prueba/vista-inicio.webp" alt="Panel del agente de IA de Fragmentless" decoding="async">
+          <!-- La franja de luz que cambia el azul por el panel (barrido.js) -->
+          <canvas class="barrido-luz" aria-hidden="true"></canvas>
           <!-- La pantalla en blanco que se ve al reabrirse de frente, como el fondo de la sección 3 -->
           <div class="pantalla-seccion" aria-hidden="true"></div>
         </div>

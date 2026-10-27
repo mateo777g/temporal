@@ -1,8 +1,8 @@
 // escena.js — la escena de la laptop en la página de Fragmentless (index.html).
-// Al bajar, la pantalla se encoge y se gira de lado, el fondo se oscurece (y sobre el azul en vivo de
-// pantalla.js aparece la captura del panel) y sale el texto del centro; luego la tarjeta se va a la derecha
-// y sale el texto de la izquierda con su botón. La tarjeta no sigue al cursor: quieta, su sombra y su
-// luz se ven siempre igual en cada pose.
+// Al bajar, la pantalla se encoge y se gira de lado, el fondo se oscurece (y una franja de luz cambia el azul
+// en vivo de pantalla.js por la captura del panel, barrido.js) y sale el texto del centro; luego la tarjeta se
+// va a la derecha y sale el texto de la izquierda con su botón. La tarjeta no sigue al cursor: quieta, su
+// sombra y su luz se ven siempre igual en cada pose.
 // La tarjeta es la pantalla de una laptop: mientras se encoge le sale el marco y el teclado se desdobla
 // desde su orilla de abajo, y la laptop entera hace los mismos movimientos. Al final la laptop se cierra, la
 // cámara gira para verla de frente, se vuelve a abrir con la pantalla en blanco y la cámara avanza hasta que
@@ -18,7 +18,6 @@
   const video = laptop.querySelector('.video');
   const teclado = laptop.querySelector('.teclado');
   const portada = escena.querySelector('.portada-copy');
-  const panelSistema = video.querySelector('.panel-sistema');
   const centro = escena.querySelector('.texto-centro');
   const lado = escena.querySelector('.texto-lado');
   const celular = matchMedia('(max-width: 760px)');
@@ -241,7 +240,7 @@
     portada.inert = quedaEslogan < .1;
     portada.style.visibility = quedaEslogan === 0 ? 'hidden' : 'visible';
 
-    // El panel aparece sobre el azul mientras el fondo pasa a negro.
+    // El fondo pasa a negro, y a la mitad la pantalla cambia del azul al panel.
     const oscuro = delicada(tramo(p, TRAMOS.noche));
     noche.style.opacity = oscuro;
     laptop.style.setProperty('--oscuro', oscuro); // enciende el piso de luz debajo de la laptop
@@ -250,7 +249,8 @@
     // pantalla, por eso se corre de pose.x).
     noche.style.setProperty('--luz-y', `${enCentro.y + alto * enCentro.k / 2 - altoPantalla * 0.07}px`);
     noche.style.setProperty('--luz-x', `${pose.x - ancho * pose.k * 0.2}px`);
-    if (panelSistema) panelSistema.style.opacity = oscuro;
+    // El cambio lo hace una franja de luz que cruza la pantalla (barrido.js): aquí solo se dice cuál toca
+    video.toggleAttribute('data-panel', oscuro >= 0.5);
     // Con el zoom, la pantalla blanca va cubriendo todo: la barra regresa a letra negra
     document.documentElement.toggleAttribute('data-noche', oscuro >= 0.5 && zoom < 0.6);
 

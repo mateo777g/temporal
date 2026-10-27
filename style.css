@@ -319,11 +319,13 @@ body {
   backface-visibility: hidden; /* al cerrarse la laptop, por detrás se ve la tapa y no la pantalla al revés */
 }
 /* El azul en vivo (pantalla.js) y la captura del panel llenan la pantalla (recortando lo que sobre), una
-   encima del otro: la captura empieza invisible y entra cuando se oscurece la página (escena.js). El negro
-   de --hueco se ve si no cargan. El marco les recorta la orilla: 2.6 % del lado corto arriba y a los
-   lados, y 4.4 % abajo, como la barbilla de una MacBook. */
+   encima del otro: la captura empieza invisible y entra a la mitad del paso a negro, detrás de una franja de
+   luz que cruza la pantalla (barrido.js, que la dibuja en .barrido-luz, encima de los dos). El negro de
+   --hueco se ve si no cargan. El marco les recorta la orilla: 2.6 % del lado corto arriba y a los lados, y
+   4.4 % abajo, como la barbilla de una MacBook. */
 .video .pantalla-azul,
 .video .panel-sistema,
+.video .barrido-luz,
 .video .pantalla-seccion {
   --bisel: calc(var(--marco, 0) * 2.6cqmin);
   position: absolute;
@@ -338,6 +340,16 @@ body {
 /* Sin WebGL, el lienzo no se dibuja y deja ver este fondo: un cuadro fijo del video que había antes */
 .video .pantalla-azul { background: url('prueba/fondo-azul.webp') center / cover, var(--hueco); }
 .video .panel-sistema { opacity: 0; pointer-events: none; }
+/* Mientras pasa la franja (data-recorte, barrido.js), el panel se ve solo a la izquierda de --corte, con la orilla
+   suave debajo de la luz; del otro lado sigue el azul. --corte va de 0 a 1, y la orilla se pasa un poco de los dos
+   lados para que al principio y al final no asome nada. */
+.video[data-recorte] .panel-sistema {
+  -webkit-mask: linear-gradient(to right, #000 calc(var(--corte) * 104% - 4%), transparent calc(var(--corte) * 104%));
+  mask: linear-gradient(to right, #000 calc(var(--corte) * 104% - 4%), transparent calc(var(--corte) * 104%));
+}
+/* La franja, transparente y solo visible mientras pasa, como el lienzo del componente del que sale */
+.video .barrido-luz { background: none; pointer-events: none; opacity: 0; transition: opacity 75ms; }
+.video .barrido-luz[data-barriendo] { opacity: 1; }
 /* La pantalla en blanco, como el fondo de la sección 3: la laptop, ya cerrada, cambia la captura por ella
    (data-seccion, escena.js), y al reabrirse de frente la cámara avanza hasta que llena todo. Ahí llega la
    sección 3, sin fondo propio (.hoja), así que no se nota el cambio. */
