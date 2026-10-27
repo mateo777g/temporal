@@ -23,16 +23,16 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 
 | Archivo | Qué es |
 | --- | --- |
-| `index.html` | Inicio. Portada → escena de la laptop (scroll), que termina con zoom a su pantalla → sección 3, dos tarjetas (`#sistema`) → tarjetas del producto → clientes → footer |
+| `index.html` | Inicio. Portada → escena de la laptop (scroll), que termina con zoom a su pantalla → sección 3, dos tarjetas (`#sistema`) → clientes → footer |
 | `style.css` | Estilos de `index.html` y de lo compartido: barra, botones (`.boton`, `.boton-borde`, `.boton-primario`), footer |
 | `escena.js` | La laptop 3D que se encoge, gira, se va al lado y se cierra con el scroll; luego la cámara la ve de frente, se reabre en blanco y avanza hasta que su pantalla llena todo |
 | `pantalla.js` | El azul de la pantalla de la laptop, dibujado en vivo con WebGL (antes era un video) |
 | `barrido.js` | La franja de luz que cruza la pantalla de la laptop y cambia el azul por la captura del panel (y de regreso) |
-| `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí |
+| `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí. Hasta 900 px, la hamburguesa |
 | `lanzamiento.js` | La sección 3 (`.lanzamiento`): dos tarjetas que se alejan, se inclinan y bajan con el scroll, con un anillo y un remolino de imágenes, y el título. Antes era la fila curva de capturas (`hoja.js`, en el historial de git) |
 | `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
-| `src/wave-entry.tsx` | Entrada React: monta `#feature-cards` y `#site-footer` (y `#panel-showcase`, la fila curva vieja, si existiera; ya no está en la página) |
-| `components/` | Componentes React (tarjetas, footer con brillo y la fila curva vieja con OGL, que ya no se usa) |
+| `src/wave-entry.tsx` | Entrada React: monta `#site-footer` (y `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
+| `components/` | Componentes React (footer con brillo; las tarjetas del producto y la fila curva vieja con OGL, que ya no se usan) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` |
 | `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
 
@@ -124,7 +124,9 @@ junta en una sola), salen sus sombras y el título «Todo tu restaurante. En un 
 brillo en cuanto queda nítido. El scroll mueve las tarjetas y lo que cuenta algo en orden; lo de adentro corre
 solo, como video. Las imágenes son provisionales: el anillo lleva las tres fotos de la frase y el remolino las
 capturas viejas del panel. Se armó en `prueba-seccion3.html`; el detalle de cómo se decidió cada cosa está en
-los comentarios de `lanzamiento.js`. En celular no se ha ajustado.
+los comentarios de `lanzamiento.js`. En celular a lo alto las dos tarjetas no caben una junto a la otra: van una
+encima de la otra, a lo ancho de la pantalla, inclinadas sobre su orilla de adentro (`rotateX`); la primera se va
+hacia arriba, la segunda entra por abajo y el título queda arriba de las dos (`medir()`, con `vertical`).
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
 están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo lo ancho.
 
@@ -140,8 +142,11 @@ frente, se reabre y hace zoom a la pantalla (ver «El paso a la sección 3» arr
 - Que la fila curva entrara antes que los textos (cuando la sección 3 era la fila curva): entraban juntos.
 
 El 27 la sección 3 de la prueba pasó al index en lugar de la fila curva (ver «La sección 3» arriba), junto con la
-franja de luz de la pantalla de la laptop (`barrido.js`). Las tres tarjetas del producto, que en la prueba se
-habían quitado, se quedaron después de la sección 3 mientras se decide su lugar.
+franja de luz de la pantalla de la laptop (`barrido.js`). Las tres tarjetas del producto (`.franja`) se quitaron
+del index ese mismo día: en la prueba ya no estaban por algo, y la sección 3 ya usa esas mismas imágenes. Sus
+estilos se borraron de `style.css`; el componente sigue en `components/feature-cards.tsx` y en el bundle (sin
+`#feature-cards` no se monta). Si se quieren de vuelta, están en el commit `afb2af1`. Lo de abajo es de cuando
+estaban.
 
 También el 26, las tarjetas del producto (`.franja`): siguen grises y al pasar el mouse sube el color, pero ya
 no es el azul plano de la marca sino un degradado de cian a índigo (`--degradado-azul`, el azul del ejemplo del
@@ -195,8 +200,41 @@ bocinas y brillo de la base. Ya se probó y se descartó (no volver a proponerlo
   era lo oscuro.
 
 Con eso la laptop ya tiene todos los detalles que se planearon, más el brillo de la base, que salió de compararla
-con la maqueta (y después se hizo más parecido al de ella: una franja de luz y la orilla de enfrente brillante). En celular la escena de la laptop se va a cambiar por otra cosa, así que sus detalles se revisan
-solo en escritorio.
+con la maqueta (y después se hizo más parecido al de ella: una franja de luz y la orilla de enfrente brillante).
+Sus detalles se revisan en escritorio.
+
+**En celular (27 de octubre)** se queda la misma escena (antes se iba a cambiar por otra cosa; el usuario pidió el
+index «tal como está», acomodado). Ahí, con la pantalla al centro, la laptop se veía cargada a la izquierda (el
+teclado sale de ese lado), y con la laptop entera al centro (x 0.6), cargada a la derecha, donde queda la pantalla.
+Las `x` de `POSES.celular` (0.55) van a medio camino, a ojo del usuario: la caja queda unos 19 px a la izquierda del
+centro y la pantalla unos 27 a la derecha. De frente va a media altura (`FRENTE_CELULAR`). Se midió a 375 × 812 y
+375 × 667. En la portada el texto va centrado, un 10 % de la pantalla debajo de la barra (pegado a ella quedaba un
+hueco muy grande antes de la laptop), con el párrafo en renglones parejos, y la laptop al centro del espacio que
+queda debajo del texto (`escena.js` lo saca de dónde termina el texto, así sirve en celulares bajitos).
+En escritorio sigue mandando la pantalla. El texto del centro va debajo de la laptop. En celular no existe la pose
+de lado ni «Moderniza tu negocio» (con sus botones), para no hacer tan larga la escena: después de «Presentamos
+nuestro nuevo software» la laptop se cierra ahí mismo y sigue la cámara. «Más información» y «Comprar» pasan a ese
+texto del centro (otra copia en `index.html`, escondida en escritorio), a 63 % de la pantalla para que el bloque
+quede centrado entre la laptop y la orilla de abajo. Ahí la escena mide 610vh y no 700vh; su
+recorrido, 2.6 pantallas y no 3.5 (`RECORRIDO`), y sus tramos son los de escritorio estirados para que todo lo de
+antes pase en las mismas pantallas (`TRAMOS_CELULAR`, `TEXTOS_CELULAR`).
+**Los cambios que siguen son solo para celular**: la versión de PC ya está terminada y no se toca.
+La barra, hasta 900 px, es una fila con el logo, «Iniciar Sesión» y una hamburguesa que abre los tres submenús como
+acordeón, igual que el footer: Productos, Soluciones y Acerca de, cada uno un renglón con flechita, separados por
+líneas; al tocarlo sale su submenú. `barra.js` mete cada submenú en un `.submenu-grupo` con su botón
+(`.submenu-titulo`), que en escritorio no se ve: ahí el submenú queda como siempre. En los dos acordeones (menú y
+footer) el renglón va en negro o blanco y los enlaces en gris, como el footer de escritorio pero al revés
+(`--color-submenu` en el menú, que el brillo de los enlaces también usa). Cada vez que se abre un renglón, a sus
+enlaces les pasa el brillo azul de siempre (en el menú, `encender()` de `barra.js`; en el footer, `shine`). Hasta 900 y no 760 porque en
+tablet «Conoce el Sistema» se salía de la pantalla; el resto de la página cambia a 760. En celular «Conoce el
+Sistema» no aparece. La tablet a lo alto (768) no se ha acomodado más que la barra.
+El footer, en celular, es un acordeón como el de Nissan: Productos, Soluciones, Acerca de, Contacto y Legales (los
+dos avisos, que en escritorio van abajo junto a la línea), cada uno un renglón con su nombre en blanco y una
+flechita, separados por líneas; al tocarlo salen sus enlaces. En celular no va la fila de abajo (`.hwf-rule`) ni
+«Volver arriba»: Legales cierra con su propia línea. El logo con el «© 2026» va debajo de los renglones (`order`),
+y de ahí a la palabra grande hay unos 60 px (`padding-bottom: calc(16vw + 30px)`, sin el alto mínimo de 560). Lo hace el
+componente (`halftone-wordmark-footer.tsx`, con `useIsPhone`): en escritorio su HTML es el mismo de antes. Se ve
+igual en Nosotros, que usa el mismo bundle.
 
 La barra, sobre toda la escena (la portada blanca y la parte negra), es transparente y sin su línea: en
 `style.css`, la regla de `:root[data-escena]:not([data-hoja])`. Blanca se veía como un bloque en el gris del paso a
@@ -232,7 +270,8 @@ Los cambios a la laptop se prueban primero en la pestaña del usuario, inyectand
 sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que funcionaron:
 
 - **Poses por scroll:** `recorrido = .escena.offsetHeight - 3.5 × .escena-fija.offsetHeight`. Portada: 0; centro:
-  0.35 del recorrido; derecha: 0.76; a medio cierre: el recorrido menos 0.6 pantallas; cerrada: menos 0.2.
+  0.35 del recorrido; derecha: 0.76; a medio cierre: el recorrido menos 0.6 pantallas; cerrada: menos 0.2. (En
+  celular el recorrido es más corto y no hay derecha: el centro cae en 0.47 del recorrido.)
   La cámara, en pantallas después del recorrido: de frente cerrada, 0.5; abierta, 1.17; pantalla llena, 2.4;
   llega la sección 3, 2.5. Usar `scrollTo({ top, behavior: 'instant' })`, porque `html` tiene
   `scroll-behavior: smooth`.
@@ -262,7 +301,7 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
 - Colores en variables de `:root` (`--azul: #1355E8`, `--tinta`, `--noche`, …). Letra: Inter.
 - Respetar `prefers-reduced-motion` en toda animación nueva.
 - Probar en escritorio y en celular (375 px) sin scroll horizontal, y revisar la consola. Los detalles de la
-  laptop, solo en escritorio (1280, 1440 y 1920 px): en celular va a ir otra cosa.
+  laptop, en escritorio (1280, 1440 y 1920 px); en celular, que siga centrada en cada pose.
 - Un commit por cambio, subido a GitHub, para poder regresar solo esa parte.
 - Es un repositorio de git (rama `main`, `core.autocrlf false` para dejar los archivos como están), con copia en
   GitHub: https://github.com/mateo777g/temporal (público). Antes de un cambio grande, hacer commit y subirlo
@@ -271,7 +310,8 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
 ## Pendientes conocidos
 
 - Enlaces que todavía apuntan a `#`: «Iniciar Sesión», «Planes», «Contáctanos», y «Más información» y
-  «Comprar» de la escena en `index.html`.
+  «Comprar» de la escena en `index.html` (están dos veces: en el texto de la izquierda y, para celular, en el del
+  centro; cambiar los dos).
 - Cuando haya dominio: `og:image` en `index.html` y `nosotros.html` debe ser una dirección completa (`https://…`).
 - Según la marca, el nombre «fragmentless» va en la letra Outfit, peso 200. La barra todavía usa Inter.
 - `prueba/` podría renombrarse (por ejemplo, `media/`). Ya solo tiene lo que carga la página (`fondo-azul.webp`
