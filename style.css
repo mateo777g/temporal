@@ -157,6 +157,22 @@ body {
 :root[data-noche]:not([data-hoja]) .barra .boton-borde:hover { background: #FFFFFF; color: var(--hueco); }
 :root[data-noche]:not([data-hoja]) .barra .boton-primario { background: #FFFFFF; color: var(--hueco); }
 
+/* La hamburguesa: solo en celular (abajo, en su @media), en lugar de los atajos. Dos rayas que, abierta, se
+   cruzan en una X. Van del color de la letra, así en la parte negra son blancas. */
+.hamburguesa { display: none; }
+.hamburguesa span {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform var(--abrir);
+}
+.hamburguesa[aria-expanded="true"] span:first-child { transform: translateY(3.75px) rotate(45deg); }
+.hamburguesa[aria-expanded="true"] span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+/* El renglón de cada submenú en el menú de la hamburguesa (barra.js): en escritorio no se ve */
+.submenu-titulo { display: none; }
+
 /* Lo que se despliega: de borde a borde, crece hacia abajo */
 .despliegue {
   position: absolute;
@@ -183,9 +199,10 @@ body {
   gap: 14px;
 }
 .submenu[hidden] { display: none; }
+/* --color-submenu: en el menú de la hamburguesa los enlaces van en gris (abajo, en su @media); en escritorio, negros */
 .submenu a {
   display: inline-block;
-  color: var(--tinta);
+  color: var(--color-submenu, var(--tinta));
   font-size: 24px;
   font-weight: 400;
   text-decoration: none;
@@ -200,7 +217,7 @@ body {
 }
 .submenu-brillo span { color: inherit; }
 @keyframes brillo-submenu {
-  0%, 100% { color: var(--tinta); }
+  0%, 100% { color: var(--color-submenu, var(--tinta)); }
   25% { color: var(--azul-claro); }
   50% { color: var(--azul); }
 }
@@ -211,7 +228,7 @@ body {
   .submenu-brillo span { transition: none; }
   .submenu a.brillando .submenu-brillo span {
     animation: none;
-    color: var(--tinta);
+    color: var(--color-submenu, var(--tinta));
   }
 }
 
@@ -224,6 +241,8 @@ body {
 
 .logo:focus-visible,
 .atajo:focus-visible,
+.hamburguesa:focus-visible,
+.submenu-titulo:focus-visible,
 .boton:focus-visible,
 .submenu a:focus-visible { outline: 2px solid var(--tinta); outline-offset: 4px; }
 
@@ -1265,16 +1284,74 @@ body {
   .hwf-top { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
   .hwf-brand { grid-column: 1 / -1; }
 }
+/* En celular y en tablet la barra es una sola fila: el logo, Iniciar Sesión y la hamburguesa. Los atajos y Conoce
+   el Sistema no caben (en tablet, a 768, Conoce el Sistema se salía de la pantalla); los atajos van dentro de la
+   hamburguesa. barra.js usa el mismo ancho. */
+@media (max-width: 900px) {
+  .barra-fila { gap: 0; }
+  .atajos,
+  .acciones .boton-primario { display: none; }
+  /* 40 px para el dedo; el margen negativo deja las rayas alineadas con la orilla de la página */
+  .hamburguesa {
+    display: grid;
+    place-content: center;
+    gap: 6px;
+    width: 40px;
+    height: 40px;
+    margin: 0 -10px 0 6px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: var(--tinta);
+    cursor: pointer;
+    transition: color var(--abrir);
+  }
+  /* Abierta, los tres submenús son renglones, como el footer en celular (barra.js los arma): el nombre del atajo
+     con una flechita que gira al abrirse, separados por líneas. Al tocarlo sale su submenú, que se abre con la
+     altura, como la barra. */
+  .submenu-grupo { margin-inline: var(--margen); }
+  .submenu-grupo + .submenu-grupo { border-top: 1px solid color-mix(in srgb, var(--tinta) 12%, transparent); }
+  .submenu-grupo:first-child { margin-top: 4px; }
+  .submenu-grupo:last-child { margin-bottom: 16px; }
+  .barra[data-abierto] .submenu-grupo { animation: subir 0.25s ease-out both; }
+  .submenu-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 18px 0;
+    border: 0;
+    background: none;
+    color: var(--tinta);
+    font: inherit;
+    font-size: 18px;
+    text-align: left;
+    cursor: pointer;
+    transition: color var(--abrir);
+  }
+  .submenu-flecha {
+    width: 8px;
+    height: 8px;
+    margin-right: 4px;
+    border-right: 1.5px solid;
+    border-bottom: 1.5px solid;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform var(--abrir);
+  }
+  .submenu-grupo[data-abierto] .submenu-flecha { transform: translateY(2px) rotate(-135deg); }
+  .submenu-cuerpo { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--abrir); }
+  .submenu-grupo[data-abierto] .submenu-cuerpo { grid-template-rows: 1fr; }
+  /* El espacio de abajo va dentro, para que cerrado no asome. Los enlaces en gris y el renglón en negro, como el
+     footer de escritorio pero al revés (de noche, el gris claro de la barra). */
+  .submenu { min-height: 0; overflow: hidden; padding: 0; gap: 12px; --color-submenu: var(--tinta-suave); }
+  .submenu li:last-child { padding-bottom: 20px; }
+  .submenu a { font-size: 17px; }
+}
 
 @media (max-width: 760px) {
-  /* En celular: logo y botones arriba; los atajos bajan a una segunda fila */
-  :root { --margen: 16px; --alto-barra: 96px; }
-  .barra-fila { flex-wrap: wrap; align-content: center; gap: 4px 0; }
-  .atajos { order: 3; width: 100%; gap: 20px; }
-  .acciones { order: 2; gap: 8px; }
+  :root { --margen: 16px; --alto-barra: 64px; }
   .boton { height: 36px; padding-inline: 12px; font-size: 13px; }
-  .atajo { padding-block: 8px; }
-  .submenu a { font-size: 22px; }
   .laptop { --radio: 12px; height: calc((100vw - 2 * var(--margen)) * .5625); min-height: 0; }
   /* No cabe un texto al lado de la tarjeta: los dos textos salen debajo, uno después del otro */
   .texto-centro { top: 66vh; top: 66svh; }
@@ -1291,7 +1368,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   :root { --abrir: 0s; }
-  .barra[data-abierto] .submenu li { animation: none; }
+  .barra[data-abierto] :is(.submenu li, .submenu-grupo) { animation: none; }
   :is(.texto-centro, .texto-lado) :is(h2, p, .texto-botones) { transform: none; }
   /* La tarjeta no se gira: el teclado de frente no se vería, solo estorbaría */
   .teclado { display: none; }

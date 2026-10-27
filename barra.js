@@ -1,11 +1,69 @@
 // barra.js — la barra de la página de Fragmentless (index.html).
 // Al pasar el mouse o tocar un atajo, la barra crece y muestra su menú. Al bajar se esconde.
+// En celular y en tablet no caben los atajos: la hamburguesa abre la barra con los tres submenús, uno debajo del otro,
+// cada uno un renglón que se abre al tocarlo, como el footer en celular.
 (() => {
   const barra = document.querySelector('.barra');
   const nav = barra.querySelector('.atajos');
   const atajos = [...barra.querySelectorAll('.atajo')];
+  const hamburguesa = barra.querySelector('.hamburguesa');
+  const submenus = [...barra.querySelectorAll('.submenu')];
   const velo = document.querySelector('.velo');
   const conMouse = matchMedia('(hover: hover)');
+  // Hasta este ancho no caben los atajos y va la hamburguesa (el mismo de style.css)
+  const conHamburguesa = matchMedia('(max-width: 900px)');
+
+  // Con la hamburguesa cada submenú es un renglón: un botón con el nombre de su atajo y una flechita, y debajo el
+  // submenú, que se abre con la altura (style.css). En escritorio el botón no se ve y el submenú queda como siempre.
+  const grupos = atajos.map((a) => {
+    const submenu = document.getElementById(a.getAttribute('aria-controls'));
+    const grupo = document.createElement('div');
+    grupo.className = 'submenu-grupo';
+    const titulo = document.createElement('button');
+    titulo.type = 'button';
+    titulo.className = 'submenu-titulo';
+    titulo.setAttribute('aria-controls', submenu.id);
+    const flecha = document.createElement('span');
+    flecha.className = 'submenu-flecha';
+    flecha.setAttribute('aria-hidden', 'true');
+    titulo.append(a.textContent.trim(), flecha);
+    const cuerpo = document.createElement('div');
+    cuerpo.className = 'submenu-cuerpo';
+    submenu.replaceWith(grupo);
+    cuerpo.append(submenu);
+    grupo.append(titulo, cuerpo);
+    return { grupo, titulo, cuerpo };
+  });
+
+  function abrirGrupo({ grupo, titulo, cuerpo }, abierto) {
+    titulo.setAttribute('aria-expanded', String(abierto));
+    grupo.toggleAttribute('data-abierto', abierto);
+    // Cerrado, sus enlaces no se pueden tabular; en escritorio no se cierra nunca
+    cuerpo.inert = conHamburguesa.matches && !abierto;
+  }
+
+  // Todos cerrados: al abrir la hamburguesa y al cambiar entre la hamburguesa y los atajos
+  function cerrarGrupos() {
+    for (const g of grupos) abrirGrupo(g, false);
+  }
+
+  // Al abrirse, a sus enlaces les pasa el brillo, como al pasarles el mouse
+  for (const g of grupos) {
+    g.titulo.addEventListener('click', () => {
+      const abrir = g.titulo.getAttribute('aria-expanded') !== 'true';
+      abrirGrupo(g, abrir);
+      if (abrir) g.cuerpo.querySelectorAll('a').forEach(encender);
+    });
+  }
+  cerrarGrupos();
+
+  // El brillo de un enlace (style.css, .brillando). Reinicia el barrido al volver a entrar, aunque el anterior no
+  // haya terminado.
+  function encender(enlace) {
+    enlace.classList.remove('brillando');
+    void enlace.offsetWidth;
+    enlace.classList.add('brillando');
+  }
 
   // El brillo recorre cada enlace de izquierda a derecha, también si tiene una sola palabra.
   for (const enlace of barra.querySelectorAll('.submenu a')) {
@@ -22,14 +80,8 @@
     });
     enlace.setAttribute('aria-label', texto);
     enlace.replaceChildren(brillo);
-    const encender = () => {
-      enlace.classList.remove('brillando');
-      // Reinicia el barrido al volver a entrar, aunque el anterior no haya terminado.
-      void enlace.offsetWidth;
-      enlace.classList.add('brillando');
-    };
-    enlace.addEventListener('pointerenter', () => { if (conMouse.matches) encender(); });
-    enlace.addEventListener('focus', encender);
+    enlace.addEventListener('pointerenter', () => { if (conMouse.matches) encender(enlace); });
+    enlace.addEventListener('focus', () => encender(enlace));
     enlace.addEventListener('pointerleave', () => enlace.classList.remove('brillando'));
     enlace.addEventListener('blur', () => enlace.classList.remove('brillando'));
     brillo.addEventListener('animationend', (e) => {
@@ -83,9 +135,20 @@
     bloquearScroll(frenar);
   }
 
+  // La hamburguesa muestra los tres renglones, cerrados. Se abre con el dedo, así que la página no se mueve.
+  function abrirMenu() {
+    for (const a of atajos) a.setAttribute('aria-expanded', 'false');
+    for (const s of submenus) s.hidden = false;
+    cerrarGrupos();
+    hamburguesa.setAttribute('aria-expanded', 'true');
+    barra.dataset.abierto = '';
+    bloquearScroll(true);
+  }
+
   function cerrar() {
     delete barra.dataset.abierto;
     for (const a of atajos) a.setAttribute('aria-expanded', 'false');
+    hamburguesa.setAttribute('aria-expanded', 'false');
     bloquearScroll(false);
   }
 
@@ -100,16 +163,31 @@
     });
   }
 
+  hamburguesa.addEventListener('click', () => {
+    if ('abierto' in barra.dataset) cerrar();
+    else abrirMenu();
+  });
+
   barra.addEventListener('mouseleave', () => { if (conMouse.matches) cerrar(); });
   barra.addEventListener('focusout', (e) => { if (!barra.contains(e.relatedTarget)) cerrar(); });
+  // Abierta con la hamburguesa la página está frenada: un enlace a la misma página (como #sistema) la movería con
+  // la barra abierta encima
+  barra.querySelector('.despliegue').addEventListener('click', (e) => {
+    if (conHamburguesa.matches && e.target.closest('a')) cerrar();
+  });
   velo.addEventListener('click', cerrar);
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape' || !('abierto' in barra.dataset)) return;
-    const activo = atajos.find((a) => a.getAttribute('aria-expanded') === 'true');
+    const activo = [...atajos, hamburguesa].find((a) => a.getAttribute('aria-expanded') === 'true');
     cerrar();
     if (activo) activo.focus();
   });
   addEventListener('resize', alinear);
+  // Al cambiar de la hamburguesa a los atajos (o al revés) abierta, se quedaría con el menú del otro
+  conHamburguesa.addEventListener('change', () => {
+    cerrar();
+    cerrarGrupos();
+  });
 
   // Al bajar, la barra se esconde hacia arriba; al subir, regresa. Abierta o con el foco
   // del teclado adentro, se queda. Los saltitos de menos de 4 px no cuentan.

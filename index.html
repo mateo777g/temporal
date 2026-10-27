@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="style.css?v=enlaces-grises-1">
 <link rel="stylesheet" href="assets/components.css">
 <script src="assets/wave-background.js?v=tarjetas-azul-1" defer></script>
-<script src="barra.js?v=submenu-brillo-2" defer></script>
+<script src="barra.js?v=menu-brillo-1" defer></script>
 <!-- Antes que escena.js: así el azul ya está dibujado cuando la laptop se muestra -->
 <script src="pantalla.js?v=luz-en-su-lugar-1" defer></script>
 <script src="escena.js?v=barrido-3" defer></script>
@@ -54,6 +54,11 @@
       <a class="boton boton-borde" href="#">Iniciar Sesión</a>
       <a class="boton boton-primario" href="#sistema">Conoce el Sistema</a>
     </div>
+
+    <!-- En celular y en tablet, en lugar de los atajos: abre la barra con los tres submenús como renglones (barra.js) -->
+    <button type="button" class="hamburguesa" aria-expanded="false" aria-controls="menu-productos menu-soluciones menu-acerca" aria-label="Menú">
+      <span></span><span></span>
+    </button>
   </div>
 
   <!-- Lo que se despliega al tocar un atajo: la barra crece hacia abajo -->
