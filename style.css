@@ -909,6 +909,10 @@ body {
   gap: 12px 17px;
   margin-top: 40px;
 }
+/* Van en blanco, como los de la barra en la parte negra: en azul se veían apagados sobre el gris oscuro */
+.texto-botones .boton-borde { border-color: #FFFFFF; color: #FFFFFF; }
+.texto-botones .boton-borde:hover { background: #FFFFFF; color: var(--hueco); }
+.texto-botones .boton-primario { background: #FFFFFF; color: var(--hueco); }
 
 /* Las palabras de los párrafos se encienden una tras otra (--i: su lugar, escena.js) */
 .se-enciende span {

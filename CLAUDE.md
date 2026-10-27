@@ -183,7 +183,8 @@ día, gris oscuro de noche). `data-escena` solo lo pone `escena.js`, así que en
 blanca. Desde el cambio a modo noche, sus dos botones van en blanco: «Iniciar Sesión» con borde y letra blancos (al
 pasar el mouse se llena de blanco) y «Conoce el Sistema» blanco con letra negra. En azul se veían apagados sobre el
 gris oscuro; se comparó con dejar «Conoce el Sistema» en el azul claro (`--azul-noche`) y se prefirió todo blanco.
-Antes del cambio, en el tramo gris, siguen azules (ahí «Iniciar Sesión» se lee un poco débil).
+Antes del cambio, en el tramo gris, siguen azules (ahí «Iniciar Sesión» se lee un poco débil). «Más información» y
+«Comprar» de la escena (`.texto-botones`) van igual, siempre en blanco, porque solo se ven en la parte negra.
 
 ## Comandos
 
