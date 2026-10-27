@@ -431,13 +431,33 @@
   const mezclar = (a, b, t) => a + (b - a) * t;
 
   // En escritorio la escena original cabe completa en la ventana (s: cuánto mide uno de sus pixeles) y se
-  // centra. En celular las tarjetas van más grandes que la pantalla, como en el original, y los textos arriba.
+  // centra. En celular a lo alto no caben una junto a la otra (se veían solo sus orillas de adentro): van una
+  // encima de la otra (vertical), a lo ancho de la pantalla, con el título arriba. La primera se va hacia arriba y
+  // la segunda entra por abajo; las dos bajan lo que hace falta para que quepa el título. El título, de dos
+  // renglones, el hueco hasta las tarjetas y las dos tarjetas quedan juntos al centro, debajo de la barra.
+  const MARGEN_CELULAR = 16;
+  const LETRA_CELULAR = 30;
+  const ESPACIO_TITULO = 24;
+  // Inclinada, cada tarjeta se ve más baja que su caja: su orilla de afuera se va hacia atrás (y la perspectiva
+  // sale de la orilla de adentro). Esto es lo que se ve de alto, en pixeles de la escena original; con la caja, el
+  // título quedaba muy lejos de las tarjetas y todo cargado hacia arriba.
+  const inclinada = (INCLINACION * Math.PI) / 180;
+  const ALTO_VISTO = (620 * Math.cos(inclinada) * 1000) / (1000 + 620 * Math.sin(inclinada));
   const medir = (ancho, alto) => {
-    if (celular.matches) {
-      const s = ancho / 800;
+    if (celular.matches && alto > ancho) {
+      const barra = filaBarra.offsetHeight;
+      const altoTitulo = 2 * LETRA_CELULAR * 1.15;
+      // Lo que se ve de las dos tarjetas con el hueco en medio
+      const libre = alto - barra - 2 * MARGEN_CELULAR - altoTitulo - ESPACIO_TITULO;
+      const s = Math.min((ancho - 2 * MARGEN_CELULAR) / 1000, libre / (2 * ALTO_VISTO + HUECO));
+      const altoPar = (2 * ALTO_VISTO + HUECO) * s;
+      const tituloArriba = barra + (alto - barra - altoTitulo - ESPACIO_TITULO - altoPar) / 2;
       return {
-        s, ancho: 1000 * s, alto: 620 * s, izquierda: (ancho - 1000 * s) / 2, arriba: alto * 0.42,
-        tituloArriba: 130, letra: 30, bajada: alto * 0.08,
+        vertical: true, s, ancho: 1000 * s, alto: 620 * s, izquierda: (ancho - 1000 * s) / 2,
+        // Antes de bajar, las dos juntas al centro de la pantalla
+        arriba: (alto - 620 * s) / 2,
+        tituloArriba, letra: LETRA_CELULAR,
+        bajada: tituloArriba + altoTitulo + ESPACIO_TITULO - (alto - altoPar) / 2,
       };
     }
     const s = Math.min(alto / 720, ancho / 1280);
@@ -496,9 +516,14 @@
     const bajada = CAIDA(tramo(p, TRAMOS.bajar));
     const sombras = tramo(p, TRAMOS.sombras);
     const sale = SALIDA(tramo(p, TRAMOS.titulo));
-    // Cada tarjeta queda a un lado del centro, con el hueco justo en medio
-    const aUnLado = (m.ancho + HUECO * m.s) / 2;
+    // Cada tarjeta queda a un lado del centro, con el hueco justo en medio. En celular, una arriba y otra abajo:
+    // se mueven de alto en vez de lado y se inclinan sobre su orilla de adentro, que ahí es la de abajo de la
+    // primera y la de arriba de la segunda (por eso el giro va al revés).
+    const aUnLado = ((m.vertical ? m.alto : m.ancho) + HUECO * m.s) / 2;
     const perspectiva = `perspective(${1000 * m.s}px)`;
+    const mover = m.vertical ? 'translateY' : 'translateX';
+    const inclinar = m.vertical ? 'rotateX' : 'rotateY';
+    const signo = m.vertical ? -1 : 1;
 
     // La primera: de todo lo ancho (debajo de la barra) a su tamaño; la frase se va y sale el anillo
     const anchoClara = mezclar(anchoPantalla, m.ancho, alejada);
@@ -507,9 +532,9 @@
       mezclar(0, m.izquierda, alejada), mezclar(filaBarra.offsetHeight + ASOMA * m.s, m.arriba, alejada),
       anchoClara, mezclar(altoPantalla, m.alto, alejada),
     );
-    izq.style.transform = `translateX(${-aUnLado * ida}px)`;
-    izq.firstElementChild.style.transform = `${perspectiva} rotateY(${-INCLINACION * ida}deg)`;
-    izq.firstElementChild.style.transformOrigin = '100% 50%';
+    izq.style.transform = `${mover}(${-aUnLado * ida}px)`;
+    izq.firstElementChild.style.transform = `${perspectiva} ${inclinar}(${-signo * INCLINACION * ida}deg)`;
+    izq.firstElementChild.style.transformOrigin = m.vertical ? '50% 100%' : '100% 50%';
     const caraIzq = izq.querySelector('.lanzamiento-cara');
     caraIzq.style.borderRadius = `${30 * m.s * alejada}px`;
     caraIzq.style.boxShadow = sombra(m.s, sombras);
@@ -535,12 +560,13 @@
     // Lo que va con el scroll se pinta aquí si el anillo no está corriendo
     if (!orbitando || soloUna) pintarOrbita();
 
-    // La segunda: entra desde fuera de la pantalla, por la derecha
+    // La segunda: entra desde fuera de la pantalla, por la derecha (en celular, por abajo)
     ponerCaja(der, m.izquierda, m.arriba, m.ancho, m.alto);
-    der.style.transform = `translateX(${mezclar(anchoPantalla * 1.08, aUnLado, entrada)}px)`;
+    const fuera = (m.vertical ? altoPantalla : anchoPantalla) * 1.08;
+    der.style.transform = `${mover}(${mezclar(fuera, aUnLado, entrada)}px)`;
     der.style.opacity = limitar(entrada / 0.35);
-    der.firstElementChild.style.transform = `${perspectiva} rotateY(${INCLINACION}deg)`;
-    der.firstElementChild.style.transformOrigin = '0% 50%';
+    der.firstElementChild.style.transform = `${perspectiva} ${inclinar}(${signo * INCLINACION}deg)`;
+    der.firstElementChild.style.transformOrigin = m.vertical ? '50% 0%' : '0% 50%';
     const caraDer = der.querySelector('.lanzamiento-cara');
     caraDer.style.borderRadius = `${30 * m.s}px`;
     caraDer.style.boxShadow = sombra(m.s, sombras);

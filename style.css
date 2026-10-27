@@ -1377,6 +1377,8 @@ body {
      botones, en un celular bajito casi tocaba la orilla. */
   .texto-centro { top: 63vh; top: 63svh; }
   .texto-centro .texto-botones { display: flex; justify-content: center; margin-top: 28px; }
+  /* El título de la sección 3, de dos renglones, parejo: se parte en el punto y no en «En» */
+  .lanzamiento-texto h2 { text-wrap: balance; }
 }
 
 @media (prefers-reduced-motion: reduce) {
