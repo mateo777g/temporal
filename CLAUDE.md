@@ -23,16 +23,16 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 
 | Archivo | Qué es |
 | --- | --- |
-| `index.html` | Inicio. Portada → escena de la laptop (scroll), que termina con zoom a su pantalla → sección del panel (`#sistema`) → tarjetas → clientes → footer |
+| `index.html` | Inicio. Portada → escena de la laptop (scroll), que termina con zoom a su pantalla → sección 3, dos tarjetas (`#sistema`) → tarjetas del producto → clientes → footer |
 | `style.css` | Estilos de `index.html` y de lo compartido: barra, botones (`.boton`, `.boton-borde`, `.boton-primario`), footer |
 | `escena.js` | La laptop 3D que se encoge, gira, se va al lado y se cierra con el scroll; luego la cámara la ve de frente, se reabre en blanco y avanza hasta que su pantalla llena todo |
 | `pantalla.js` | El azul de la pantalla de la laptop, dibujado en vivo con WebGL (antes era un video) |
 | `barrido.js` | La franja de luz que cruza la pantalla de la laptop y cambia el azul por la captura del panel (y de regreso) |
 | `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí |
-| `hoja.js` | La sección del panel: marca cuándo llega (`data-llego`) para que entren su fila curva y sus textos, y cuándo se van los textos (`data-textos`) |
+| `lanzamiento.js` | La sección 3 (`.lanzamiento`): dos tarjetas que se alejan, se inclinan y bajan con el scroll, con un anillo y un remolino de imágenes, y el título. Antes era la fila curva de capturas (`hoja.js`, en el historial de git) |
 | `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
-| `src/wave-entry.tsx` | Entrada React: monta `#panel-showcase`, `#feature-cards` y `#site-footer` |
-| `components/` | Componentes React (fila curva de capturas con OGL, tarjetas, footer con brillo) |
+| `src/wave-entry.tsx` | Entrada React: monta `#feature-cards` y `#site-footer` (y `#panel-showcase`, la fila curva vieja, si existiera; ya no está en la página) |
+| `components/` | Componentes React (tarjetas, footer con brillo y la fila curva vieja con OGL, que ya no se usa) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` |
 | `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
 
@@ -111,11 +111,20 @@ perspectiva, `PROFUNDIDAD_FRENTE`, para que se vea su fondo), se vuelve a abrir 
 (`REABRIR`, `FRENTE_ABIERTA`: desde unos 34°, con la tapa y la perspectiva de siempre, centrada con su teclado) y
 la cámara avanza (`ZOOM`, la escala en veces, como una cámara) hasta que lo de adentro del marco cubre la pantalla
 (`kLlena`). Con eso la barra regresa a letra negra. Un poco después la sección 3 llega arriba (`CAMARA + 1`):
-`.hoja` ya no tiene fondo ni sube como hoja con esquinas; el blanco es la pantalla de la laptop y luego el de la
-página. `hoja.js` le pone `data-llego` y la fila curva (`.panel-reel > [aria-hidden]`, de TiltedGridHero) y los
-textos entran a la vez, con las animaciones de siempre (el título se pinta de azul claro a azul y a negro); al
-regresar se desvanecen juntos en 0.35 s. Las posiciones de frente se midieron a 1280, 1440 y 1920 (el espacio
+no sube como hoja con esquinas; sobre el blanco de la pantalla de la laptop aparece su primera tarjeta
+(`lanzamiento.js` le pone `data-llego`). Las posiciones de frente se midieron a 1280, 1440 y 1920 (el espacio
 de arriba y el de abajo quedan casi iguales).
+
+**La sección 3** (`.lanzamiento`, `lanzamiento.js`; sus estilos en `style.css`): como el «hero launch» de snapcn,
+en blanco y con el scroll. La tarjeta clara aparece a todo lo ancho con la frase «Todo tu restaurante [imagen] en
+un solo sistema.» (la imagen cambia entre tres con el scroll y le pasa el brillo azul de la barra, atado al
+scroll); se aleja, sus imágenes forman el anillo del «Orbit Flip Slider», se inclina y se va a la izquierda; entra
+la oscura por la derecha con el remolino de capturas («Todo conectado.»); las dos bajan (la pila del anillo se
+junta en una sola), salen sus sombras y el título «Todo tu restaurante. En un solo lugar.», al que le pasa el
+brillo en cuanto queda nítido. El scroll mueve las tarjetas y lo que cuenta algo en orden; lo de adentro corre
+solo, como video. Las imágenes son provisionales: el anillo lleva las tres fotos de la frase y el remolino las
+capturas viejas del panel. Se armó en `prueba-seccion3.html`; el detalle de cómo se decidió cada cosa está en
+los comentarios de `lanzamiento.js`. En celular no se ha ajustado.
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
 están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo lo ancho.
 
@@ -128,8 +137,11 @@ frente, se reabre y hace zoom a la pantalla (ver «El paso a la sección 3» arr
 
 - Echar la tapa más hacia atrás al reabrirse (128°, con la cámara más abajo y más perspectiva): va la de siempre.
 - El título de la sección 3 en la pantalla de la laptop, cuadrado al pixel con el de verdad: va toda blanca.
-- Que la fila curva entrara antes que los textos: entran juntos. Si el bloque entero se desvanece a la vez que
-  los textos, el azul del título se pierde y parece salir en seco; por eso solo se desvanece la fila curva.
+- Que la fila curva entrara antes que los textos (cuando la sección 3 era la fila curva): entraban juntos.
+
+El 27 la sección 3 de la prueba pasó al index en lugar de la fila curva (ver «La sección 3» arriba), junto con la
+franja de luz de la pantalla de la laptop (`barrido.js`). Las tres tarjetas del producto, que en la prueba se
+habían quitado, se quedaron después de la sección 3 mientras se decide su lugar.
 
 También el 26, las tarjetas del producto (`.franja`): siguen grises y al pasar el mouse sube el color, pero ya
 no es el azul plano de la marca sino un degradado de cian a índigo (`--degradado-azul`, el azul del ejemplo del

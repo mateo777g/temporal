@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=barrido-luz-1">
+<link rel="stylesheet" href="style.css?v=lanzamiento-1">
 <link rel="stylesheet" href="assets/components.css">
 <script src="assets/wave-background.js?v=tarjetas-azul-1" defer></script>
 <script src="barra.js?v=submenu-brillo-2" defer></script>
@@ -30,7 +30,8 @@
 <script src="escena.js?v=barrido-3" defer></script>
 <!-- Después de escena.js: el cambio del azul al panel con una franja de luz -->
 <script src="barrido.js?v=luz-1" defer></script>
-<script src="hoja.js?v=camara-1" defer></script>
+<!-- La sección 3: dos tarjetas que se alejan, se inclinan y bajan con el scroll -->
+<script src="lanzamiento.js?v=1" defer></script>
 
 </head>
 <body>
@@ -165,12 +166,39 @@
     </div>
   </section>
 
-  <!-- Sección 3 (hoja.js): llega cuando la pantalla de la laptop llena todo; no tiene fondo, así que solo
-       se ve entrar lo de adentro, y sigue con el scroll sin detenerse. -->
-  <section class="hoja" id="sistema">
-    <div class="hoja-fija">
-      <div class="hoja-contenido">
-        <div id="panel-showcase"></div>
+  <!-- Sección 3 (lanzamiento.js): sobre el blanco de la laptop aparece la primera tarjeta, se
+       aleja y se inclina, entra la segunda por la derecha, las dos bajan y sale el título. -->
+  <section class="lanzamiento" aria-labelledby="lanzamiento-titulo">
+    <div class="lanzamiento-ancla" id="sistema"></div>
+    <div class="lanzamiento-fija">
+      <div class="lanzamiento-grupo">
+        <!-- La primera tarjeta, que aparece de la nada. Primero una frase con tres imágenes que cambian
+             con el scroll; al alejarse, imágenes que forman un anillo, se da vuelta, se amontonan y queda una
+             sola (lanzamiento.js las pone). Al subir, esa regresa al centro y se vuelve la imagen de la
+             frase. Las tres imágenes de la frase son provisionales. -->
+        <div class="lanzamiento-tarjeta tarjeta-izq">
+          <div class="lanzamiento-giro">
+            <div class="lanzamiento-cara cara-clara">
+              <div class="orbita" aria-hidden="true"><div class="orbita-centro"></div></div>
+              <div class="intro">
+                <p class="intro-frase"><span class="intro-antes">Todo tu restaurante</span> <span class="intro-imagenes"><img src="prueba/tarjeta-libreta.webp" alt="" decoding="async"><img src="prueba/tarjeta-mesera.webp" alt="" decoding="async" hidden><img src="prueba/tarjeta-cuentas.webp" alt="" decoding="async" hidden></span> <span>en un solo sistema.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- La segunda: un remolino de imágenes que giran alrededor de una frase y se van al centro -->
+        <div class="lanzamiento-tarjeta tarjeta-der">
+          <div class="lanzamiento-giro">
+            <div class="lanzamiento-cara cara-oscura">
+              <div class="remolino" aria-hidden="true"><div class="remolino-centro"></div></div>
+              <p class="remolino-titulo">Todo conectado.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lanzamiento-orillas" aria-hidden="true"></div>
+      <div class="lanzamiento-texto">
+        <h2 id="lanzamiento-titulo">Todo tu restaurante. En un solo lugar.</h2>
       </div>
     </div>
   </section>
