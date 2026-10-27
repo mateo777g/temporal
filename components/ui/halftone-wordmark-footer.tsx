@@ -15,11 +15,17 @@ const defaultColumns: FooterColumn[] = [
   { title: "Contacto", links: [{ label: "Instagram" }, { label: "WhatsApp" }] },
 ];
 
-function FooterShortcut({ label, href, onClick, className = "", children }: {
-  label: string; href?: string; onClick?: () => void; className?: string; children?: React.ReactNode;
+function FooterShortcut({ label, href, onClick, className = "", shine = 0, children }: {
+  label: string; href?: string; onClick?: () => void; className?: string;
+  // Cada vez que cambia, le pasa el brillo (al abrir su renglón del acordeón, en celular)
+  shine?: number;
+  children?: React.ReactNode;
 }) {
   const [active, setActive] = React.useState(false);
   const letters = [...label];
+  React.useEffect(() => {
+    if (shine && !matchMedia("(prefers-reduced-motion: reduce)").matches) setActive(true);
+  }, [shine]);
   const props = {
     className: `${className} hwf-shortcut${active ? " hwf-shining" : ""}`,
     "aria-label": label,
@@ -105,21 +111,62 @@ function FooterWordmark({ label }: { label: string }) {
   </svg>;
 }
 
+// En celular cada columna es un acordeón, como el footer de Nissan: un renglón con su nombre y una flechita, y al
+// tocarlo salen sus enlaces. Así se ve ordenado. En escritorio siguen abiertas, con el mismo HTML de antes.
+const phoneQuery = "(max-width: 760px)";
+function useIsPhone() {
+  return React.useSyncExternalStore((onChange) => {
+    const query = matchMedia(phoneQuery);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, () => matchMedia(phoneQuery).matches);
+}
+
+// Los avisos legales: en escritorio van abajo, junto a la línea; en celular, en un renglón más del acordeón
+const legalColumn: FooterColumn = { title: "Legales", links: [{ label: "Aviso de privacidad" }, { label: "Términos y condiciones" }] };
+
+const columnId = (col: FooterColumn) => col.title === "Contacto" ? "contacto" : undefined;
+const columnLinks = (col: FooterColumn, shine?: number) =>
+  col.links.map(link => <li key={link.label}><FooterShortcut href={link.href} label={link.label} shine={shine} /></li>);
+
+// Cerrada, sus enlaces no se pueden tabular (inert); se abre y se cierra con la altura (style.css). Cada vez que se
+// abre, a sus enlaces les pasa el brillo, como al pasarles el mouse en escritorio.
+function FooterAccordionColumn({ col }: { col: FooterColumn }) {
+  const [open, setOpen] = React.useState(false);
+  const [shine, setShine] = React.useState(0);
+  const panelId = React.useId();
+  return <nav className="hwf-col" aria-label={col.title} id={columnId(col)} data-open={open ? "" : undefined}>
+    <h2><button type="button" className="hwf-col-toggle" aria-expanded={open} aria-controls={panelId}
+      onClick={() => {
+        if (!open) setShine(count => count + 1);
+        setOpen(!open);
+      }}>{col.title}<span className="hwf-chevron" aria-hidden="true" /></button></h2>
+    <div className="hwf-panel" id={panelId} inert={!open}><ul>{columnLinks(col, shine)}</ul></div>
+  </nav>;
+}
+
 export default function HalftoneWordmarkFooter({ wordmark = "fragmentless", columns = defaultColumns }: HalftoneWordmarkFooterProps) {
+  const isPhone = useIsPhone();
   return <footer className="hwf-root">
     <div className="hwf-top">
       <div className="hwf-brand">
         <FooterShortcut href="./" className="hwf-brand-link" label="fragmentless"><img src="assets/fragmentless-fibras-dark.svg" alt="" width="24" height="23" /></FooterShortcut>
         <p>© 2026 Fragmentless. Todos los derechos reservados.</p>
       </div>
-      {columns.map(col => <nav className="hwf-col" key={col.title} aria-label={col.title} id={col.title === "Contacto" ? "contacto" : undefined}>
-        <h2>{col.title}</h2><ul>{col.links.map(link => <li key={link.label}><FooterShortcut href={link.href} label={link.label} /></li>)}</ul>
-      </nav>)}
+      {columns.map(col => isPhone
+        ? <FooterAccordionColumn key={col.title} col={col} />
+        : <nav className="hwf-col" key={col.title} aria-label={col.title} id={columnId(col)}>
+          <h2>{col.title}</h2><ul>{columnLinks(col)}</ul>
+        </nav>)}
+      {isPhone && <FooterAccordionColumn col={legalColumn} />}
     </div>
-    <div className="hwf-rule">
-      <div className="hwf-legal"><FooterShortcut label="Aviso de privacidad" /><FooterShortcut label="Términos y condiciones" /></div>
+    {/* En celular no va: los avisos legales están en el acordeón y ahí no lleva «Volver arriba» */}
+    {!isPhone && <div className="hwf-rule">
+      <div className="hwf-legal">
+        {legalColumn.links.map(link => <FooterShortcut key={link.label} label={link.label} />)}
+      </div>
       <FooterShortcut label="Volver arriba ↑" onClick={() => window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })} />
-    </div>
+    </div>}
     <FooterWordmark label={wordmark} />
   </footer>;
 }

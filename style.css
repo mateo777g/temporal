@@ -1298,6 +1298,52 @@ body {
   .hwf-top { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
   .hwf-brand { grid-column: 1 / -1; }
 }
+/* En celular las columnas son un acordeón, como el footer de Nissan (el componente cambia su HTML ahí): una debajo
+   de la otra, separadas por líneas, cada una un renglón con su nombre en blanco y una flechita que gira al abrirse.
+   La última (Legales) cierra con su propia línea: en celular no va la fila de abajo (.hwf-rule). El logo con el
+   «© 2026» va debajo de los renglones (en el HTML sigue primero). */
+@media (max-width: 760px) {
+  /* Menos espacio arriba de la palabra grande: con los 150 px de escritorio (y el alto mínimo) quedaba un hueco
+     muy grande. Crece con el ancho, como la palabra. */
+  .hwf-root { min-height: 0; padding-bottom: calc(16vw + 30px); }
+  .hwf-top { grid-template-columns: 1fr; row-gap: 0; }
+  .hwf-brand { order: 1; margin-top: 32px; }
+  .hwf-col { border-top: 1px solid #ffffff29; }
+  .hwf-col h2 { margin: 0; color: #FFFFFF; }
+  .hwf-col-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 18px 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+  }
+  .hwf-chevron {
+    width: 7px;
+    height: 7px;
+    margin-right: 4px;
+    border-right: 1.5px solid;
+    border-bottom: 1.5px solid;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform var(--abrir);
+  }
+  .hwf-col[data-open] .hwf-chevron { transform: translateY(2px) rotate(-135deg); }
+  /* Se abre con la altura, como el menú de la barra; el espacio de abajo va dentro, para que cerrada no asome */
+  .hwf-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--abrir); }
+  .hwf-col[data-open] .hwf-panel { grid-template-rows: 1fr; }
+  .hwf-panel > ul { min-height: 0; overflow: hidden; }
+  .hwf-panel li:last-child { padding-bottom: 18px; }
+  /* Los enlaces en gris y el renglón en blanco: el footer de escritorio al revés */
+  .hwf-panel a { color: #A1A1A6; }
+  .hwf-col:last-child { border-bottom: 1px solid #ffffff29; }
+}
+
 /* En celular y en tablet la barra es una sola fila: el logo, Iniciar Sesión y la hamburguesa. Los atajos y Conoce
    el Sistema no caben (en tablet, a 768, Conoce el Sistema se salía de la pantalla); los atajos van dentro de la
    hamburguesa. barra.js usa el mismo ancho. */
