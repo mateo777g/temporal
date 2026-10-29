@@ -226,7 +226,10 @@ líneas; al tocarlo sale su submenú. `barra.js` mete cada submenú en un `.subm
 footer) el renglón va en negro o blanco y los enlaces en gris, como el footer de escritorio pero al revés
 (`--color-submenu` en el menú, que el brillo de los enlaces también usa). Cada vez que se abre un renglón, a sus
 enlaces les pasa el brillo azul de siempre (en el menú, `encender()` de `barra.js`; en el footer, `shine`). Hasta 900 y no 760 porque en
-tablet «Conoce el Sistema» se salía de la pantalla; el resto de la página cambia a 760. En celular «Conoce el
+tablet «Conoce el Sistema» se salía de la pantalla; el resto de la página cambia a 760. En celular (hasta 760) la
+hamburguesa va en un botón azul relleno de 36 px junto a «Iniciar Sesión», como «Conoce el Sistema» en PC (de noche,
+blanco con rayas negras), con rayas de 2 px: de 1.5, la de arriba caía a medio pixel y se veía más delgada. En tablet
+se quedó como estaba, sin botón. En celular «Conoce el
 Sistema» no aparece. La tablet a lo alto (768) no se ha acomodado más que la barra.
 El footer, en celular, es un acordeón como el de Nissan: Productos, Soluciones, Acerca de, Contacto y Legales (los
 dos avisos, que en escritorio van abajo junto a la línea), cada uno un renglón con su nombre en blanco y una

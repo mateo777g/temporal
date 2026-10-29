@@ -1412,6 +1412,22 @@ body {
 @media (max-width: 760px) {
   :root { --margen: 16px; --alto-barra: 64px; }
   .boton { height: 36px; padding-inline: 12px; font-size: 13px; }
+  /* La hamburguesa va en un botón azul relleno junto a Iniciar Sesión, como Conoce el Sistema en PC: de su mismo
+     alto, a 12 px de él (el espacio de PC) y pegada al margen. De noche, blanca, como los botones de la barra. Las
+     rayas, de 2 px y en pixel entero: de 1.5, la de arriba caía a medio pixel y se veía más delgada que la de abajo. */
+  .hamburguesa {
+    width: 36px;
+    height: 36px;
+    margin: 0 0 0 12px;
+    border-radius: 7px;
+    background: var(--azul);
+    color: #FFFFFF;
+    transition: background-color var(--abrir), color var(--abrir);
+  }
+  .hamburguesa span { height: 2px; }
+  .hamburguesa[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
+  .hamburguesa[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
+  :root[data-noche]:not([data-hoja]) .barra .hamburguesa { background: #FFFFFF; color: var(--hueco); }
   /* La laptop no se va al lado ni sale el texto de la izquierda (Moderniza tu negocio): después del texto del
      centro se cierra ahí mismo. La escena mide lo que duraba esa parte menos: 6.1 pantallas y no 7 (escena.js,
      RECORRIDO). */
