@@ -150,7 +150,7 @@ export default function HalftoneWordmarkFooter({ wordmark = "fragmentless", colu
   return <footer className="hwf-root">
     <div className="hwf-top">
       <div className="hwf-brand">
-        <FooterShortcut href="./" className="hwf-brand-link" label="fragmentless"><img src="assets/fragmentless-fibras-dark.svg" alt="" width="24" height="23" /></FooterShortcut>
+        <FooterShortcut href="./" className="hwf-brand-link" label="fragmentless"><img src="assets/fragmentless-logo-blanco.svg" alt="" width="24" height="23" /></FooterShortcut>
         <p>© 2026 Fragmentless. Todos los derechos reservados.</p>
       </div>
       {columns.map(col => isPhone

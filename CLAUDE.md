@@ -250,6 +250,10 @@ pasar el mouse se llena de blanco) y «Conoce el Sistema» blanco con letra negr
 gris oscuro; se comparó con dejar «Conoce el Sistema» en el azul claro (`--azul-noche`) y se prefirió todo blanco.
 Antes del cambio, en el tramo gris, siguen azules (ahí «Iniciar Sesión» se lee un poco débil). «Más información» y
 «Comprar» de la escena (`.texto-botones`) van igual, siempre en blanco, porque solo se ven en la parte negra.
+El logo, desde el cambio a modo noche y en el footer, es `fragmentless-logo-blanco.svg`: el degradado de siempre
+pasado a grises (cada color, a un gris con su misma luz; la punta celeste queda blanca y la pieza de abajo, el gris
+más fuerte, `#B0B0B0`). Se probó el degradado de azul clarito a blanco del logo sobre azul y se veía azul claro, no
+blanco; y uno más marcado (hasta `#8B8B8B`), que ya tiraba a plateado.
 
 ## Comandos
 
