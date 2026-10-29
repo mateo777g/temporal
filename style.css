@@ -12,7 +12,8 @@
   --azul-noche: #3D7BFF; /* el azul de la marca más claro (mismo tono), para que la píldora vacía se vea sobre negro */
   --noche: #000000; /* las secciones oscuras (como la de Nosotros): negro total, no el de la marca */
   --noche-escena: #141415; /* la parte negra de la escena de la laptop, que en realidad es gris muy oscuro */
-  --barra-noche: #1C1C1E; /* gris un poco oscuro: la barra abierta, con su submenú, sobre la sección oscura */
+  --barra-noche: #000000; /* la barra abierta, con su submenú, sobre la sección oscura: negra, como el footer. En
+                             gris (#1C1C1E) se confundía con el gris de la escena y parecía un gris que no cuadraba */
   --hueco: #0A0A0B; /* negro de la marca: lo que se ve mientras el video carga */
   --pulido: #707177; /* las orillas pulidas de la laptop: un gris más claro que el aluminio, que la marca sobre el negro */
   --velo: rgba(10, 10, 11, 0.45);
@@ -62,8 +63,8 @@ body {
    se veía como un bloque encima, sobre todo en el gris del paso a la parte negra, y el fondo de la escena no es
    plano (tiene la luz gris detrás de la laptop). Ahí no pasa nada por debajo de ella: lo más alto de la laptop
    queda más abajo que la barra. Sobre la hoja y lo que sigue (data-hoja) es blanca con su línea, porque ahí el
-   contenido sí pasa por debajo. Abierta, con su submenú, tiene fondo para que se lea: blanca de día y gris
-   oscura en la parte negra. data-escena solo lo pone escena.js, así que en nosotros.html la barra sigue blanca. */
+   contenido sí pasa por debajo. Abierta, con su submenú, tiene fondo para que se lea: blanca de día y negra
+   en la parte negra. data-escena solo lo pone escena.js, así que en nosotros.html la barra sigue blanca. */
 :root[data-escena]:not([data-hoja]) .barra:not([data-abierto]) {
   --fondo: transparent;
   box-shadow: none;
