@@ -20,12 +20,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=brillo-igual-1">
 <link rel="stylesheet" href="assets/components.css">
-<link rel="stylesheet" href="nosotros.css">
-<script src="assets/wave-background.js" defer></script>
+<link rel="stylesheet" href="nosotros.css?v=intro-2">
+<script src="assets/wave-background.js?v=intro-1" defer></script>
 <script src="barra.js" defer></script>
-<script src="nosotros.js" defer></script>
+<script src="nosotros.js?v=intro-2" defer></script>
+<!-- La entrada del logo (components/logo-vidrio.tsx): desde antes de pintar, la barra y el texto de la portada
+     esperan escondidos y no se puede bajar. Siempre arranca arriba. Con «reducir movimiento» no hay entrada. -->
+<script>
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.dataset.intro = 'logo';
+    history.scrollRestoration = 'manual';
+  }
+</script>
 </head>
 <body class="pagina-nosotros">
 
@@ -74,11 +82,14 @@
 <div class="velo" aria-hidden="true"></div>
 
 <main>
-  <!-- Portada: quiénes somos, en una frase -->
+  <!-- Portada: el logo y, debajo, quiénes somos en una frase. El logo entra primero, a pantalla completa, dentro
+       de un vidrio líquido (components/logo-vidrio.tsx, en el bundle); luego sube al lugar que le aparta
+       .ns-logo-lugar, y salen la barra y el texto. -->
   <section class="ns-portada">
-    <p class="ns-etiqueta aparece">Nosotros</p>
-    <h1 class="aparece">Somos Fragmentless.</h1>
-    <p class="ns-entrada aparece">Una empresa de software. Atacamos los problemas que tienen las empresas allá afuera y juntamos su solución en un solo ecosistema, bien hecho.</p>
+    <div class="ns-logo" id="logo-vidrio"></div>
+    <div class="ns-logo-lugar" aria-hidden="true"></div>
+    <h1>Somos Fragmentless.</h1>
+    <p class="ns-entrada">Una empresa de software. Atacamos los problemas que tienen las empresas allá afuera y juntamos su solución en un solo ecosistema, bien hecho.</p>
   </section>
 
   <!-- La misión, grande: de piezas sueltas a un sistema completo -->

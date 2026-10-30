@@ -51,11 +51,63 @@ p.ns-columna-texto {
   align-items: start;
 }
 
-/* Portada: arranca debajo de la barra, con el titular tan grande como el de index.html */
+/* Portada: el logo y debajo el titular, tan grande como el de index.html, todo centrado en la primera pantalla */
 .ns-portada {
-  padding-top: calc(var(--alto-barra) + clamp(72px, 12vw, 160px));
+  position: relative;
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: calc(var(--alto-barra) + 32px);
+  padding-bottom: 64px;
   border-bottom: 1px solid color-mix(in srgb, var(--tinta) 10%, transparent);
 }
+.ns-portada > :not(.ns-logo) { position: relative; z-index: 1; }
+
+/* El logo en su vidrio: un lienzo del tamaño de la pantalla con el logo al centro, que el componente pinta con
+   su fondo (gris en la entrada, blanco después). Al terminar la entrada sube --sube (nosotros.js) para que el
+   logo quede sobre .ns-logo-lugar. No se puede tocar: así no repite la entrada al hacer clic. */
+.ns-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  min-height: 420px;
+  translate: 0 var(--sube, 0px);
+  pointer-events: none;
+}
+/* El espacio del logo ya terminado: lo que mide en el componente (0.46 de su cuadro, que es el lado corto de la
+   pantalla entre 1.75, hasta 256 px) */
+.ns-logo-lugar {
+  flex: none;
+  width: calc(min(256px, 100vw / 1.75, 100svh / 1.75) * 0.46);
+  aspect-ratio: 1;
+  margin-bottom: 40px;
+}
+
+/* La entrada (data-intro en <html>: «logo» lo pone un script en <head> y «sube», components/logo-vidrio.tsx).
+   Mientras el logo sale en su vidrio, toda la pantalla es el gris de la referencia, sin barra ni texto, y no se
+   puede bajar. Luego el logo sube a su lugar mientras el fondo se pone blanco, baja la barra y al final sube el
+   texto, con las mismas entradas que la barra y la portada del index. */
+:root[data-intro="logo"] { overflow: hidden; }
+:root[data-intro="logo"] .ns-logo { translate: 0 0; background: #E9E9EB; }
+:root[data-intro="logo"] .barra { visibility: hidden; }
+:root[data-intro="logo"] .ns-portada > :not(.ns-logo) { opacity: 0; }
+:root[data-intro="sube"] .ns-logo { transition: translate 0.9s cubic-bezier(0.65, 0, 0.35, 1); }
+:root[data-intro="sube"] .barra { animation: entrada-barra 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.9s both; }
+:root[data-intro="sube"] .ns-portada > :is(h1, .ns-entrada) {
+  animation: entrada-portada 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 1.4s both;
+}
+:root[data-intro="sube"] .ns-portada > .ns-entrada { animation-delay: 1.48s; }
+/* En cuanto el titular termina de subir, le pasa el brillo azul de toda la página (brillo-submenu, en style.css),
+   letra por letra: nosotros.js pone cada una en su span con su lugar (--i) */
+:root[data-intro="sube"] .ns-portada h1 .brilla { animation: brillo-submenu 0.4s ease-in-out calc(1.9s + var(--i) * 18ms); }
 .ns-portada h1 {
   margin: 0;
   font-size: clamp(2.75rem, 7vw, 6.5rem);
@@ -65,6 +117,7 @@ p.ns-columna-texto {
 }
 .ns-entrada {
   margin: 28px 0 0;
+  text-wrap: balance;
   color: #515154;
   font-size: clamp(1.125rem, 1.6vw, 1.5rem);
   line-height: 1.5;

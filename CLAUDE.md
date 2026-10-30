@@ -30,9 +30,9 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `barrido.js` | La franja de luz que cruza la pantalla de la laptop y cambia el azul por la captura del panel (y de regreso) |
 | `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí. Hasta 900 px, la hamburguesa |
 | `lanzamiento.js` | La sección 3 (`.lanzamiento`): dos tarjetas que se alejan, se inclinan y bajan con el scroll, con un anillo y un remolino de imágenes, y el título. Antes era la fila curva de capturas (`hoja.js`, en el historial de git) |
-| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
-| `src/wave-entry.tsx` | Entrada React: monta `#site-footer` (y `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
-| `components/` | Componentes React (footer con brillo; las tarjetas del producto y la fila curva vieja con OGL, que ya no se usan) |
+| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: entrada del logo en vidrio y portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
+| `src/wave-entry.tsx` | Entrada React: monta `#site-footer` y, en Nosotros, `#logo-vidrio` (y `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
+| `components/` | Componentes React (footer con brillo; `logo-vidrio.tsx`, el logo en el vidrio líquido de `ui/liquid-glass-logo-reveal.tsx`; las tarjetas del producto y la fila curva vieja con OGL, que ya no se usan) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` |
 | `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
 
@@ -129,6 +129,18 @@ encima de la otra, a lo ancho de la pantalla, inclinadas sobre su orilla de aden
 hacia arriba, la segunda entra por abajo y el título queda arriba de las dos (`medir()`, con `vertical`).
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
 están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo lo ancho.
+
+**La entrada de Nosotros** (29 de octubre): Nosotros se había quedado atrás del index y le tocaba su propio
+«momento». Lo primero que se ve es el logo dentro del vidrio líquido del «Glass Reveal» de 21st.dev
+(`components/ui/liquid-glass-logo-reveal.tsx`, copiado tal cual más un aviso `onEnd`), a pantalla completa sobre
+el gris de la referencia, sin barra y sin poder bajar: una gota de vidrio crece en el cuadro con el logo adentro
+grande y doblado en las orillas (con su tornasol), lo suelta y queda el logo solo. `components/logo-vidrio.tsx`
+lleva los números del logo de 21st.dev con la estrella oficial del lienzo, con sus colores, y sale una sola vez. Al
+terminar, medio segundo después, el logo sube a su lugar arriba de «Somos Fragmentless.» mientras el fondo pasa a
+blanco, baja la barra (como en el index) y suben el titular y su párrafo; al titular le pasa el brillo azul. Los
+pasos van en `data-intro` de `<html>` («logo», que pone un script en `<head>`, y «sube»); `nosotros.js` mide cuánto
+sube el logo (`--sube`, hasta `.ns-logo-lugar`). Con «reducir movimiento» no hay entrada; sin WebGL o si el bundle
+no carga, se salta sola. Tarda unos 6 s y sale en cada visita. Se quitó la etiqueta «Nosotros» de la portada.
 
 ## Dónde nos quedamos (26 de octubre de 2026)
 
