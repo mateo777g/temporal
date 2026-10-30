@@ -8,7 +8,7 @@
   --tinta-suave: #6E6E73;
   --borde: #C9C9CC;
   --azul: #1355E8;
-  --azul-claro: #8AB4FF; /* el primer color que les pasa a los títulos de la escena */
+  --azul-claro: #8AB4FF; /* el primer color del brillo azul que les pasa a los textos (brillo-submenu) */
   --azul-noche: #3D7BFF; /* el azul de la marca más claro (mismo tono), para que la píldora vacía se vea sobre negro */
   --noche: #000000; /* las secciones oscuras (como la de Nosotros): negro total, no el de la marca */
   --noche-escena: #141415; /* la parte negra de la escena de la laptop, que en realidad es gris muy oscuro */
@@ -209,7 +209,6 @@ body {
   text-decoration: none;
 }
 
-/* El mismo paso de azul claro a azul de marca que en la segunda sección. */
 .submenu-brillo {
   display: inline-block;
   line-height: 1.3em;
@@ -217,8 +216,13 @@ body {
   white-space: nowrap;
 }
 .submenu-brillo span { color: inherit; }
+/* El brillo azul de la marca, una regla de diseño: el mismo en toda la página, en los enlaces de la barra y del
+   footer, en los titulares del index y de Nosotros, en los títulos de la escena y en la sección 3. Cada letra en su
+   span, con su lugar en --i, pasa de su color al azul claro y al azul de la marca y regresa, en 0.4 s, 18 ms después
+   de la de su izquierda. Sale del color de la letra y regresa a él (inherit), así sirve igual en negro, en gris y en
+   blanco. A los títulos les pasa en cuanto quedan quietos, 0.5 s después de que empiezan a entrar. */
 @keyframes brillo-submenu {
-  0%, 100% { color: var(--color-submenu, var(--tinta)); }
+  0%, 100% { color: inherit; }
   25% { color: var(--azul-claro); }
   50% { color: var(--azul); }
 }
@@ -410,9 +414,10 @@ body {
   animation: entrada-portada .7s cubic-bezier(.2,.7,.2,1) both;
 }
 .intro-activa .portada-botones { animation-delay: .6s; }
+/* Al titular, en cuanto termina de subir, le pasa el brillo azul de toda la página (brillo-submenu), letra por
+   letra (--i: su lugar, escena.js), igual que al de Nosotros y a los títulos de la escena. */
 .intro-activa .portada-copy h1 span {
-  --color-final-titulo: #0A0A0B;
-  animation: pintar .53s linear calc(var(--i) * 35ms) both;
+  animation: brillo-submenu .4s ease-in-out calc(.5s + var(--i) * 18ms);
 }
 .intro-activa .portada-resumen span {
   animation: encender-portada .4s ease calc(.35s + var(--i) * 70ms) both;
@@ -968,18 +973,12 @@ body {
   transition: opacity 0.4s ease calc(var(--palabras) + var(--i) * var(--paso));
 }
 
-/* A los títulos les pasan dos colores encima, palabra por palabra de izquierda a derecha, mientras entran
-   (--i: su lugar, escena.js): llegan en azul claro, el azul de la marca las va cubriendo y luego el blanco,
-   y se quedan blancos. Medido de un video de scale.com a 30 cuadros por segundo: cada palabra empieza 35 ms
-   después de la de su izquierda y tarda 0.13 s en cambiar de color; el azul entra a los 50 ms y el blanco
-   a los 0.4 s. */
-:is(.texto-centro, .texto-lado)[data-dentro] .se-pinta span {
-  animation: pintar 0.53s linear calc(var(--i) * 35ms) both;
-}
-@keyframes pintar {
-  0%, 9.4% { color: var(--azul-claro); }
-  34%, 75.5% { color: var(--azul); }
-  100% { color: var(--color-final-titulo, #FFFFFF); }
+/* A los títulos, en cuanto terminan de subir, les pasa el brillo azul de toda la página (brillo-submenu), letra
+   por letra (--i: su lugar, escena.js), igual que al titular de la portada. Antes se pintaban palabra por palabra
+   al entrar (llegaban en azul y se quedaban blancos, medido de un video de scale.com); el usuario los quiso con el
+   mismo brillo que todo lo demás. */
+:is(.texto-centro, .texto-lado)[data-dentro] .se-brilla span {
+  animation: brillo-submenu .4s ease-in-out calc(.5s + var(--i) * 18ms);
 }
 
 
@@ -1264,12 +1263,7 @@ body {
 }
 .hwf-root a, .hwf-rule button { color: inherit; text-decoration: none; }
 .hwf-letter { color: inherit; }
-@keyframes brillo-footer {
-  0%, 100% { color: inherit; }
-  25% { color: var(--azul-claro); }
-  50% { color: var(--azul); }
-}
-.hwf-shining .hwf-letter { animation: brillo-footer .4s ease-in-out calc(var(--i) * 18ms); }
+.hwf-shining .hwf-letter { animation: brillo-submenu .4s ease-in-out calc(var(--i) * 18ms); }
 @media (prefers-reduced-motion: reduce) {
   .hwf-shining .hwf-letter { animation: none; }
 }
@@ -1448,6 +1442,7 @@ body {
   :root { --abrir: 0s; }
   .barra[data-abierto] :is(.submenu li, .submenu-grupo) { animation: none; }
   :is(.texto-centro, .texto-lado) :is(h2, p, .texto-botones) { transform: none; }
+  :is(.texto-centro, .texto-lado)[data-dentro] .se-brilla span { animation: none; }
   /* La tarjeta no se gira: el teclado de frente no se vería, solo estorbaría */
   .teclado { display: none; }
 }

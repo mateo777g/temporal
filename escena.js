@@ -104,8 +104,8 @@
   };
   const TEXTOS_CELULAR = { centro: aCelular(TEXTOS.centro) };
 
-  // Cada palabra de los párrafos que se encienden y de los títulos que se pintan va en su propio <span>
-  // (ver .se-enciende y .se-pinta en style.css), con su lugar en --i.
+  // Cada palabra de los párrafos que se encienden va en su propio <span> (ver .se-enciende en style.css), con su
+  // lugar en --i.
   const partirEnPalabras = (elemento) => {
     const palabras = elemento.textContent.trim().split(/\s+/);
     elemento.replaceChildren();
@@ -117,33 +117,36 @@
     });
     return palabras.length;
   };
+  // Los títulos a los que les pasa el brillo azul (el titular de la portada y .se-brilla en style.css), letra por
+  // letra: cada una en su <span>, con su lugar en --i.
+  const partirEnLetras = (elemento) => {
+    let indice = 0;
+    for (const nodo of [...elemento.childNodes]) {
+      if (nodo.nodeType !== Node.TEXT_NODE) continue;
+      const fragmento = document.createDocumentFragment();
+      for (const caracter of nodo.textContent) {
+        if (/\s/.test(caracter)) fragmento.append(caracter);
+        else {
+          const letra = document.createElement('span');
+          letra.textContent = caracter;
+          letra.style.setProperty('--i', indice++);
+          fragmento.append(letra);
+        }
+      }
+      nodo.replaceWith(fragmento);
+    }
+  };
   // El texto entero sabe cuántas palabras tiene su párrafo, para que sus botones salgan después de la última.
   for (const p of escena.querySelectorAll('.se-enciende')) {
     p.parentElement.style.setProperty('--n', partirEnPalabras(p));
   }
-  for (const titulo of escena.querySelectorAll('.se-pinta')) partirEnPalabras(titulo);
+  for (const titulo of escena.querySelectorAll('.se-brilla')) partirEnLetras(titulo);
 
   // La introducción se ejecuta una vez; no interfiere al abrir un enlace interno.
   const introInicio = performance.now();
   let introTerminada = sinMovimiento.matches || scrollY > 8 || Boolean(location.hash);
   if (!introTerminada) {
-    const titulo = portada.querySelector('h1');
-    let indice = 0;
-    for (const nodo of [...titulo.childNodes]) {
-      if (nodo.nodeType !== Node.TEXT_NODE) continue;
-      const fragmento = document.createDocumentFragment();
-      for (const parte of nodo.textContent.split(/(\s+)/)) {
-        if (!parte) continue;
-        if (/^\s+$/.test(parte)) fragmento.append(parte);
-        else {
-          const palabra = document.createElement('span');
-          palabra.textContent = parte;
-          palabra.style.setProperty('--i', indice++);
-          fragmento.append(palabra);
-        }
-      }
-      nodo.replaceWith(fragmento);
-    }
+    partirEnLetras(portada.querySelector('h1'));
     partirEnPalabras(portada.querySelector('.portada-resumen'));
     document.documentElement.classList.add('intro-activa');
   }

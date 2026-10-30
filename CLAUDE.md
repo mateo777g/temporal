@@ -320,6 +320,11 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
 - Cada archivo empieza con un comentario de qué es, y los comentarios explican el *por qué*, en frases completas.
 - Colores en variables de `:root` (`--azul: #1355E8`, `--tinta`, `--noche`, …). Letra: Inter.
 - Respetar `prefers-reduced-motion` en toda animación nueva.
+- **El brillo azul es regla de diseño**: los textos que llevan brillo usan todos el mismo, `@keyframes brillo-submenu`
+  de `style.css` (del color de la letra al azul claro y al azul de la marca, y de regreso), letra por letra, 0.4 s
+  por letra y 18 ms entre una y otra; a los títulos, 0.5 s después de que empiezan a entrar. Lo llevan la barra, el
+  footer, los titulares del index y de Nosotros, los títulos de la escena (`.se-brilla`) y la sección 3. Nada de
+  otro efecto, otro azul ni otras velocidades.
 - Probar en escritorio y en celular (375 px) sin scroll horizontal, y revisar la consola. Los detalles de la
   laptop, en escritorio (1280, 1440 y 1920 px); en celular, que siga centrada en cada pose.
 - Un commit por cambio, subido a GitHub, para poder regresar solo esa parte.
