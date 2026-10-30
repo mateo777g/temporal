@@ -1,0 +1,22 @@
+# Lo que Vercel no publica. La web solo usa los dos HTML, sus CSS y JS de la raíz, assets/ y prueba/;
+# lo demás son notas de trabajo y el código fuente del bundle, que no tienen por qué verse en la dirección de la marca.
+
+CLAUDE.md
+README.md
+.claude/
+.gitignore
+
+# El código fuente del bundle: lo que se carga es el compilado de assets/.
+src/
+components/
+lib/
+styles/
+package.json
+package-lock.json
+tsconfig.json
+components.json
+
+# Páginas de prueba y el archivo que Windows mete en las carpetas.
+prueba-*.html
+prueba-*.js
+prueba/desktop.ini

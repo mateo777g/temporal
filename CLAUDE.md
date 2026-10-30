@@ -283,6 +283,10 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
   sin audio. La página ya no carga ningún video.
 - Al cambiar `style.css` o un `.js` de la raíz, subir su `?v=` en `index.html` (por ejemplo `style.css?v=barra-transparente-2`),
   para que el navegador no use la copia vieja guardada.
+- Publicada en https://fragmentless-software.vercel.app (proyecto `fragmentless-software` de Vercel, que antes
+  tenía la primera versión). No compila nada allá: publica el repo tal cual, con el bundle ya compilado de
+  `assets/`. Hasta que en Vercel se cambie el repo ligado (Settings → Git), un push no la actualiza solo: hay que
+  volver a publicar `main`. `.vercelignore` deja fuera las notas y el código fuente del bundle.
 
 ## Cómo probar la laptop en el navegador integrado
 
