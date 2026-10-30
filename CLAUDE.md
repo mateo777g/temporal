@@ -33,7 +33,7 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: entrada del logo en vidrio y portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
 | `src/wave-entry.tsx` | Entrada React: monta `#site-footer` y, en Nosotros, `#logo-vidrio` (y `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
 | `components/` | Componentes React (footer con brillo; `logo-vidrio.tsx`, el logo en el vidrio líquido de `ui/liquid-glass-logo-reveal.tsx`; las tarjetas del producto y la fila curva vieja con OGL, que ya no se usan) |
-| `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` |
+| `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` (la imagen al compartir el enlace: la entrada de Nosotros congelada en el segundo 2.0, con `time` de `GlassIconReveal`, a 1200 × 630) |
 | `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
@@ -341,7 +341,8 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
 - Enlaces que todavía apuntan a `#`: «Iniciar Sesión», «Planes», «Contáctanos», y «Más información» y
   «Comprar» de la escena en `index.html` (están dos veces: en el texto de la izquierda y, para celular, en el del
   centro; cambiar los dos).
-- Cuando haya dominio: `og:image` en `index.html` y `nosotros.html` debe ser una dirección completa (`https://…`).
+- Si la página pasa a un dominio propio, cambiar `og:image` en `index.html` y `nosotros.html`, que apunta a
+  `fragmentless-software.vercel.app`.
 - Según la marca, el nombre «fragmentless» va en la letra Outfit, peso 200. La barra todavía usa Inter.
 - `prueba/` podría renombrarse (por ejemplo, `media/`). Ya solo tiene lo que carga la página (`fondo-azul.webp`
   es lo que se ve sin WebGL). El 24 de octubre se borraron los respaldos, las fotos y videos viejos que ya no se
