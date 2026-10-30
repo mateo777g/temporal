@@ -96,6 +96,9 @@ p.ns-columna-texto {
    puede bajar. Luego el logo sube a su lugar mientras el fondo se pone blanco, baja la barra y al final sube el
    texto, con las mismas entradas que la barra y la portada del index. */
 :root[data-intro="logo"] { overflow: hidden; }
+/* Al subir, el lienzo del logo se lleva su fondo y deja ver la portada debajo: va del mismo color que él (gris, y
+   luego el que le pone components/logo-vidrio.tsx en --fondo-logo mientras pasa a blanco) */
+:root[data-intro] .ns-portada { background: var(--fondo-logo, #E9E9EB); }
 :root[data-intro="logo"] .ns-logo { translate: 0 0; background: #E9E9EB; }
 :root[data-intro="logo"] .barra { visibility: hidden; }
 :root[data-intro="logo"] .ns-portada > :not(.ns-logo) { opacity: 0; }

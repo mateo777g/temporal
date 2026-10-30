@@ -54,6 +54,13 @@ export default function LogoVidrio({ className }: { className?: string }) {
     }, PAUSA);
   }, [quieto]);
 
+  // El lienzo sube con el logo y deja ver la portada debajo (nosotros.css), que va del mismo color que él. Se le
+  // pone aquí y no en paso() para que cambie en el mismo cuadro en que el lienzo se vuelve a pintar; si no, la
+  // portada iba un cuadro adelante y en la orilla de abajo del lienzo se veía una línea.
+  React.useEffect(() => {
+    document.documentElement.style.setProperty("--fondo-logo", fondo);
+  }, [fondo]);
+
   return (
     <GlassIconReveal
       logo={LOGO}
