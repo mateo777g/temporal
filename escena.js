@@ -86,6 +86,11 @@
   // centro de su pantalla; se midió para que la laptop entera quede a la mitad, cerrada y abierta).
   const FRENTE_CELULAR = { cerrada: 0.367, abierta: 0.453 };
   const PROFUNDIDAD_FRENTE = 2.4;
+  // En celular, --k (con él las esquinas y las orillas finas se ven siempre igual en pantalla, style.css) solo se
+  // cambia cuando la escala varía más de un 10 %: cada cambio repinta la laptop entera, y en el zoom, ya grande en
+  // pantalla, el celular no alcanzaba a repintarla en cada cuadro y se trababa. Un 10 % en esquinas de 12 px no se
+  // nota, y al llenar todo la escala va tan grande que las esquinas de adentro quedan rectas igual.
+  const CAMBIO_K = Math.log(1.1);
   // El bloque lateral también sale; reutiliza el mismo desvanecimiento que el texto central.
   const TEXTOS = {
     centro: [0.25, 0.48],
@@ -164,6 +169,7 @@
   };
 
   let pendiente = false;
+  let kPuesta = 0; // la última escala que se le pasó a --k
 
   function pintar() {
     pendiente = false;
@@ -270,7 +276,10 @@
       `rotateX(${pose.rx}deg) rotateY(${pose.ry}deg) rotateZ(${pose.rz}deg) ` +
       `scale3d(${pose.k}, ${pose.k}, ${pose.k}) ` +
       `translateY(${alto / 2}px) rotateX(${apertura - desdoblada}deg) translateY(${-alto / 2}px)`;
-    laptop.style.setProperty('--k', pose.k);
+    if (!celular.matches || Math.abs(Math.log(pose.k / kPuesta)) > CAMBIO_K) {
+      kPuesta = pose.k;
+      laptop.style.setProperty('--k', pose.k);
+    }
 
     // El eslogan se va.
     const quedaEslogan = 1 - tramo(p, tramos.eslogan);
@@ -287,7 +296,9 @@
     // mueve; de lado sigue a la laptop, al centro de su silueta (el teclado sale hacia la izquierda de la
     // pantalla, por eso se corre de pose.x).
     noche.style.setProperty('--luz-y', `${enCentro.y + alto * enCentro.k / 2 - altoPantalla * 0.07}px`);
-    noche.style.setProperty('--luz-x', `${pose.x - ancho * pose.k * 0.2}px`);
+    // En celular, durante el zoom se queda donde estaba: moverla repinta todo el fondo en cada cuadro, y la laptop ya
+    // lo va tapando.
+    if (!celular.matches || zoom === 0) noche.style.setProperty('--luz-x', `${pose.x - ancho * pose.k * 0.2}px`);
     // El cambio lo hace una franja de luz que cruza la pantalla (barrido.js): aquí solo se dice cuál toca
     video.toggleAttribute('data-panel', oscuro >= 0.5);
     // Con el zoom, la pantalla blanca va cubriendo todo: la barra regresa a letra negra

@@ -114,6 +114,10 @@ la cámara avanza (`ZOOM`, la escala en veces, como una cámara) hasta que lo de
 no sube como hoja con esquinas; sobre el blanco de la pantalla de la laptop aparece su primera tarjeta
 (`lanzamiento.js` le pone `data-llego`). Las posiciones de frente se midieron a 1280, 1440 y 1920 (el espacio
 de arriba y el de abajo quedan casi iguales).
+En celular el zoom se trababa y, por huecos del blanco, asomaban el azul y el panel: el teléfono no alcanzaba a
+pintar la laptop tan grande en cada cuadro. Ahí, con la pantalla en blanco se esconden las capas que quedan debajo
+(el azul, el panel y la franja de luz), `--k` solo cambia cuando la escala varía más de un 10 % (`CAMBIO_K`) y la
+luz del fondo (`--luz-x`) no se mueve durante el zoom. En PC sigue como estaba.
 
 **La sección 3** (`.lanzamiento`, `lanzamiento.js`; sus estilos en `style.css`): como el «hero launch» de snapcn,
 en blanco y con el scroll. La tarjeta clara aparece a todo lo ancho con la frase «Todo tu restaurante [imagen] en

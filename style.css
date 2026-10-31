@@ -1429,6 +1429,10 @@ body {
   .escena { height: 610vh; }
   .texto-lado { display: none; }
   .laptop { --radio: 12px; height: calc((100vw - 2 * var(--margen)) * .5625); min-height: 0; }
+  /* Con la pantalla en blanco (data-seccion), lo que queda debajo de ella no se ve: el azul en vivo, la captura del
+     panel y el lienzo de la franja de luz. Escondidos, el celular deja de llevarlos como capas aparte. Con ellos, en
+     el zoom, ya grandes en pantalla, no le alcanzaba la memoria: se trababa y por huecos del blanco asomaba el azul. */
+  .laptop[data-seccion] :is(.pantalla-azul, .panel-sistema, .barrido-luz) { visibility: hidden; }
   /* El texto sale debajo de la laptop, con Más información y Comprar, que en escritorio van en el de la izquierda.
      A 63 % queda al centro entre la laptop y la orilla de abajo (medido de 330 × 715 a 375 × 812); a 66 %, con los
      botones, en un celular bajito casi tocaba la orilla. */
