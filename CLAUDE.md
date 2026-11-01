@@ -37,6 +37,7 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `components/` | Componentes React (footer con brillo; `logo-vidrio.tsx`, el logo en el vidrio líquido de `ui/liquid-glass-logo-reveal.tsx`; las tarjetas del producto y la fila curva vieja con OGL, que ya no se usan) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` (la imagen al compartir el enlace: la entrada de Nosotros congelada en el segundo 2.0, con `time` de `GlassIconReveal`, a 1200 × 630) |
 | `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
+| `estrella.js`, `cielo.js`, `prueba-estrella.html` | La estrella de Nosotros en 3D (WebGL), su cielo de fondo y su página de prueba (esta no va en git). Todavía no se usan en Nosotros; ver «Dónde nos quedamos (1 de noviembre de 2026, noche)» |
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
 
@@ -160,23 +161,95 @@ el corte del logo sobre su disco (se comprobó encimando los dos), y su fondo ba
 note su orilla. Cierra la frase «Materia dispersa que colapsa en una sola cosa…» con la idea de la misión debajo.
 El logo es la estrella oficial, la de `components/logo-vidrio.tsx`, en un `svg` dentro del HTML.
 
-## Dónde nos quedamos (1 de noviembre de 2026): esperar la idea del usuario para la estrella
+## Dónde nos quedamos (1 de noviembre de 2026, noche): la estrella en 3D, ya igual a HH 30
 
-**Lo siguiente es rehacer la estrella de Nosotros (la segunda sección, `.ns-estrella`), pero el usuario va a traer
-su idea o boceto primero. No construir nada hasta que la dé**: dos veces pidió parar porque quería planearla él.
-Lo que se publicó el 1 de noviembre (ver «La estrella de Nosotros» arriba) es la primera versión, la de la foto de
-HH 30, y se queda así mientras tanto. Lo que el usuario ya dijo que quiere:
+**Se está haciendo la estrella de Nosotros en 3D, nuestra, para reemplazar la foto de HH 30** (`prueba/hh30.webp`,
+que no se puede quedar por los derechos). Va en una página de prueba, **todavía fuera de Nosotros** (Nosotros sigue
+con la foto). `estrella.js` y `cielo.js` ya están en GitHub; la página de prueba solo en la carpeta local:
 
-- **Sin la foto de la NASA/ESA** (`prueba/hh30.webp`): en parte por los derechos, pero sobre todo porque quiere la
-  estrella hecha por nosotros, **en 3D**, como la laptop (CSS 3D) o como el azul de su pantalla (WebGL en vivo,
-  `pantalla.js`), porque en 3D hay más posibilidades que en la secuencia plana de ahora.
-- Con menos detalle y sin los colores de la foto: los del telescopio no son reales (pasa el infrarrojo a colores).
-- No tiene nada de malo hacer nuestra propia estrella parecida a HH 30; la regla de la marca sigue: HH 30 al
-  final, nunca «el logo es HH 30».
+- `estrella.js`: la estrella, en vivo con WebGL (como `pantalla.js`). No es una imagen: es un volumen de gas y
+  polvo que se recorre rayo por rayo (64 muestras por píxel, como mucho 720 px del lado largo). Se ve siempre en la
+  pose de la foto, como la laptop del index: **ya no se puede rodear** (ver «Las dos vistas» abajo). Se maneja desde
+  fuera con `lienzo.dataset.paleta`.
+- `cielo.js`: el fondo de la estrella, el cielo del «Earth Blaze» de 21st.dev (ver abajo).
+- `prueba-estrella.html`: la prueba, en `localhost:5510/prueba-estrella.html`. Abajo, un selector: «Azules del
+  logo», «Colores de la foto» (la que se está afinando; abre con esa) y «La foto (actual)» (HH 30, para
+  comparar). Cada cambio a `estrella.js` o `cielo.js` sube su `?v=` en esta página (`estrella.js?v=50`,
+  `cielo.js?v=2`).
 
-Ideas que se le comentaron, sin decidir (él elige): que la cámara la rodee con el scroll (de lado se ve como el
-logo; desde arriba se ve el disco), que empiece como polvo suelto que se junta con el scroll («materia dispersa
-que colapsa en una sola cosa») y que vaya con los azules del logo para que al final se convierta en él.
+El 1 de noviembre en la noche el usuario dijo que «de lejos casi casi las ves iguales» (la nuestra y la foto), y al
+cerrar la sesión siguiente, que **ya quedó, «igualita»**: el aspecto está terminado. Todo se afinó con su ojo,
+comparándola con la foto; estos son sus pedidos y lo que se probó y se descartó (no volver a proponerlo igual):
+
+- **Pose**: la de la foto, con el eje inclinado 50° (el chorro arriba a la derecha, como la punta del logo) y la
+  cámara apenas encima del plano del disco (`GIRO_PANTALLA`, `INCLINACION` 0.08): así el centro de la hoja de arriba
+  sale redondo, como un tazón. Con la cámara apenas debajo (-0.07, como estuvo) se veía plano.
+- **Las dos vistas**: cada hoja se ve redonda solo con la cámara de su lado del disco; con una sola cámara, la del
+  otro lado se ve de canto, plana. Así que cada lado del corte se arma con su propia vista, como dos fotos juntas: el
+  de la hoja de arriba desde `INCLINACION` y el de la de abajo desde `VISTA_ABAJO` (-0.4) más abajo, que deja ver un
+  poco por dentro de esa hoja, con sus rayitas, como él la vio al inclinarla con el mouse (con -0.25 se veía menos de
+  adentro); se juntan en
+  la línea del corte (`JUNTA`), y cada una se aparta un poco de él (`APARTE` 0.012) para que las hojas no se toquen en
+  el centro y el corte quede oscuro de punta a punta (con 0.024 salían líneas raras en medio; engrosar el disco casi
+  no las separaba). Por eso ya no se puede rodear: él pidió quitarlo («como la laptop del index»), porque
+  al mover la inclinación de una hoja se arruinaba la otra. Ya se probó y se descartó: inclinar solo la hoja de abajo
+  (el disco le seguía tapando el centro y se veía como abanico de rayos, «peor»), y ver cada mitad del disco desde su
+  cámara en el mismo rayo (si el disco la tapa, se aplana; si no, se come el corte).
+- **Las dos hojas de luz** (la superficie del disco, a los dos lados del corte): **las dos azules**, del mismo azul
+  (`[0.06, 0.4, 1.0]`), blancas en el centro, con un toque de cian en el centro (40 %; con 18 % no se veía, porque
+  ahí la luz se lava a blanco). Ya se probó y se descartó: la de abajo naranja (se había leído mal la foto), la de
+  abajo blanca, la de arriba cian (se veía turquesa).
+- **Su forma, «) (»**: el centro pegado al corte y las puntas abriéndose hacia afuera (altura `SEPARACION + curva ×
+  r²`; `CURVA_ARRIBA` 1.15, la de arriba un poco más abierta, y `CURVA_ABAJO` 0.9). Planas no se parecían. El hueco
+  entre las dos lo marca el grueso del disco, porque el polvo tapa la parte de ellas que queda dentro: para
+  acercarlas se adelgazó el disco (acercar solo las hojas casi no cambiaba nada).
+- **Volumen**: por dentro de la «(» de arriba, entre ella y el corte, una luz suave (`dentro`) que la hace ver como
+  la orilla de un tazón; sola, la orilla se veía plana.
+- **Imperfección**: las hojas llevan los mismos hilos que la nube, igual de marcados, y su orilla ondula un poco; el
+  centro, limpio. Lisas o con hilos suaves se veían «muy perfectas». También llevan el «humo» del «Waves» de
+  21st.dev (`fintech-waves`, sus ondas tal cual), pero **solo su luz, no su color**: con su paleta se veían
+  turquesa. Solo, el humo no se notaba (las hojas brillan tanto que se lava a blanco). Y **tiras**: las dos hojas, su
+  luz de dentro y el gas se rompen en tiras que salen del centro como rayos, de anchos al azar (`tiras`). Las vio en
+  la hoja de abajo al inclinar la estrella con el mouse y las pidió en las dos. Para que se noten en la de abajo, esa
+  también lleva luz por dentro (`dentro`), al doble que la de arriba, y sus tiras van más finas y más marcadas (oscuras
+  entre una y otra); la meta es su primera captura de esa hoja, vista desde abajo.
+- **La nube azul**: es la hoja de abajo alargada: sigue su misma curva «)» más allá de la punta y se dobla hacia la
+  izquierda, del mismo grueso (apenas más delgada al final), con hilos a lo largo. Ya lejos de la punta de la hoja se
+  deshilacha como humo: se tuerce y se rompe en jirones estirados a lo largo, con grumos (lisa parecía pincelada; con
+  jirones parejos en todas direcciones se enchinaba en bolitas). Ya se probó y se descartó: suelta, a la altura del
+  centro (no encajaba), y en línea recta ensanchándose al final (se veía chueca).
+- **El corte**: oscuro, sin línea amarilla. Ya se probó y se descartó: el corte como línea naranja o amarilla
+  brillante («rara»), un destello amarillo en medio (dentro del volumen solo se notaba en el corte, como una línea; y
+  encima de todo tampoco), y el resplandor dentro del volumen (el disco lo tapaba y dejaba orillas negras).
+- **El resplandor**: una capa difusa **encima de toda la estrella**, también del centro y del corte, en **amarillo
+  dorado** (`[1.0, 0.62, 0.22]`, fuerza 1.3). En naranja se veía «naranjoso» y con 0.8 le faltaba. El usuario le dice
+  «resplandor». Como en la foto, **le quita el azul a la hoja de abajo** (cerca del centro se ve crema y naranja; la
+  de arriba queda azul): lo hace un velo encima, del lado de esa hoja, que se come primero el azul (`VELO_*`, el
+  décimo color de la paleta). Él lo pidió como «que el resplandor la opaque, que le quite el azul»: no es que la
+  hoja tape al resplandor. Correr el resplandor hacia abajo no bastaba (solo aclaraba la hoja) y, medido, el naranja
+  de la foto no está corrido: el resplandor sigue centrado.
+- **El chorro de arriba**: **puntiagudo** (ancho en la base y afilado hacia la punta) y **suave**, que se desvanece a
+  tramos (núcleo y velo, nudos marcados, menos fuerte). Ensanchándose hacia la punta parecía un bate de béisbol, y
+  fuerte se veía sólido. Su color, medido en la foto: **lila junto a la hoja, rojo en medio y azul violeta en la
+  punta** (el undécimo color de la paleta es la base); de rojo a morado nada más le faltaba lo azul. **El de abajo**:
+  corto, una mancha más que una línea (`CHORRO_ABAJO_*`, largo 0.38 y fuerza 0.42); como estaba al principio, más
+  largo y fuerte, se veía muy marcado, y con fuerza 0.22 se perdía entre las tiras de la hoja de abajo. Se ensancha
+  hacia afuera y lleva los mismos colores.
+- **El cielo** (`cielo.js`): del «Earth Blaze» de 21st.dev se copió **solo el fondo**, sus sombreadores tal cual:
+  la nebulosa en franja diagonal y sus 1800 estrellas que titilan, con su misma semilla. Sin el planeta, sin el
+  brillo del sol en su orilla, sin la aurora y sin lo que se movía con el mouse. La nebulosa tapa el lienzo sin
+  deformarse (el original la estira, y en celular salía en vetas verticales). La estrella va encima con
+  `mix-blend-mode: screen` (su negro deja ver el cielo).
+
+Lo que falta (el aspecto ya está y está en GitHub): cómo se mueve con el scroll y cómo entra en los pasos de la sección (la luz,
+el disco, el chorro, «Y existe»; idea sin decidir: que empiece como polvo suelto que se junta; que la cámara la
+rodee ya no se puede, ver «Las dos vistas»); pasarla a Nosotros en lugar de la foto, y cambiar el texto de «Y existe»
+y el crédito de la foto; probarla en un cel de verdad (cada píxel recorre su rayo, puede ir lenta). Con «reducir
+movimiento» se dibuja una sola vez. La regla de la marca sigue: HH 30 al final, nunca «el logo es HH 30».
+
+Para probarla con el panel escondido: la primera captura suele salir negra o vieja (tomar otra), y el usuario cambia
+mucho el selector; antes de una captura, poner la paleta con `document.querySelector('[data-opcion="foto"]').click()`
+en la misma tanda. Para recargar sin caché: `await fetch('prueba-estrella.html', {cache: 'reload'}); location.reload()`.
 
 También queda pendiente: la sección gris «El nombre» ahora repite lo de «Fragmentless: sin fragmentos» de la
 estrella. Se le preguntó si se quita (quedarían juntas dos secciones negras, la estrella y «Hacia dónde vamos»);
