@@ -160,6 +160,31 @@ el corte del logo sobre su disco (se comprobó encimando los dos), y su fondo ba
 note su orilla. Cierra la frase «Materia dispersa que colapsa en una sola cosa…» con la idea de la misión debajo.
 El logo es la estrella oficial, la de `components/logo-vidrio.tsx`, en un `svg` dentro del HTML.
 
+## Dónde nos quedamos (1 de noviembre de 2026): esperar la idea del usuario para la estrella
+
+**Lo siguiente es rehacer la estrella de Nosotros (la segunda sección, `.ns-estrella`), pero el usuario va a traer
+su idea o boceto primero. No construir nada hasta que la dé**: dos veces pidió parar porque quería planearla él.
+Lo que se publicó el 1 de noviembre (ver «La estrella de Nosotros» arriba) es la primera versión, la de la foto de
+HH 30, y se queda así mientras tanto. Lo que el usuario ya dijo que quiere:
+
+- **Sin la foto de la NASA/ESA** (`prueba/hh30.webp`): en parte por los derechos, pero sobre todo porque quiere la
+  estrella hecha por nosotros, **en 3D**, como la laptop (CSS 3D) o como el azul de su pantalla (WebGL en vivo,
+  `pantalla.js`), porque en 3D hay más posibilidades que en la secuencia plana de ahora.
+- Con menos detalle y sin los colores de la foto: los del telescopio no son reales (pasa el infrarrojo a colores).
+- No tiene nada de malo hacer nuestra propia estrella parecida a HH 30; la regla de la marca sigue: HH 30 al
+  final, nunca «el logo es HH 30».
+
+Ideas que se le comentaron, sin decidir (él elige): que la cámara la rodee con el scroll (de lado se ve como el
+logo; desde arriba se ve el disco), que empiece como polvo suelto que se junta con el scroll («materia dispersa
+que colapsa en una sola cosa») y que vaya con los azules del logo para que al final se convierta en él.
+
+También queda pendiente: la sección gris «El nombre» ahora repite lo de «Fragmentless: sin fragmentos» de la
+estrella. Se le preguntó si se quita (quedarían juntas dos secciones negras, la estrella y «Hacia dónde vamos»);
+no ha contestado.
+
+**Cómo trabaja ahora el usuario**: desde el celular, viendo la página publicada en Vercel. Pidió los cambios
+directo en `main` (sin ligas de vista previa): commit, push a `main` y publicar `main` en Vercel (ver «Comandos»).
+
 ## Dónde nos quedamos (26 de octubre de 2026)
 
 El 26 se cambió el paso de la sección 2 a la 3: la hoja blanca que subía se veía pobre junto al cierre de la
@@ -305,6 +330,11 @@ npm run build      # typecheck + bundle de React (esbuild) + Tailwind
   tenía la primera versión). No compila nada allá: publica el repo tal cual, con el bundle ya compilado de
   `assets/`. Hasta que en Vercel se cambie el repo ligado (Settings → Git), un push no la actualiza solo: hay que
   volver a publicar `main`. `.vercelignore` deja fuera las notas y el código fuente del bundle.
+  Se publica con el conector de Vercel: `create_deployment` en el proyecto `prj_6cgvfGPII8iAdQL4jviHXzw48tJo`
+  (equipo `team_rir5TLxyxlcLtwbdZNbenamD`), con `target: "production"` y `gitSource` de GitHub (`mateo777g`,
+  `temporal`, `ref: "main"` y el `sha` del commit). Tarda unos segundos; luego revisar que la página publicada
+  traiga el cambio (con `web_fetch_vercel_url`: la red de la sesión no llega a vercel.app con curl). Un push a
+  otra rama tampoco arma vista previa sola. Un cambio solo a CLAUDE.md no necesita publicarse.
 
 ## Cómo probar la laptop en el navegador integrado
 
