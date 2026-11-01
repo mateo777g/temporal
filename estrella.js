@@ -281,16 +281,16 @@ vec3 gas(vec3 ro, vec3 rd, vec2 segmento, float paso, float t, vec4 e, out float
       nube *= 0.3 + 1.1 * humo(vec2((u - 0.25) / 0.65 + 2.6, 0.5 + dot(q, normal) / (grosorNube * 4.0)), t * 0.86);
     }
 
-    // Blanco en el centro y azul hacia las puntas
+    // Blanco en el centro, que poco a poco se hace cian y luego el azul de las puntas. Antes el cian iba encima del
+    // blanco, en el centro mismo (todo cian, las hojas se veían turquesa), y no se veía el paso de un color a otro.
+    vec3 cian = vec3(0.0, 0.85, 1.0);
     vec3 tono = h > 0.0
-      ? mix(u_color[0], u_color[1], smoothstep(0.02, 0.2, dist))
-      : mix(u_color[2], u_color[3], smoothstep(0.02, 0.2, dist));
-    // Las dos hojas de luz son largas, como en HH 30: su luz baja más despacio que la del gas alrededor
-    float luzCapa = 1.0 / (r * 1.5 + 0.12);
-    // Las hojas llevan en el centro un toque leve de cian (el de las ondas del «Waves»): todo cian se veían turquesa,
-    // y con 18 % no se notaba (ahí la luz se vuelve blanca y el resplandor dorado lo neutraliza)
-    vec3 tonoCapa = mix(tono, vec3(0.0, 0.898, 1.0), 0.4 * smoothstep(0.3, 0.05, dist));
-    vec3 emite = (tonoCapa * capa * 5.0 + tono * (dentro * 1.2 + halo * 1.5)) * luzCapa * fase + tono * pared * luz * fase
+      ? mix(mix(u_color[0], cian, smoothstep(0.02, 0.1, dist)), u_color[1], smoothstep(0.1, 0.24, dist))
+      : mix(mix(u_color[2], cian, smoothstep(0.02, 0.1, dist)), u_color[3], smoothstep(0.1, 0.24, dist));
+    // Las dos hojas de luz son largas, como en HH 30: su luz baja más despacio que la del gas alrededor. En el centro
+    // no tan fuerte: con más luz se lavaba a blanco en casi toda la hoja y no se veían sus colores.
+    float luzCapa = 1.0 / (r * 1.5 + 0.3);
+    vec3 emite = (tono * capa * 5.0 + tono * (dentro * 1.2 + halo * 1.5)) * luzCapa * fase + tono * pared * luz * fase
       + u_color[6] * nube * 12.0;
     color += transparencia * emite * paso;
 
@@ -375,6 +375,8 @@ void main() {
   // se dibujan las dos, así que cuesta casi lo mismo que una. Por eso la estrella ya no se puede rodear.
   // Cada vista se aparta un poco del corte (APARTE), para que las dos hojas no se toquen en el centro: así el corte
   // queda oscuro de punta a punta. Más apartadas salían líneas raras en medio, y engrosar el disco casi no las separaba.
+  // Deja unos piquitos de luz en el centro (la orilla cercana de cada hoja cruza la línea del corte y se asoma en la
+  // junta); cubrirlos con el dorado del corte le quitaba al centro sus puntos claros y las hojas perdían forma.
   vec2 eje = normalize((vec3(0.0, 1.0, 0.0) * u_giro).xy);
   float deArriba = smoothstep(-JUNTA, JUNTA, dot(uv, eje));
   vec3 color = vec3(0.0);

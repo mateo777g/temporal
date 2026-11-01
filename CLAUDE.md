@@ -174,7 +174,7 @@ con la foto). `estrella.js` y `cielo.js` ya están en GitHub; la página de prue
 - `cielo.js`: el fondo de la estrella, el cielo del «Earth Blaze» de 21st.dev (ver abajo).
 - `prueba-estrella.html`: la prueba, en `localhost:5510/prueba-estrella.html`. Abajo, un selector: «Azules del
   logo», «Colores de la foto» (la que se está afinando; abre con esa) y «La foto (actual)» (HH 30, para
-  comparar). Cada cambio a `estrella.js` o `cielo.js` sube su `?v=` en esta página (`estrella.js?v=50`,
+  comparar). Cada cambio a `estrella.js` o `cielo.js` sube su `?v=` en esta página (`estrella.js?v=54`,
   `cielo.js?v=2`).
 
 El 1 de noviembre en la noche el usuario dijo que «de lejos casi casi las ves iguales» (la nuestra y la foto), y al
@@ -190,15 +190,19 @@ comparándola con la foto; estos son sus pedidos y lo que se probó y se descart
   poco por dentro de esa hoja, con sus rayitas, como él la vio al inclinarla con el mouse (con -0.25 se veía menos de
   adentro); se juntan en
   la línea del corte (`JUNTA`), y cada una se aparta un poco de él (`APARTE` 0.012) para que las hojas no se toquen en
-  el centro y el corte quede oscuro de punta a punta (con 0.024 salían líneas raras en medio; engrosar el disco casi
-  no las separaba). Por eso ya no se puede rodear: él pidió quitarlo («como la laptop del index»), porque
+  el centro. Eso deja unos «piquitos» de luz en el centro (la orilla cercana de cada hoja cruza la línea del corte y se
+  asoma en la junta); **se quedan**. Ya se probó y se descartó: con 0.024 salían líneas raras; engrosar el disco casi
+  no las separaba; y sin apartarlas, cubrir el centro del corte con el dorado del resplandor (quitaba los piquitos,
+  pero el centro perdía sus puntos claros y las hojas su forma: él pidió deshacerlo) u oscurecerlo (franja verdosa).
+  Por eso ya no se puede rodear: él pidió quitarlo («como la laptop del index»), porque
   al mover la inclinación de una hoja se arruinaba la otra. Ya se probó y se descartó: inclinar solo la hoja de abajo
   (el disco le seguía tapando el centro y se veía como abanico de rayos, «peor»), y ver cada mitad del disco desde su
   cámara en el mismo rayo (si el disco la tapa, se aplana; si no, se come el corte).
 - **Las dos hojas de luz** (la superficie del disco, a los dos lados del corte): **las dos azules**, del mismo azul
-  (`[0.06, 0.4, 1.0]`), blancas en el centro, con un toque de cian en el centro (40 %; con 18 % no se veía, porque
-  ahí la luz se lava a blanco). Ya se probó y se descartó: la de abajo naranja (se había leído mal la foto), la de
-  abajo blanca, la de arriba cian (se veía turquesa).
+  (`[0.06, 0.4, 1.0]`), con un **degradado: blanco chico en el centro, que poco a poco se hace cian y luego ese azul
+  fuerte** (pedido suyo), y su luz menos fuerte en el centro (`luzCapa`; con más, casi toda la hoja se lavaba a
+  blanco). Ya se probó y se descartó: la de abajo naranja (se había leído mal la foto), la de abajo blanca, la de
+  arriba toda cian (se veía turquesa) y el cian encima del blanco en el centro mismo (40 %; con 18 % no se veía).
 - **Su forma, «) (»**: el centro pegado al corte y las puntas abriéndose hacia afuera (altura `SEPARACION + curva ×
   r²`; `CURVA_ARRIBA` 1.15, la de arriba un poco más abierta, y `CURVA_ABAJO` 0.9). Planas no se parecían. El hueco
   entre las dos lo marca el grueso del disco, porque el polvo tapa la parte de ellas que queda dentro: para
