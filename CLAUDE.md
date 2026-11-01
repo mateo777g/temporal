@@ -13,7 +13,9 @@ Fragmentless se presenta como una empresa sólida y con visión, no como un proy
 - Los principios y beneficios se escriben como promesas para el cliente, no como reglas internas.
 - De los documentos internos (como «Visión de Fragmentless») no se publican precios, costos,
   distribuidores, infraestructura ni nombres de clientes.
-- El texto sobre el logo ∫∫ de ese documento está desactualizado: no usarlo.
+- El texto sobre el logo ∫∫ de ese documento está desactualizado: no usarlo. El logo de ahora es una estrella
+  naciendo (decidido el 1 de noviembre): HH 30, la estrella de verdad que se le parece, va al final, «de postre»;
+  nunca se presenta el logo diciendo que «es HH 30».
 - Los botones de la portada que hablan de la empresa (como «Conócenos») llevan a `nosotros.html`, no al
   sistema. «Conoce el Sistema» lleva a `./#sistema`.
 
@@ -30,7 +32,7 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `barrido.js` | La franja de luz que cruza la pantalla de la laptop y cambia el azul por la captura del panel (y de regreso) |
 | `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí. Hasta 900 px, la hamburguesa |
 | `lanzamiento.js` | La sección 3 (`.lanzamiento`): dos tarjetas que se alejan, se inclinan y bajan con el scroll, con un anillo y un remolino de imágenes, y el título. Antes era la fila curva de capturas (`hoja.js`, en el historial de git) |
-| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: entrada del logo en vidrio y portada, misión, el nombre, hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
+| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: entrada del logo en vidrio y portada, el nombre y el logo (negra, la estrella naciendo), el nombre (gris), hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
 | `src/wave-entry.tsx` | Entrada React: monta `#site-footer` y, en Nosotros, `#logo-vidrio` (y `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
 | `components/` | Componentes React (footer con brillo; `logo-vidrio.tsx`, el logo en el vidrio líquido de `ui/liquid-glass-logo-reveal.tsx`; las tarjetas del producto y la fila curva vieja con OGL, que ya no se usan) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` (la imagen al compartir el enlace: la entrada de Nosotros congelada en el segundo 2.0, con `time` de `GlassIconReveal`, a 1200 × 630) |
@@ -145,6 +147,18 @@ blanco, baja la barra (como en el index) y suben el titular y su párrafo; al ti
 pasos van en `data-intro` de `<html>` («logo», que pone un script en `<head>`, y «sube»); `nosotros.js` mide cuánto
 sube el logo (`--sube`, hasta `.ns-logo-lugar`). Con «reducir movimiento» no hay entrada; sin WebGL o si el bundle
 no carga, se salta sola. Tarda unos 6 s y sale en cada visita. Se quitó la etiqueta «Nosotros» de la portada.
+
+**La estrella de Nosotros** (1 de noviembre; `.ns-estrella`): en lugar de «La misión», justo después de la portada,
+una sección negra con el nombre y el logo, sacada de «Marca» en la libreta «Visión de Fragmentless»: el logo es una
+estrella naciendo, materia suelta que se junta en una sola cosa (una que muere se deshace en pedazos). Arriba, el
+título y ese párrafo; luego una escena que se queda fija mientras el scroll pasa cuatro pasos (`nosotros.js` pone
+`data-paso`; lo de adentro cambia con el reloj): la luz (las dos piezas brillan), el disco (se apagan y se dibuja
+la línea que las separa), el chorro (solo la punta, con una línea que sale de ella) y «Y existe»: el logo se va y
+en su lugar aparece HH 30, la foto del Webb (`prueba/hh30.webp`), con su crédito (ESA/Webb, NASA y CSA, Tazaki et
+al.; se tiene que poner). La foto va girada 50° en el archivo para que su chorro apunte como la punta del logo, con
+el corte del logo sobre su disco (se comprobó encimando los dos), y su fondo bajado a negro total para que no se
+note su orilla. Cierra la frase «Materia dispersa que colapsa en una sola cosa…» con la idea de la misión debajo.
+El logo es la estrella oficial, la de `components/logo-vidrio.tsx`, en un `svg` dentro del HTML.
 
 ## Dónde nos quedamos (26 de octubre de 2026)
 

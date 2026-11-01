@@ -23,10 +23,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=brillo-igual-1">
 <link rel="stylesheet" href="assets/components.css">
-<link rel="stylesheet" href="nosotros.css?v=intro-3">
+<link rel="stylesheet" href="nosotros.css?v=estrella-1">
 <script src="assets/wave-background.js?v=intro-4" defer></script>
 <script src="barra.js" defer></script>
-<script src="nosotros.js?v=intro-2" defer></script>
+<script src="nosotros.js?v=estrella-1" defer></script>
 <!-- La entrada del logo (components/logo-vidrio.tsx): desde antes de pintar, la barra y el texto de la portada
      esperan escondidos y no se puede bajar. Siempre arranca arriba. Con «reducir movimiento» no hay entrada. -->
 <script>
@@ -93,11 +93,73 @@
     <p class="ns-entrada">Una empresa de software. Atacamos los problemas que tienen las empresas allá afuera y juntamos su solución en un solo ecosistema, bien hecho.</p>
   </section>
 
-  <!-- La misión, grande: de piezas sueltas a un sistema completo -->
-  <section class="ns-mision" aria-labelledby="ns-mision-titulo">
-    <h2 id="ns-mision-titulo" class="ns-etiqueta aparece">La misión</h2>
-    <p class="ns-frase aparece">Donde antes había piezas sueltas, <span>queda un sistema completo.</span></p>
-    <p class="ns-texto aparece">En un restaurante, esas piezas son el inventario anotado a mano en una libreta, un stock que no se cuenta bien y ventas que no están del todo claras. En cada negocio son distintas; nuestro trabajo es juntarlas.</p>
+  <!-- El nombre y el logo, en negro: el logo es una estrella naciendo, materia suelta que se junta en una sola
+       cosa. Primero se cuenta qué es cada parte del logo y al final, «de postre», aparece HH 30, una estrella
+       naciendo de verdad que se ve casi igual (nunca al revés: el logo no «es» HH 30). La escena se queda fija
+       mientras el scroll pasa sus cuatro pasos (nosotros.js le pone data-paso). -->
+  <section class="ns-estrella" aria-labelledby="ns-estrella-titulo">
+    <div class="ns-estrella-intro">
+      <h2 id="ns-estrella-titulo" class="ns-etiqueta aparece">El nombre y el logo</h2>
+      <p class="ns-titulo aparece">Una estrella naciendo.</p>
+      <p class="ns-texto aparece">Cuando una estrella muere, se deshace en pedazos. Cuando nace, pasa lo contrario: el polvo y el gas que andaban sueltos se juntan hasta volverse una sola cosa. Por eso nuestro logo es una estrella naciendo, y por eso nos llamamos Fragmentless: sin fragmentos.</p>
+    </div>
+
+    <div class="ns-estrella-escena">
+      <div class="ns-estrella-fija">
+        <div class="ns-estrella-visor">
+          <img class="ns-estrella-foto" src="prueba/hh30.webp" width="1200" height="1200" loading="lazy" decoding="async"
+               alt="HH 30, una estrella naciendo: un disco oscuro visto de canto, luz azul y naranja a sus lados y un chorro rojo y morado que sale del centro.">
+          <!-- La estrella oficial (la de components/logo-vidrio.tsx), con el cuadro centrado en el corte de en medio
+               para que caiga sobre el de la foto. Encima, para los pasos: la punta sola, el disco y el chorro. -->
+          <svg class="ns-estrella-logo" viewBox="117 14 260 260" aria-hidden="true">
+            <defs>
+              <linearGradient id="ns-estrella-degradado" gradientUnits="userSpaceOnUse" x1="192" y1="200" x2="350" y2="46">
+                <stop offset="0" stop-color="#0A2470"/><stop offset="0.45" stop-color="#1355E8"/>
+                <stop offset="0.8" stop-color="#4FA3FF"/><stop offset="1" stop-color="#9FE6FF"/>
+              </linearGradient>
+              <clipPath id="ns-estrella-recorte-punta"><circle cx="346.4" cy="49.7" r="46"/></clipPath>
+            </defs>
+            <g class="ns-estrella-piezas" fill="url(#ns-estrella-degradado)" stroke="url(#ns-estrella-degradado)" stroke-width="8" stroke-linejoin="round">
+              <path d="M214 92 Q282.3 83.6 346.4 49.7 Q309.6 112.2 298 180 Z"/>
+              <path d="M196 108 Q204 157 192 196 Q232 186 280 196 Z"/>
+            </g>
+            <path class="ns-estrella-punta" clip-path="url(#ns-estrella-recorte-punta)" fill="url(#ns-estrella-degradado)" stroke="url(#ns-estrella-degradado)" stroke-width="8" stroke-linejoin="round" d="M214 92 Q282.3 83.6 346.4 49.7 Q309.6 112.2 298 180 Z"/>
+            <path class="ns-estrella-disco" d="M178 72L316 216" pathLength="1"/>
+            <path class="ns-estrella-chorro" d="M356 40L376 20" pathLength="1"/>
+          </svg>
+        </div>
+
+        <div class="ns-estrella-texto">
+          <div class="ns-estrella-marcas" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <ol class="ns-estrella-pasos">
+            <li>
+              <h3>La luz</h3>
+              <p>Las dos piezas son la luz que escapa por los polos de la estrella.</p>
+            </li>
+            <li>
+              <h3>El disco</h3>
+              <p>La línea que las separa es el disco de polvo y gas que la está formando, visto de canto: la tapa por en medio y deja salir la luz solo por arriba y por abajo.</p>
+            </li>
+            <li>
+              <h3>El chorro</h3>
+              <p>La punta es el chorro que sale de su polo.</p>
+            </li>
+            <li>
+              <h3>Y existe</h3>
+              <p>HH 30 es una estrella naciendo a unos 450 años luz de aquí, y se ve casi igual: el corte oscuro en medio y el chorro puntiagudo.</p>
+              <small>HH 30 vista por el telescopio espacial James Webb, girada para que coincida con el logo. Imagen: ESA/Webb, NASA y CSA, Tazaki et al.</small>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <figure class="ns-leccion ns-estrella-cierre aparece">
+      <blockquote>
+        <p>Materia dispersa que colapsa en una sola cosa. Eso es una estrella naciendo. Eso es Fragmentless.</p>
+      </blockquote>
+      <figcaption>Es lo que hacemos en cada negocio: la libreta, el inventario y las ventas que andaban sueltos, juntos en un solo sistema.</figcaption>
+    </figure>
   </section>
 
   <!-- El nombre y el eslogan -->

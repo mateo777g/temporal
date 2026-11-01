@@ -16,6 +16,35 @@
   for (const bloque of bloques) observador.observe(bloque);
 })();
 
+// La estrella (la sección negra del nombre y el logo): mientras su escena cruza la pantalla se queda fija, y el
+// scroll elige cuál de sus cuatro pasos se cuenta. Aquí solo se pone el paso (data-paso en la escena, data-activo
+// en su texto y data-hecho en sus marcas); lo que cambia con él está en nosotros.css. Sin el script, la sección se
+// ve como lista, con la foto.
+(() => {
+  const escena = document.querySelector('.ns-estrella-escena');
+  if (!escena) return;
+  const fija = escena.querySelector('.ns-estrella-fija');
+  const pasos = [...escena.querySelectorAll('.ns-estrella-pasos > li')];
+  const marcas = [...escena.querySelectorAll('.ns-estrella-marcas > span')];
+  document.documentElement.classList.add('ns-estrella-viva');
+
+  let actual = -1;
+  const medir = () => {
+    // Cuánto lleva recorrido la escena fija, de 0 (acaba de llegar arriba) a 1 (está por irse)
+    const recorrido = escena.offsetHeight - fija.offsetHeight;
+    const avance = Math.min(1, Math.max(0, -escena.getBoundingClientRect().top / recorrido));
+    const paso = Math.min(pasos.length - 1, Math.floor(avance * pasos.length));
+    if (paso === actual) return;
+    actual = paso;
+    escena.dataset.paso = paso;
+    pasos.forEach((li, i) => li.toggleAttribute('data-activo', i === paso));
+    marcas.forEach((marca, i) => marca.toggleAttribute('data-hecho', i <= paso));
+  };
+  addEventListener('scroll', medir, { passive: true });
+  addEventListener('resize', medir);
+  medir();
+})();
+
 // La entrada del logo (components/logo-vidrio.tsx): mide cuánto tiene que subir el logo, del centro de la pantalla
 // al lugar que le aparta .ns-logo-lugar arriba del texto, y lo vuelve a medir si cambia el tamaño.
 (() => {

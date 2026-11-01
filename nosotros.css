@@ -1,5 +1,6 @@
 /* nosotros.css — la página Nosotros de Fragmentless (nosotros.html). La barra, los botones y el footer vienen
-   de style.css; aquí van solo sus secciones: blancas, una gris, una negra (hacia dónde vamos) y la última en el azul de la marca. */
+   de style.css; aquí van solo sus secciones: blancas, una gris, dos negras (el nombre y el logo, y hacia dónde
+   vamos) y la última en el azul de la marca. */
 
 .pagina-nosotros {
   --ancho-texto: 1180px;
@@ -127,16 +128,171 @@ p.ns-columna-texto {
   max-width: 34em;
 }
 
-/* La misión: una frase grande; la segunda mitad en el azul de la marca */
-.ns-frase {
+/* El nombre y el logo, en negro como «Hacia dónde vamos»: el logo es una estrella naciendo. Va justo después de la
+   portada, en lugar de la misión que había antes. */
+.ns-estrella {
+  --tinta: #FFFFFF;
+  background: var(--noche);
+  color: #FFFFFF;
+}
+.ns-estrella .ns-etiqueta { color: var(--azul-noche); }
+.ns-estrella .ns-texto { color: #A1A1A6; }
+
+/* La escena: el visor (el logo y, debajo, la foto de HH 30) y el texto de cada paso, uno junto al otro en
+   escritorio y uno encima del otro en celular. Sin el script se ven la foto y los cuatro pasos en lista. Con él
+   (.ns-estrella-viva en <html>, nosotros.js), la escena se queda fija una pantalla mientras el scroll pasa sus
+   cuatro pasos, --por-paso cada uno; el script pone el paso en data-paso y lo de adentro cambia solo, con el
+   reloj, como en la sección 3 del index. */
+.ns-estrella-escena { margin-top: clamp(48px, 7vw, 96px); }
+.ns-estrella-fija {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: center;
+}
+.ns-estrella-visor {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 64vh);
+  width: min(100%, 64svh);
+  aspect-ratio: 1;
+}
+.ns-estrella-foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+/* El logo, con su corte de en medio sobre el centro del visor, que es donde quedó el disco de la foto (está girada
+   en el archivo para que su chorro apunte como la punta del logo). Su tamaño es el que lo empata con la foto: las
+   piezas encima de la luz de los dos lados del disco. */
+.ns-estrella-logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 68%;
+  height: 68%;
+  translate: -50% -50%;
+  overflow: visible;
+  display: none;
+}
+.ns-estrella-punta { opacity: 0; }
+.ns-estrella-disco,
+.ns-estrella-chorro {
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  /* Se dibujan de una punta a la otra (pathLength = 1) */
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.ns-estrella-marcas { display: none; }
+.ns-estrella-pasos {
   margin: 0;
-  font-size: clamp(2rem, 4.6vw, 4.5rem);
-  font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -0.045em;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 40px;
+}
+.ns-estrella-pasos h3 {
+  margin: 0 0 14px;
+  color: var(--azul-noche);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.ns-estrella-pasos p {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.3vw, 2.125rem);
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
-.ns-frase span { color: var(--azul); }
+.ns-estrella-pasos small {
+  display: block;
+  margin-top: 20px;
+  max-width: 34em;
+  color: #6E6E73;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Con el script: la escena fija y un paso a la vez */
+.ns-estrella-viva .ns-estrella-escena {
+  --por-paso: 70vh;
+  height: calc(100vh + 4 * var(--por-paso));
+}
+.ns-estrella-viva .ns-estrella-fija {
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  height: 100vh;
+  height: 100svh;
+  /* La barra se esconde al bajar, pero regresa al subir: lo de adentro se centra en lo que queda debajo de ella */
+  padding-block: var(--alto-barra) 24px;
+  align-content: center;
+}
+@supports (height: 1svh) {
+  .ns-estrella-viva .ns-estrella-escena {
+    --por-paso: 70svh;
+    height: calc(100svh + 4 * var(--por-paso));
+  }
+}
+.ns-estrella-viva .ns-estrella-logo { display: block; }
+.ns-estrella-viva .ns-estrella-marcas {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+.ns-estrella-marcas span {
+  width: 24px;
+  height: 2px;
+  border-radius: 1px;
+  background: #3A3A3D;
+  transition: background-color 0.4s ease;
+}
+.ns-estrella-marcas span[data-hecho] { background: #FFFFFF; }
+.ns-estrella-viva .ns-estrella-pasos > li {
+  grid-area: 1 / 1;
+  opacity: 0;
+  translate: 0 16px;
+  visibility: hidden;
+  transition: opacity 0.4s ease, translate 0.4s ease, visibility 0s linear 0.4s;
+}
+.ns-estrella-viva .ns-estrella-pasos > li[data-activo] {
+  opacity: 1;
+  translate: 0 0;
+  visibility: visible;
+  transition: opacity 0.6s ease 0.2s, translate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s, visibility 0s;
+}
+
+/* Lo que cambia en el visor con cada paso. 0, la luz: las dos piezas brillan. 1, el disco: se apagan y se dibuja
+   la línea que las separa. 2, el chorro: solo queda encendida la punta y sale una línea de ella. 3, HH 30: el logo
+   se va mientras la foto aparece en el mismo lugar, y por un momento se ven los dos, uno sobre el otro. */
+.ns-estrella-viva .ns-estrella-logo { transition: opacity 1.2s ease, filter 0.8s ease; }
+.ns-estrella-viva .ns-estrella-piezas,
+.ns-estrella-viva .ns-estrella-punta { transition: opacity 0.6s ease; }
+.ns-estrella-viva .ns-estrella-disco,
+.ns-estrella-viva .ns-estrella-chorro { transition: stroke-dashoffset 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.2s; }
+.ns-estrella-viva .ns-estrella-foto {
+  opacity: 0;
+  scale: 1.06;
+  transition: opacity 1.4s ease, scale 1.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+[data-paso="0"] .ns-estrella-logo { filter: drop-shadow(0 0 22px rgb(79 163 255 / 0.5)); }
+:is([data-paso="1"], [data-paso="2"]) .ns-estrella-piezas { opacity: 0.22; }
+[data-paso="1"] .ns-estrella-disco { stroke-dashoffset: 0; }
+[data-paso="2"] .ns-estrella-punta { opacity: 1; }
+[data-paso="2"] .ns-estrella-chorro { stroke-dashoffset: 0; }
+[data-paso="3"] .ns-estrella-logo { opacity: 0; transition-delay: 0.3s; }
+.ns-estrella-viva [data-paso="3"] .ns-estrella-foto { opacity: 1; scale: 1; }
+
+/* La frase que cierra la sección, como la cita de «Hacia dónde vamos» */
+.ns-estrella-cierre figcaption { max-width: 34em; font-size: 15px; line-height: 1.6; }
 
 .ns-nombre { background: #F5F5F7; }
 
@@ -255,11 +411,28 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
 
 @media (prefers-reduced-motion: reduce) {
   .ns-animada .aparece { opacity: 1; transform: none; transition: none; }
+  /* La escena de la estrella sigue cambiando de paso con el scroll, pero de golpe */
+  .ns-estrella-viva :is(.ns-estrella-pasos > li, .ns-estrella-logo, .ns-estrella-piezas, .ns-estrella-punta,
+    .ns-estrella-disco, .ns-estrella-chorro, .ns-estrella-foto, .ns-estrella-marcas span) { transition: none; }
+  .ns-estrella-viva .ns-estrella-pasos > li { translate: none; }
+  .ns-estrella-viva .ns-estrella-foto { scale: none; }
 }
 
 @media (max-width: 900px) {
   .ns-columnas { grid-template-columns: minmax(0, 1fr); }
   .ns-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* En celular el visor va arriba y el texto del paso debajo, los dos al centro de la pantalla */
+@media (max-width: 760px) {
+  .ns-estrella-fija {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .ns-estrella-visor {
+    width: min(100%, 46vh);
+    width: min(100%, 46svh);
+  }
+  .ns-estrella-viva .ns-estrella-marcas { margin-bottom: 20px; }
 }
 @media (max-width: 560px) {
   .ns-rejilla { grid-template-columns: minmax(0, 1fr); }
