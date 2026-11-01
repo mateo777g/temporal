@@ -182,8 +182,15 @@ También queda pendiente: la sección gris «El nombre» ahora repite lo de «Fr
 estrella. Se le preguntó si se quita (quedarían juntas dos secciones negras, la estrella y «Hacia dónde vamos»);
 no ha contestado.
 
-**Cómo trabaja ahora el usuario**: desde el celular, viendo la página publicada en Vercel. Pidió los cambios
-directo en `main` (sin ligas de vista previa): commit, push a `main` y publicar `main` en Vercel (ver «Comandos»).
+**Cómo trabaja el usuario** (dicho el 1 de noviembre):
+
+- **En la compu (lo normal):** los cambios van primero a los archivos de su carpeta, para que los vea en su
+  `index.html` / `nosotros.html` de ahí (Live Server o el servidor de `.claude/launch.json`) antes de que lleguen a
+  la página publicada. **Solo cuando él los apruebe**: commit, push a `main` y publicar `main` en Vercel (ver
+  «Comandos»). Si la sesión corre en la nube, su carpeta no está en el contenedor: se le pide conectarla
+  (`list_computer_folders` y `request_computer_folder`) o se le dice que haga `git pull` para verla.
+- **Desde el celular:** como no puede ver la carpeta, los cambios van directo a `main` y se publican en Vercel, y él
+  los revisa en la página publicada.
 
 ## Dónde nos quedamos (26 de octubre de 2026)
 
