@@ -238,6 +238,25 @@ existe», como el párrafo del index (34em, renglones parejos). El cuadro de la 
 ve): empieza al 80 % y, cuando asoma, crece hasta su tamaño en 1.5 s con la curva de los textos (en 1 s, él lo quiso un poco más lento), con el reloj y no
 con el scroll (`.ns-crece`). Él no quiere cambiar su tamaño final.
 
+## Dónde nos quedamos (3 de noviembre de 2026, noche): Nosotros, terminada
+
+**La página Nosotros está terminada.** Él la dio por terminada («ya terminamos la sección de Nosotros») y pidió
+anotarlo. Quedó así, de arriba abajo (el detalle de cada parte está arriba, en «La portada de Nosotros», «El logo de
+Nosotros» y la fila de `nosotros.html` en «Estructura»):
+
+1. **Portada**: el recuadro con la Tierra en imagen y «Somos Fragmentless.» con su párrafo, sin botón. En celular,
+   tarjeta 3:4 con solo el titular.
+2. **El logo**: «La historia detrás de nuestro logo.» (en celular, «Nuestro concepto.», con un párrafo más corto
+   que junta el nombre y el logo), la estrella en 3D en PC (en imagen en celular) que crece al asomar y «Y existe».
+3. **Hacia dónde vamos** (negra): el título, las tres tarjetas planas, la línea que se dibuja, el eslogan y el
+   fundador. Encima de ella la barra se vuelve negra.
+4. **Al final**: el recuadro con el degradado animado en azul, «Conoce nuestro último sistema.» y «Más
+   información» a SaaS Restaurante.
+
+Publicada en Vercel (último commit de la página: `735638e`). No se le proponen más cambios por iniciativa propia; lo
+que él pida va como detalle. Falta que la revise en su celular de verdad (que el degradado y la estrella de PC, que
+van en vivo, corran fluidos).
+
 ## Dónde nos quedamos (1 de noviembre de 2026, noche): la estrella en 3D, ya igual a HH 30
 
 **La estrella de Nosotros en 3D, nuestra, para reemplazar la foto de HH 30** (`prueba/hh30.webp`, que no se puede
