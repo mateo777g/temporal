@@ -14,16 +14,7 @@
   padding-inline: max(var(--relleno), (100% - var(--ancho-texto)) / 2);
 }
 
-/* La etiqueta azul de cada sección, chica y en mayúsculas */
-.ns-etiqueta {
-  margin: 0 0 20px;
-  color: var(--azul);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
+/* El título de cada sección (su <h2>). Sin etiqueta chica encima: el index no las usa. */
 .ns-titulo {
   margin: 0;
   font-size: clamp(2rem, 3.6vw, 3.5rem);
@@ -125,16 +116,17 @@ p.ns-columna-texto {
   .ns-hero-texto h1 .brilla { animation: brillo-submenu 0.4s ease-in-out calc(0.5s + var(--i) * 18ms); }
 }
 
-/* El logo, en blanco, entre la portada y el negro de «Hacia dónde vamos»: el texto a la izquierda y la estrella en
-   3D con su cielo a la derecha, en un cuadro oscuro que no ocupa mucho */
-.ns-logo-columnas { align-items: center; }
-.ns-logo-columnas .ns-columna-texto { margin-top: 24px; }
+/* El logo, en blanco, entre la portada y el negro de «Hacia dónde vamos», como la misión en la página de Scale: el
+   título y el texto centrados, a lo ancho de la página, y debajo, bien separada, la estrella en 3D con su cielo en un
+   cuadro oscuro del mismo ancho. La estrella mide lo alto del cuadro (estrella.js) y a los lados queda el cielo. */
+.ns-logo-seccion { text-align: center; }
+.ns-logo-seccion .ns-columna-texto { margin-top: 28px; }
+.ns-logo-seccion .ns-columna-texto p { text-wrap: balance; }
+.ns-logo-seccion .ns-columna-texto p:last-child { margin-bottom: 0; }
 .ns-estrella-cuadro {
   position: relative;
-  justify-self: end;
-  width: min(100%, 520px);
-  aspect-ratio: 1;
-  margin: 0;
+  aspect-ratio: 16 / 9;
+  margin: clamp(56px, 9vw, 184px) 0 0;
   border-radius: 24px;
   overflow: hidden;
   background: var(--noche);
@@ -157,7 +149,6 @@ p.ns-columna-texto {
   background: var(--noche);
   color: #FFFFFF;
 }
-.ns-vision .ns-etiqueta { color: var(--azul-noche); }
 .ns-vision .ns-columna-texto,
 .ns-vision .ns-linea p { color: #A1A1A6; }
 .ns-vision .ns-columna-texto strong { color: #FFFFFF; font-weight: 500; }
@@ -242,7 +233,6 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
   background: var(--azul);
   color: #FFFFFF;
 }
-.ns-producto .ns-etiqueta { color: #FFFFFF; opacity: 0.75; }
 .ns-producto .ns-texto { color: rgb(255 255 255 / 0.85); }
 .ns-botones { margin-top: 36px; }
 .ns-boton-blanco { background: #FFFFFF; color: var(--azul); font-weight: 500; }
@@ -271,13 +261,13 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
 @media (max-width: 900px) {
   .ns-columnas { grid-template-columns: minmax(0, 1fr); }
   .ns-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  /* El cuadro de la estrella, debajo del texto y alineado con él */
-  .ns-estrella-cuadro { justify-self: start; }
 }
 @media (max-width: 760px) {
   /* El recuadro de la portada con el margen de la página y el texto con menos relleno */
   .ns-portada { padding-inline: var(--margen); }
   .ns-hero { padding: 24px; border-radius: 20px; }
+  /* El cuadro de la estrella, cuadrado como antes: a lo ancho del celular y en 16:9, la estrella saldría chiquita */
+  .ns-estrella-cuadro { aspect-ratio: 1; }
 }
 @media (max-width: 560px) {
   .ns-rejilla { grid-template-columns: minmax(0, 1fr); }
