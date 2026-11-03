@@ -145,7 +145,8 @@ están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo 
 redondas (`.ns-hero`, 24 px) casi de orilla a orilla, 8 px debajo de la barra, que termina 110 px antes de la orilla
 de abajo de la pantalla para que asome lo que sigue. Adentro, la Tierra del «Earth Blaze» de 21st.dev
 (`components/ui/earth-blaze.tsx`, copiado tal cual, montado en `#tierra`: la orilla del planeta con el sol detrás, la
-nebulosa y las estrellas) y, abajo a la izquierda, «Somos Fragmentless.», el párrafo del nombre y un botón blanco
+nebulosa y las estrellas; desde el 3 de noviembre, volteada de lado con `scaleX(-1)` en `.ns-tierra`, el planeta a la
+izquierda y el cielo a la derecha) y, abajo a la izquierda, «Somos Fragmentless.», el párrafo del nombre y un botón blanco
 igual al «Comprar» de la parte negra del index, del mismo tamaño y con letra negra («Conoce el sistema», a
 `saas-restaurante.html`; desde el 3 de noviembre: antes era el de Scale, con la flechita en un cuadrito negro). Entra como
 la portada del index: baja la barra, sube el texto, al titular le pasa el brillo azul y las palabras del párrafo se

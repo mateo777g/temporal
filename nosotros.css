@@ -61,7 +61,9 @@ p.ns-columna-texto {
   background: var(--noche);
   color: #FFFFFF;
 }
-.ns-tierra { position: absolute; inset: 0; }
+/* La Tierra, volteada de lado (como en un espejo): el planeta a la izquierda, debajo del texto, y el cielo a la
+   derecha. No tiene letras ni sigue al mouse, así que voltearla no cambia nada más. */
+.ns-tierra { position: absolute; inset: 0; transform: scaleX(-1); }
 .ns-hero-texto { position: relative; z-index: 1; }
 /* El titular y el párrafo, del mismo tamaño que los de la portada del index (.portada-copy, en style.css) */
 .ns-hero-texto h1 {
