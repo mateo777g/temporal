@@ -78,33 +78,10 @@ p.ns-columna-texto {
   line-height: 1.6;
   text-wrap: pretty;
 }
-/* El botón de Scale: blanco, con la flecha en un cuadrito negro */
-.ns-boton-flecha {
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  height: 40px;
-  margin-top: 32px;
-  padding: 0 5px 0 16px;
-  border-radius: 7px;
-  background: #FFFFFF;
-  color: var(--tinta);
-  font-size: 14px;
-  text-decoration: none;
-  transition: opacity var(--abrir);
-}
-.ns-boton-flecha:hover { opacity: 0.9; }
-.ns-boton-flecha:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 4px; }
-.ns-boton-flecha span {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 5px;
-  background: var(--tinta);
-  color: #FFFFFF;
-}
+/* El botón, igual al blanco de «Comprar» en la parte negra del index (.texto-botones, en style.css): mismo tamaño,
+   blanco con letra negra */
+.ns-hero-texto .boton-primario { margin-top: 32px; background: #FFFFFF; color: var(--hueco); }
+.ns-hero-texto .boton-primario:focus-visible { outline-color: #FFFFFF; }
 
 /* La entrada, como la portada del index: baja la barra y sube el texto (el botón un poco después), y al titular,
    en cuanto queda quieto, le pasa el brillo azul de toda la página (brillo-submenu, en style.css), letra por letra:
@@ -112,7 +89,7 @@ p.ns-columna-texto {
 @media (prefers-reduced-motion: no-preference) {
   .pagina-nosotros .barra { animation: entrada-barra 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
   .ns-hero-texto > * { animation: entrada-portada 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-  .ns-hero-texto > .ns-boton-flecha { animation-delay: 0.6s; }
+  .ns-hero-texto > .boton { animation-delay: 0.6s; }
   .ns-hero-texto h1 .brilla { animation: brillo-submenu 0.4s ease-in-out calc(0.5s + var(--i) * 18ms); }
 }
 
