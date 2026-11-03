@@ -548,7 +548,8 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
   por letra y 18 ms entre una y otra; a los títulos, 0.5 s después de que empiezan a entrar. Lo llevan la barra, el
   footer, los titulares del index y de Nosotros, los títulos de la escena (`.se-brilla`) y la sección 3. Nada de
   otro efecto, otro azul ni otras velocidades. No todo título lo lleva: él decide dónde no. En Nosotros lo quitó
-  (3 de noviembre) de «La historia detrás de nuestro logo.» y del eslogan «Un mundo sin piezas sueltas.»
+  (3 de noviembre) de «La historia detrás de nuestro logo.», de «Nuestro concepto.» (su lugar en celular) y del eslogan
+  «Un mundo sin piezas sueltas.»
   (`.ns-sin-brillo`), y los títulos de las tarjetas negras llevan el mismo letra por letra pero de gris a blanco.
 - Probar en escritorio y en celular (375 px) sin scroll horizontal, y revisar la consola. Los detalles de la
   laptop, en escritorio (1280, 1440 y 1920 px); en celular, que siga centrada en cada pose.

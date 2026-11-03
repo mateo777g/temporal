@@ -23,8 +23,9 @@
 // palabra por palabra, para que se enciendan una tras otra como en el index (nosotros.css): cada una en su span, con
 // su lugar en --i. Son los de la portada, los de las secciones del logo y de «Hacia dónde vamos» (.ns-texto-escena)
 // y los de sus tarjetas (.ns-tarjeta; sus títulos, en lugar del brillo azul, pasan del gris al blanco letra por
-// letra). Los títulos con .ns-sin-brillo («La historia detrás de nuestro logo.» y el eslogan de abajo de las
-// tarjetas) no se parten: él les quitó el brillo; solo suben, como los demás.
+// letra). Los títulos con .ns-sin-brillo («La historia detrás de nuestro logo.», «Nuestro concepto.», que va en su
+// lugar en celular, y el eslogan de abajo de las tarjetas) no se parten: él les quitó el brillo; solo suben, como
+// los demás.
 // La entrada del logo en vidrio que también iba aquí está guardada en guardado/intro-logo-vidrio/.
 (() => {
   const partirEnLetras = (elemento) => {
