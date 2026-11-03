@@ -121,6 +121,8 @@ p.ns-columna-texto {
 .ns-texto-escena h2 + p { max-width: 68em; text-wrap: pretty; }
 .ns-postre { margin-top: 28px; }
 .ns-postre p { margin-top: 0; }
+/* Los textos de arriba de la estrella para celular («Nuestro concepto»): en PC no van (ver el @media de celular) */
+.ns-solo-celular { display: none; }
 .ns-estrella-cuadro {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -282,9 +284,10 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
 @media (max-width: 760px) {
   /* La portada en celular, como la tarjeta «About» de Scale (comparada con la de antes en una página de prueba): el
      recuadro es la imagen, en 3:4 (tierra-celular.webp) y con el margen de la página, y adentro solo va el titular,
-     abajo a la izquierda. El párrafo queda debajo, sobre el blanco y centrado, como la portada del index en celular.
-     La caja de la portada deja de ser el recuadro (.ns-hero, en rejilla) y el texto se acomoda en ella
-     (display: contents), así el HTML es el mismo que en PC. */
+     abajo a la izquierda. Su párrafo no va: lo del nombre va junto con lo del logo en «Nuestro concepto», arriba de
+     la estrella (.ns-solo-celular), para que no se vea tanto texto seguido. La caja de la portada deja de ser el
+     recuadro (.ns-hero, en rejilla) y el titular se acomoda en ella (display: contents), así el HTML es el mismo que
+     en PC. */
   .ns-portada { padding-inline: var(--margen); }
   .ns-hero {
     display: grid;
@@ -307,7 +310,12 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
     background: var(--noche);
   }
   .ns-hero-texto h1 { grid-area: 1 / 1; align-self: end; z-index: 1; padding: 24px; color: #FFFFFF; }
-  .ns-hero-texto p { margin: 24px auto 0; color: #515154; text-align: center; text-wrap: balance; }
+  .ns-hero-texto p,
+  .ns-solo-pc { display: none; }
+  .ns-solo-celular { display: block; }
+  /* «Nuestro concepto», más separado de las dos imágenes (con 72 px arriba y 56 abajo se veía pegado) */
+  .ns-logo-seccion { padding-top: 104px; }
+  .ns-estrella-cuadro { margin-top: 88px; }
   /* En celular la estrella va en la imagen (la de .ns-cielo cambia a estrella-celular.webp, en 16:9 como el cuadro de
      PC y como la foto de la bahía de Scale en celular, con la estrella un poco acercada para que no salga chiquita;
      antes el cuadro era cuadrado): la de WebGL, escondida, ni arranca (estrella.js) */

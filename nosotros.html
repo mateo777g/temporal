@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=brillo-igual-1">
 <link rel="stylesheet" href="assets/components.css">
-<link rel="stylesheet" href="nosotros.css?v=estrella-cel-ancha-1">
+<link rel="stylesheet" href="nosotros.css?v=concepto-cel-2">
 <script src="assets/wave-background.js?v=tierra-3" defer></script>
 <script src="barra.js" defer></script>
 <!-- La estrella del logo, en 3D (en PC; en celular va en imagen) -->
@@ -101,10 +101,16 @@
        cielo (cielo.js) en un cuadro grande. HH 30 va al final, debajo de la estrella, «de postre»: el logo no «es»
        HH 30. -->
   <section class="ns-logo-seccion" aria-labelledby="ns-logo-titulo">
-    <!-- Sus textos, como los de la parte oscura del index (.ns-texto-escena en nosotros.css) -->
-    <div class="ns-texto-escena">
+    <!-- Sus textos, como los de la parte oscura del index (.ns-texto-escena en nosotros.css). En celular van otros:
+         ahí la portada no lleva su párrafo, y lo del nombre y lo del logo van juntos y más cortos, para que no se vea
+         tanto texto seguido (nosotros.css esconde el que no toca). -->
+    <div class="ns-texto-escena ns-solo-pc">
       <h2 id="ns-logo-titulo">La historia detrás de nuestro logo.</h2>
       <p>Cuando una estrella muere, se deshace en pedazos. Cuando nace, pasa lo contrario: el polvo y el gas que andaban sueltos se juntan hasta volverse una sola cosa. Por eso nuestro logo es una estrella naciendo, y por eso nos llamamos Fragmentless: sin fragmentos.</p>
+    </div>
+    <div class="ns-texto-escena ns-solo-celular">
+      <h2>Nuestro concepto.</h2>
+      <p>Cuando una estrella nace, el polvo y el gas sueltos se vuelven una sola cosa. Esa es la idea detrás del logo y del nombre: Fragmentless, «sin fragmentos». Algo completo, integrado y funcionando bien.</p>
     </div>
     <!-- En PC, la estrella en vivo (estrella.js) sobre su cielo en imagen, sacado de cielo.js. En celular, la estrella y
          su cielo en una sola imagen, sacada de los dos: en vivo iba trabadísima. -->

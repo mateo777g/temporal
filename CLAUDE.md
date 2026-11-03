@@ -151,8 +151,9 @@ izquierda y el cielo a la derecha) y, abajo a la izquierda, «Somos Fragmentless
 desde el 3 de noviembre (era «Conoce el sistema»: primero el de Scale, con la flechita en un cuadrito negro, y luego
 igual al «Comprar» blanco del index; él lo quitó porque la portada habla de la empresa). **En celular** es como la
 tarjeta «About» de Scale (la eligió contra la de antes en una página de prueba): el recuadro es solo la imagen, en 3:4,
-con «Somos Fragmentless.» adentro, abajo a la izquierda, y el párrafo debajo, sobre el blanco y centrado (en
-`nosotros.css`, `.ns-hero` pasa a rejilla y `.ns-hero-texto` a `display: contents`; el HTML es el mismo). Entra como
+con «Somos Fragmentless.» adentro, abajo a la izquierda, y sin el párrafo (en `nosotros.css`, `.ns-hero` pasa a rejilla
+y `.ns-hero-texto` a `display: contents`; el HTML es el mismo). Lo del nombre va, junto con lo del logo y más corto,
+en «Nuestro concepto.», arriba de la estrella (ver «El logo de Nosotros»). Entra como
 la portada del index: baja la barra, sube el texto, al titular le pasa el brillo azul y las palabras del párrafo se
 encienden una tras otra (las mismas animaciones y tiempos). Se comparó en una página de
 prueba con la de la NASA (una franja negra, el texto a la izquierda y la Tierra a la derecha) y eligió Scale.
@@ -217,8 +218,11 @@ la estrella solo se mezcle con el cielo). Debajo del cuadro, centrado, «de post
 antes iba arriba, junto al otro párrafo). La estrella
 mide lo alto del cuadro y a los lados queda el cielo; se dibuja a 720 px del lado largo como mucho, así que en el cuadro
 de 1180 se ve un poco más suave que antes. En celular el cuadro también va en 16:9, menos alto, como la foto de la
-bahía de Scale (la eligió contra el cuadrado en una página de prueba), con la estrella en imagen y algo acercada.
-Antes iba el texto a la izquierda y la estrella a la derecha en un cuadro de 520 px. No hay scroll ni
+bahía de Scale (la eligió contra el cuadrado en una página de prueba), con la estrella en imagen y algo acercada. En
+celular, arriba de la estrella no van «La historia detrás de nuestro logo.» y su párrafo sino «Nuestro concepto.» y un
+párrafo que junta lo del nombre y lo del logo, más corto (`.ns-solo-celular`; los de PC llevan `.ns-solo-pc`), porque
+con el párrafo de la portada se veía mucho texto seguido. Va más separado de las dos imágenes que en PC: 104 px
+arriba y 88 abajo (con 72 y 56 se veía pegado). Antes iba el texto a la izquierda y la estrella a la derecha en un cuadro de 520 px. No hay scroll ni
 escena: la estrella se mueve sola (su gas) y deja de dibujar fuera de la pantalla. Reemplaza la sección negra de los cuatro pasos con la foto de
 HH 30 (la luz, el disco, el chorro y «Y existe», con el logo en `svg`; es la que está publicada en Vercel, commit
 `14441c1`) y su frase de cierre «Materia dispersa que colapsa…». Publicado en Vercel el 2 de noviembre, con la
