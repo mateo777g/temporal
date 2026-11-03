@@ -269,6 +269,11 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
 .ns-animada .ns-texto-escena[data-visto] p span { opacity: 1; transition: opacity 0.4s ease calc(0.35s + var(--i) * 70ms); }
 .ns-animada .ns-texto-escena[data-visto] h2 .brilla { animation: brillo-submenu 0.4s ease-in-out calc(0.5s + var(--i) * 18ms); }
 
+/* El cuadro de la estrella no aparece: siempre está, pero empieza más chico y, cuando asoma (data-visto), crece hasta
+   su tamaño con el reloj y no con el scroll, como entran los textos y con su misma curva. */
+.ns-animada .ns-crece { transform: scale(0.8); }
+.ns-animada .ns-crece[data-visto] { transform: none; transition: transform 1.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
+
 @media (prefers-reduced-motion: reduce) {
   .ns-animada .aparece { opacity: 1; transform: none; transition: none; }
 }

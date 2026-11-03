@@ -206,7 +206,9 @@ ahora «La historia detrás de nuestro logo.» (él pidió uno más largo), y su
 con la misma entrada la primera vez que asoman (suben, brillo azul en el título, las palabras se encienden). La
 descripción va en dos renglones, **el primero más largo** (pedido suyo: nunca corto el primero y largo el segundo):
 `max-width: 68em` con el corte normal, que llena el primero; con menos de unos 1080 px ya no caben en dos. «Y
-existe», como el párrafo del index (34em, renglones parejos).
+existe», como el párrafo del index (34em, renglones parejos). El cuadro de la estrella ya no aparece (siempre se
+ve): empieza al 80 % y, cuando asoma, crece hasta su tamaño en 1.5 s con la curva de los textos (en 1 s, él lo quiso un poco más lento), con el reloj y no
+con el scroll (`.ns-crece`). Él no quiere cambiar su tamaño final.
 
 ## Dónde nos quedamos (1 de noviembre de 2026, noche): la estrella en 3D, ya igual a HH 30
 

@@ -1,9 +1,11 @@
 // nosotros.js — la página Nosotros de Fragmentless (nosotros.html).
 // Cada bloque con .aparece entra (sube y aparece) la primera vez que asoma al bajar; ya no se vuelve a ir. Los
-// textos como los del index (.ns-texto-escena) entran igual que allá, también la primera vez que asoman.
-// La clase .ns-animada en <html> es la que los esconde al principio: sin este script, todo se ve desde el inicio.
+// textos como los del index (.ns-texto-escena) entran igual que allá, y el cuadro de la estrella (.ns-crece) crece
+// hasta su tamaño, también la primera vez que asoman.
+// La clase .ns-animada en <html> es la que los esconde (o achica) al principio: sin este script, todo se ve desde el
+// inicio.
 (() => {
-  const bloques = [...document.querySelectorAll('.aparece, .ns-texto-escena')];
+  const bloques = [...document.querySelectorAll('.aparece, .ns-texto-escena, .ns-crece')];
   if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   document.documentElement.classList.add('ns-animada');
