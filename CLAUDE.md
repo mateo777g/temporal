@@ -17,7 +17,9 @@ Fragmentless se presenta como una empresa sólida y con visión, no como un proy
   naciendo (decidido el 1 de noviembre): HH 30, la estrella de verdad que se le parece, va al final, «de postre»;
   nunca se presenta el logo diciendo que «es HH 30».
 - Los botones de la portada que hablan de la empresa (como «Conócenos») llevan a `nosotros.html`, no al
-  sistema. «Conoce el Sistema» lleva a `./#sistema`.
+  sistema. Todos los «Conoce el Sistema» (el de la barra en las tres páginas y los dos botones de Nosotros, el de la
+  portada y el de «Nuestro primer producto») y «SaaS Restaurante» (en la barra y el footer) llevan a
+  `saas-restaurante.html` (desde el 3 de noviembre; antes iban a `./#sistema`, la sección 3 del index).
 
 ## Estructura
 
@@ -32,10 +34,12 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `barrido.js` | La franja de luz que cruza la pantalla de la laptop y cambia el azul por la captura del panel (y de regreso) |
 | `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí. Hasta 900 px, la hamburguesa |
 | `lanzamiento.js` | La sección 3 (`.lanzamiento`): dos tarjetas que se alejan, se inclinan y bajan con el scroll, con un anillo y un remolino de imágenes, y el título. Antes era la fila curva de capturas (`hoja.js`, en el historial de git) |
-| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: entrada del logo en vidrio y portada (el nombre y el eslogan), el logo (la estrella 3D en un cuadro), hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
-| `src/wave-entry.tsx` | Entrada React: monta `#site-footer` y, en Nosotros, `#logo-vidrio` (y `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
-| `components/` | Componentes React (footer con brillo; `logo-vidrio.tsx`, el logo en el vidrio líquido de `ui/liquid-glass-logo-reveal.tsx`; las tarjetas del producto y la fila curva vieja con OGL, que ya no se usan) |
-| `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` (la imagen al compartir el enlace: la entrada de Nosotros congelada en el segundo 2.0, con `time` de `GlassIconReveal`, a 1200 × 630) |
+| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada (un recuadro con la Tierra, como la de Scale, con el nombre y el eslogan), el logo (la estrella 3D en un cuadro), hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
+| `saas-restaurante.html`, `saas-restaurante.css`, `saas-restaurante.js` | Página del sistema para restaurantes (el atajo «SaaS Restaurante» de la barra y del footer): solo la barra, el anuncio (`prueba/anuncio-restaurante.mp4`) en el recuadro de la portada de Nosotros y el footer |
+| `src/wave-entry.tsx` | Entrada React: monta `#site-footer` y, en Nosotros, `#tierra` (y `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
+| `components/` | Componentes React (footer con brillo; `ui/earth-blaze.tsx`, la Tierra de la portada de Nosotros; las tarjetas del producto y la fila curva vieja con OGL, y `logo-vidrio.tsx` con `ui/liquid-glass-logo-reveal.tsx`, la entrada del logo en vidrio, que ya no se usan) |
+| `guardado/` | Lo que se quitó de la página y se guarda para después, con cómo regresarlo: `intro-logo-vidrio/`, la entrada del logo en vidrio de Nosotros (su HTML, CSS y JS y un `LEEME.md`). No se publica |
+| `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` (la imagen al compartir el enlace: la entrada del logo en vidrio de Nosotros, que ya no está, congelada en el segundo 2.0, con `time` de `GlassIconReveal`, a 1200 × 630) |
 | `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
 | `estrella.js`, `cielo.js`, `prueba-estrella.html` | La estrella de Nosotros en 3D (WebGL), su cielo de fondo y su página de prueba (esta no va en git). Ya están en Nosotros, en «El nombre y el logo» |
 
@@ -137,31 +141,60 @@ hacia arriba, la segunda entra por abajo y el título queda arriba de las dos (`
 Hasta que `escena.js` la acomoda por primera vez (pone `data-escena` en `<html>`), la laptop y el eslogan
 están escondidos; si no, mientras baja el bundle se ve la pantalla azul a todo lo ancho.
 
-**La entrada de Nosotros** (29 de octubre): Nosotros se había quedado atrás del index y le tocaba su propio
-«momento». Lo primero que se ve es el logo dentro del vidrio líquido del «Glass Reveal» de 21st.dev
-(`components/ui/liquid-glass-logo-reveal.tsx`, copiado tal cual más un aviso `onEnd`), a pantalla completa sobre
-el gris de la referencia, sin barra y sin poder bajar: una gota de vidrio crece en el cuadro con el logo adentro
-grande y doblado en las orillas (con su tornasol), lo suelta y queda el logo solo. `components/logo-vidrio.tsx`
-lleva los números del logo de 21st.dev con la estrella oficial del lienzo, con sus colores, y sale una sola vez. Al
-terminar, medio segundo después, el logo sube a su lugar arriba de «Somos Fragmentless.» mientras el fondo pasa a
-blanco, baja la barra (como en el index) y suben el titular y su párrafo; al titular le pasa el brillo azul. Los
-pasos van en `data-intro` de `<html>` («logo», que pone un script en `<head>`, y «sube»); `nosotros.js` mide cuánto
-sube el logo (`--sube`, hasta `.ns-logo-lugar`). Con «reducir movimiento» no hay entrada; sin WebGL o si el bundle
-no carga, se salta sola. Tarda unos 6 s y sale en cada visita. Se quitó la etiqueta «Nosotros» de la portada.
+**La portada de Nosotros** (2 de noviembre, noche): como la de Scale (scale.com), un recuadro negro de esquinas
+redondas (`.ns-hero`, 24 px) casi de orilla a orilla, 8 px debajo de la barra, que termina 110 px antes de la orilla
+de abajo de la pantalla para que asome lo que sigue. Adentro, la Tierra del «Earth Blaze» de 21st.dev
+(`components/ui/earth-blaze.tsx`, copiado tal cual, montado en `#tierra`: la orilla del planeta con el sol detrás, la
+nebulosa y las estrellas) y, abajo a la izquierda, «Somos Fragmentless.», el párrafo del nombre y un botón blanco con
+la flechita en un cuadrito negro, como el de Scale («Conoce el sistema», a `saas-restaurante.html`). Entra como
+la portada del index: baja la barra, sube el texto y al titular le pasa el brillo azul. Se comparó en una página de
+prueba con la de la NASA (una franja negra, el texto a la izquierda y la Tierra a la derecha) y eligió Scale.
+La Tierra va quieta y oscura (3 de noviembre, «es demasiado interactivo»): `interactive={false}` en `wave-entry.tsx`
+le quita la luz que seguía al mouse y la aurora del clic, y `textureUrl=""` le quita la foto del planeta (el Blue
+Marble de la NASA, de cdn.21st.dev), que solo se veía al aclararlo con el mouse. Así no se usa ninguna foto real ni se
+descarga nada de fuera; la orilla de luz, el sol, la nebulosa y las estrellas que titilan siguen igual.
+El párrafo, desde el mismo día: en lugar de «Una empresa de software…» (casi lo mismo que la portada del index, y él
+lo notó dos veces), lo que significa el nombre y el eslogan que sale de él: «Nuestro nombre significa «sin
+fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando bien. Por eso nuestro eslogan es «Un
+mundo sin piezas sueltas», y hacia allá vamos.» Con eso se quitó la sección gris «El nombre», que decía lo mismo.
 
-**La portada de Nosotros** (2 de noviembre): debajo de «Somos Fragmentless.», en lugar de «Una empresa de software…»
-(casi lo mismo que la portada del index, y él lo notó dos veces), va lo que significa el nombre y el eslogan que sale
-de él: «Nuestro nombre significa «sin fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando
-bien. Por eso nuestro eslogan es «Un mundo sin piezas sueltas», y hacia allá vamos.» Con eso se quitó la sección gris
-«El nombre», que decía lo mismo.
+**La página SaaS Restaurante** (2 de noviembre, noche; `saas-restaurante.html`): él pidió solo la barra, el mismo
+recuadro de la portada de Nosotros con su anuncio adentro y el footer, «no le metas más». El anuncio
+(`prueba/fragmentless-anuncio-v38.mp4`, 30 s, 1920 × 1080, con música; 17.6 MB) se comprimió para la página a
+`prueba/anuncio-restaurante.mp4` (H.264 de 1920, CRF 24, con su audio y `faststart`; 7.6 MB) y su primer cuadro es el
+`poster` (`anuncio-restaurante.webp`). El original no se carga y no va en git. El recuadro mide lo mismo que el de
+Nosotros y el anuncio lo llena (`object-fit: cover`): se le recorta arriba y abajo, y en celular a los lados. Primero se
+hizo en 16:9 para que se viera entero, y él pidió el tamaño de Nosotros: «no importa que el video se vea raro». Arranca
+solo, sin sonido y en ciclo (sin sonido es lo único que dejan los navegadores); un botón redondo en la esquina de abajo a
+la derecha le pone el sonido. Con «reducir movimiento», o si el navegador no lo deja arrancar, salen los controles del
+navegador para darle play a mano. El atajo «SaaS Restaurante» de la barra (index y Nosotros) y del footer lleva aquí,
+y desde el 3 de noviembre también todos los «Conoce el Sistema» y los dos «Más información» de la escena del index.
+
+Publicado en Vercel el 3 de noviembre, junto con lo nuevo de Nosotros, en tres commits que se pueden regresar por
+separado: la portada con la Tierra y sin la entrada del logo (`66dd62e`), las secciones sin etiquetas y la estrella
+centrada (`67d4ec6`) y SaaS Restaurante con sus enlaces (`bbe3732`).
+
+**Sin etiquetas** (3 de noviembre): las secciones de Nosotros ya no llevan la etiqueta azul chica en mayúsculas
+encima del título («El logo», «Hacia dónde vamos», «Cómo trabajamos», «Nuestro primer producto»): él no las pidió y el
+index no usa nada así. El título grande de cada sección (`.ns-titulo`) es ahora su `<h2>`. No volver a ponerlas.
+
+**La entrada del logo en vidrio** (del 29 de octubre al 2 de noviembre): Nosotros abría con el logo dentro del vidrio
+líquido del «Glass Reveal» de 21st.dev, a pantalla completa sobre gris; luego el logo subía arriba del titular. Al
+pasar la portada al recuadro, él pidió quitarla («está increíble, pero ya no da para más»; quizá en una app) y
+guardarla: está en `guardado/intro-logo-vidrio/`, con cómo regresarla. Sus componentes siguen en `components/`, fuera
+del bundle.
 
 **El logo de Nosotros** (2 de noviembre, idea suya, «algo más sencillo»; `.ns-logo-seccion`): después de la
-portada, una sección blanca con el texto a la izquierda («El logo», «Una estrella
-naciendo.», el párrafo de la estrella que nace y, al final, «de postre», «Y existe: HH 30…») y, a la derecha, la
-estrella en 3D (`estrella.js`) con su cielo (`cielo.js`) en un cuadro oscuro de esquinas redondas
-(`.ns-estrella-cuadro`, hasta 520 px, cuadrado, con `isolation` para que el «screen» de la estrella solo se mezcle con
-el cielo). En celular el cuadro va debajo del texto, a todo lo ancho. No hay scroll ni escena: la estrella se mueve
-sola (su gas) y deja de dibujar fuera de la pantalla. Reemplaza la sección negra de los cuatro pasos con la foto de
+portada, una sección blanca acomodada como la misión de la página «About» de Scale (3 de noviembre): el título
+«Una estrella naciendo.» y debajo el párrafo de la estrella que nace, todo centrado y a lo ancho de la página (1180
+px), y bien separada abajo (hasta 184 px), la estrella en 3D (`estrella.js`) con su cielo (`cielo.js`) en un cuadro
+oscuro de esquinas redondas del mismo ancho, en 16:9 (`.ns-estrella-cuadro`, con `isolation` para que el «screen» de
+la estrella solo se mezcle con el cielo). Debajo del cuadro, centrado, «de postre», «Y existe: HH 30…» (pedido suyo:
+antes iba arriba, junto al otro párrafo). La estrella
+mide lo alto del cuadro y a los lados queda el cielo; se dibuja a 720 px del lado largo como mucho, así que en el cuadro
+de 1180 se ve un poco más suave que antes. En celular el cuadro va cuadrado, como antes (en 16:9 la estrella salía
+chiquita). Antes iba el texto a la izquierda y la estrella a la derecha en un cuadro de 520 px. No hay scroll ni
+escena: la estrella se mueve sola (su gas) y deja de dibujar fuera de la pantalla. Reemplaza la sección negra de los cuatro pasos con la foto de
 HH 30 (la luz, el disco, el chorro y «Y existe», con el logo en `svg`; es la que está publicada en Vercel, commit
 `14441c1`) y su frase de cierre «Materia dispersa que colapsa…». Publicado en Vercel el 2 de noviembre, con la
 portada nueva (commits `f660233` y `30bd8b2`).
@@ -485,9 +518,9 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
 
 ## Pendientes conocidos
 
-- Enlaces que todavía apuntan a `#`: «Iniciar Sesión», «Planes», «Contáctanos», y «Más información» y
-  «Comprar» de la escena en `index.html` (están dos veces: en el texto de la izquierda y, para celular, en el del
-  centro; cambiar los dos).
+- Enlaces que todavía apuntan a `#`: «Iniciar Sesión», «Planes», «Contáctanos», y «Comprar» de la escena en
+  `index.html` (está dos veces: en el texto de la izquierda y, para celular, en el del centro; cambiar los dos). «Más
+  información», al lado, ya lleva a `saas-restaurante.html` (los dos).
 - Si la página pasa a un dominio propio, cambiar `og:image` en `index.html` y `nosotros.html`, que apunta a
   `fragmentless-software.vercel.app`.
 - Según la marca, el nombre «fragmentless» va en la letra Outfit, peso 200. La barra todavía usa Inter.
@@ -496,3 +529,4 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
   cargaban y las teclas claras de la plateada (`teclado-claro.webp` y `scripts/teclas-claras.py`); si hacen falta,
   siguen en el historial de git (por ejemplo, en el commit `ceb8af1`).
 - La sección `.clientes` de `index.html` está vacía hasta que haya logos de clientes reales.
+- `og-imagen.jpg` es todavía un cuadro de la entrada del logo en vidrio, que ya no está en la página.
