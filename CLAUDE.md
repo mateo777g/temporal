@@ -467,7 +467,11 @@ igual en Nosotros, que usa el mismo bundle.
 
 La barra no lleva línea abajo en ninguna página (él la quitó el 3 de noviembre; era una línea gris, un `box-shadow`
 de `--tinta` al 12 %). Sobre toda la escena (la portada blanca y la parte negra) es transparente: en
-`style.css`, la regla de `:root[data-escena]:not([data-hoja])`. Blanca se veía como un bloque en el gris del paso a
+`style.css`, la regla de `:root[data-escena]:not([data-hoja])`. En Nosotros, mientras va encima de la sección negra
+(«Hacia dónde vamos»), la barra se vuelve negra, con letra, logo, botones y hamburguesa en blanco (3 de noviembre, PC
+y celular): `nosotros.js` pone `data-barra-negra` en `<html>` cuando la sección cubre la línea de en medio de la
+fila de la barra, y las reglas de la barra de la parte negra del index valen también para ese atributo (sin cambiar
+el fondo de la página, como hace `data-noche`). Blanca se veía como un bloque en el gris del paso a
 la parte negra, y negra, sobre ese fondo que no es negro plano. La letra va negra mientras el fondo es claro y
 blanca desde el cambio a modo noche (`data-noche`). Nada de la escena pasa por debajo de ella, ni en celular.
 Sobre la hoja y lo que sigue es blanca; abierta, con su submenú, tiene fondo (blanco de

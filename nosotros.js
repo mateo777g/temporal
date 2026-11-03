@@ -52,3 +52,25 @@
   for (const titulo of document.querySelectorAll('.ns-portada h1, .ns-texto-escena h2:not(.ns-sin-brillo), .ns-tarjeta h3')) partirEnLetras(titulo);
   for (const parrafo of document.querySelectorAll('.ns-hero-texto p, .ns-texto-escena p:not(.ns-eslogan), .ns-tarjeta p')) partirEnPalabras(parrafo);
 })();
+
+// La barra se vuelve negra (con letra, logo y botones en blanco, como en la parte negra del index) mientras va encima
+// de la sección negra («Hacia dónde vamos»): cuando la sección cubre la línea de en medio de la fila de la barra.
+// data-barra-negra en <html>; los estilos, en style.css. En PC y en celular.
+(() => {
+  const negra = document.querySelector('.ns-vision');
+  const fila = document.querySelector('.barra-fila');
+  if (!negra || !fila) return;
+  let cuadro = 0;
+  const revisar = () => {
+    cuadro = 0;
+    const mitad = fila.offsetHeight / 2;
+    const { top, bottom } = negra.getBoundingClientRect();
+    document.documentElement.toggleAttribute('data-barra-negra', top <= mitad && bottom >= mitad);
+  };
+  const pedir = () => {
+    if (!cuadro) cuadro = requestAnimationFrame(revisar);
+  };
+  addEventListener('scroll', pedir, { passive: true });
+  addEventListener('resize', pedir);
+  revisar();
+})();

@@ -68,14 +68,16 @@ body {
 :root[data-escena]:not([data-hoja]) .barra:not([data-abierto]) {
   --fondo: transparent;
 }
-/* En la parte negra, letra blanca */
+/* En la parte negra, letra blanca. Lo mismo pasa en Nosotros mientras la barra va encima de su sección negra
+   (data-barra-negra, nosotros.js), pero ahí la barra además se vuelve negra y el fondo de la página no cambia. */
 :root[data-noche] body { background: var(--noche-escena); }
-:root[data-noche]:not([data-hoja]) .barra {
+:is(:root[data-noche]:not([data-hoja]), :root[data-barra-negra]) .barra {
   --tinta: #FFFFFF;
   --tinta-suave: #A1A1A6;
   --borde: #3A3A3D;
 }
-:root[data-noche]:not([data-hoja]) .barra[data-abierto] { --fondo: var(--barra-noche); }
+:root[data-barra-negra] .barra { --fondo: var(--noche); }
+:is(:root[data-noche]:not([data-hoja]), :root[data-barra-negra]) .barra[data-abierto] { --fondo: var(--barra-noche); }
 
 .barra-fila {
   height: var(--alto-barra);
@@ -96,8 +98,8 @@ body {
 .logo img { display: block; height: 23px; width: auto; flex-shrink: 0; } /* símbolo azul junto a la palabra */
 .logo .logo-oscuro { display: none; }
 /* Sobre negro o gris oscuro, una variante de azul hielo a blanco conserva el relieve. */
-:root[data-noche]:not([data-hoja]) .barra .logo-claro { display: none; }
-:root[data-noche]:not([data-hoja]) .barra .logo-oscuro { display: block; }
+:is(:root[data-noche]:not([data-hoja]), :root[data-barra-negra]) .barra .logo-claro { display: none; }
+:is(:root[data-noche]:not([data-hoja]), :root[data-barra-negra]) .barra .logo-oscuro { display: block; }
 .logo span {
   font-weight: 400; /* mismo grosor que los atajos */
   font-size: 17px;
@@ -152,9 +154,9 @@ body {
 .boton-primario:hover { opacity: 0.85; }
 /* En la parte negra los dos botones de la barra van en blanco: en azul se veían apagados sobre el gris oscuro.
    Iniciar Sesión, con borde y letra blancos, se llena de blanco al pasar el mouse, como de día se llena de azul. */
-:root[data-noche]:not([data-hoja]) .barra .boton-borde { border-color: #FFFFFF; color: #FFFFFF; }
-:root[data-noche]:not([data-hoja]) .barra .boton-borde:hover { background: #FFFFFF; color: var(--hueco); }
-:root[data-noche]:not([data-hoja]) .barra .boton-primario { background: #FFFFFF; color: var(--hueco); }
+:is(:root[data-noche]:not([data-hoja]), :root[data-barra-negra]) .barra .boton-borde { border-color: #FFFFFF; color: #FFFFFF; }
+:is(:root[data-noche]:not([data-hoja]), :root[data-barra-negra]) .barra .boton-borde:hover { background: #FFFFFF; color: var(--hueco); }
+:is(:root[data-noche]:not([data-hoja]), :root[data-barra-negra]) .barra .boton-primario { background: #FFFFFF; color: var(--hueco); }
 
 /* La hamburguesa: solo en celular (abajo, en su @media), en lugar de los atajos. Dos rayas que, abierta, se
    cruzan en una X. Van del color de la letra, así en la parte negra son blancas. */
@@ -1420,7 +1422,7 @@ body {
   .hamburguesa span { height: 2px; }
   .hamburguesa[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
   .hamburguesa[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
-  :root[data-noche]:not([data-hoja]) .barra .hamburguesa { background: #FFFFFF; color: var(--hueco); }
+  :is(:root[data-noche]:not([data-hoja]), :root[data-barra-negra]) .barra .hamburguesa { background: #FFFFFF; color: var(--hueco); }
   /* La laptop no se va al lado ni sale el texto de la izquierda (Moderniza tu negocio): después del texto del
      centro se cierra ahí mismo. La escena mide lo que duraba esa parte menos: 6.1 pantallas y no 7 (escena.js,
      RECORRIDO). */
