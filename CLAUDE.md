@@ -191,7 +191,9 @@ recuadro de la portada de Nosotros con su anuncio adentro y el footer, «no le m
 `prueba/anuncio-restaurante.mp4` (H.264 de 1920, CRF 24, con su audio y `faststart`; 7.6 MB) y su primer cuadro es el
 `poster` (`anuncio-restaurante.webp`). El original no se carga y no va en git. El recuadro mide lo mismo que el de
 Nosotros y el anuncio lo llena (`object-fit: cover`): se le recorta arriba y abajo, y en celular a los lados. Primero se
-hizo en 16:9 para que se viera entero, y él pidió el tamaño de Nosotros: «no importa que el video se vea raro». Arranca
+hizo en 16:9 para que se viera entero, y él pidió el tamaño de Nosotros: «no importa que el video se vea raro». En
+celular (desde el 3 de noviembre) el recuadro va como la Tierra de Nosotros en celular: en 3:4, con el margen de la
+página (343 × 457 a 375 px; antes era alto, casi toda la pantalla, y al anuncio se le recortaba más). Arranca
 solo, sin sonido y en ciclo (sin sonido es lo único que dejan los navegadores); un botón redondo en la esquina de abajo a
 la derecha le pone el sonido. Con «reducir movimiento», o si el navegador no lo deja arrancar, salen los controles del
 navegador para darle play a mano. El atajo «SaaS Restaurante» de la barra (index y Nosotros) y del footer lleva aquí,

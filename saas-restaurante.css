@@ -3,7 +3,8 @@
 
 /* El mismo recuadro de la portada de Nosotros (como la de Scale), del mismo tamaño: 8 px debajo de la barra, casi de
    orilla a orilla, y termina 110 px antes de la orilla de abajo de la pantalla; negro y con las esquinas redondas. El
-   anuncio lo llena (es más ancho que él a lo alto, así que se le recorta arriba y abajo, y en celular a los lados). */
+   anuncio lo llena (es más ancho que él a lo alto, así que se le recorta arriba y abajo, y en celular a los lados).
+   En celular es como la imagen de la Tierra de Nosotros (ver su @media abajo). */
 .sr-portada { padding: calc(var(--alto-barra) + 8px) 18px clamp(48px, 6vw, 96px); }
 .sr-cuadro {
   position: relative;
@@ -60,6 +61,7 @@
 
 @media (max-width: 760px) {
   .sr-portada { padding-inline: var(--margen); padding-bottom: 48px; }
-  .sr-cuadro { border-radius: 20px; }
+  /* En celular, del tamaño de la Tierra de Nosotros en celular (.ns-tierra): en 3:4, con el margen de la página */
+  .sr-cuadro { height: auto; min-height: 0; aspect-ratio: 3 / 4; border-radius: 20px; }
   .sr-sonido { right: 12px; bottom: 12px; width: 36px; height: 36px; }
 }
