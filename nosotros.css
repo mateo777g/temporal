@@ -1,6 +1,6 @@
 /* nosotros.css — la página Nosotros de Fragmentless (nosotros.html). La barra, los botones y el footer vienen
-   de style.css; aquí van solo sus secciones: blancas (la portada, el logo y cómo trabajamos), una gris (el nombre),
-   una negra (hacia dónde vamos) y la última en el azul de la marca. */
+   de style.css; aquí van solo sus secciones: blancas (la portada, el logo y cómo trabajamos), una negra (hacia dónde
+   vamos) y la última en el azul de la marca. */
 
 .pagina-nosotros {
   --ancho-texto: 1180px;
@@ -128,10 +128,8 @@ p.ns-columna-texto {
   max-width: 34em;
 }
 
-.ns-nombre { background: #F5F5F7; }
-
-/* El logo, en blanco, entre el gris del nombre y el negro de «Hacia dónde vamos»: el texto a la izquierda y la
-   estrella en 3D con su cielo a la derecha, en un cuadro oscuro que no ocupa mucho */
+/* El logo, en blanco, entre la portada y el negro de «Hacia dónde vamos»: el texto a la izquierda y la estrella en
+   3D con su cielo a la derecha, en un cuadro oscuro que no ocupa mucho */
 .ns-logo-columnas { align-items: center; }
 .ns-logo-columnas .ns-columna-texto { margin-top: 24px; }
 .ns-estrella-cuadro {

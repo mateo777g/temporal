@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=brillo-igual-1">
 <link rel="stylesheet" href="assets/components.css">
-<link rel="stylesheet" href="nosotros.css?v=logo-1">
+<link rel="stylesheet" href="nosotros.css?v=logo-2">
 <script src="assets/wave-background.js?v=intro-4" defer></script>
 <script src="barra.js" defer></script>
 <!-- La estrella del logo, en 3D, y su cielo de fondo -->
@@ -86,31 +86,18 @@
 <div class="velo" aria-hidden="true"></div>
 
 <main>
-  <!-- Portada: el logo y, debajo, quiénes somos en una frase. El logo entra primero, a pantalla completa, dentro
-       de un vidrio líquido (components/logo-vidrio.tsx, en el bundle); luego sube al lugar que le aparta
-       .ns-logo-lugar, y salen la barra y el texto. -->
+  <!-- Portada: el logo y, debajo, lo que significa el nombre y el eslogan que sale de él (no lo mismo que la portada
+       del index, para que quien llega aquí lea algo nuevo). El logo entra primero, a pantalla completa, dentro de un
+       vidrio líquido (components/logo-vidrio.tsx, en el bundle); luego sube al lugar que le aparta .ns-logo-lugar, y
+       salen la barra y el texto. -->
   <section class="ns-portada">
     <div class="ns-logo" id="logo-vidrio"></div>
     <div class="ns-logo-lugar" aria-hidden="true"></div>
     <h1>Somos Fragmentless.</h1>
-    <p class="ns-entrada">Una empresa de software. Atacamos los problemas que tienen las empresas allá afuera y juntamos su solución en un solo ecosistema, bien hecho.</p>
+    <p class="ns-entrada">Nuestro nombre significa «sin fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando bien. Por eso nuestro eslogan es «Un mundo sin piezas sueltas», y hacia allá vamos.</p>
   </section>
 
-  <!-- El nombre y el eslogan -->
-  <section class="ns-nombre" aria-labelledby="ns-nombre-titulo">
-    <div class="ns-columnas">
-      <div class="aparece">
-        <h2 id="ns-nombre-titulo" class="ns-etiqueta">El nombre</h2>
-        <p class="ns-titulo">Fragment&shy;less: sin fragmentos.</p>
-      </div>
-      <div class="ns-columna-texto aparece">
-        <p>Fragmentless significa algo completo, sin pedazos sueltos: todo integrado y funcionando bien. El nombre promete eliminar las fracturas, los fragmentos y las complicaciones. Por eso conecta con resolver problemas.</p>
-        <p>Nuestro eslogan, <strong>Un mundo sin piezas sueltas</strong>, habla de hacia dónde vamos y no de nuestro primer cliente. «Un mundo» deja espacio para todo lo que venga.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- El logo, después del nombre: una estrella naciendo, materia suelta que se junta en una sola cosa. El texto a
+  <!-- El logo, después de la portada: una estrella naciendo, materia suelta que se junta en una sola cosa. El texto a
        la izquierda y, a la derecha, la estrella en 3D (estrella.js) con su cielo (cielo.js), en un cuadro que no
        ocupa mucho. HH 30 va al final, «de postre»: el logo no «es» HH 30. -->
   <section class="ns-logo-seccion" aria-labelledby="ns-logo-titulo">
