@@ -148,7 +148,8 @@ de abajo de la pantalla para que asome lo que sigue. Adentro, la Tierra del «Ea
 nebulosa y las estrellas) y, abajo a la izquierda, «Somos Fragmentless.», el párrafo del nombre y un botón blanco
 igual al «Comprar» de la parte negra del index, del mismo tamaño y con letra negra («Conoce el sistema», a
 `saas-restaurante.html`; desde el 3 de noviembre: antes era el de Scale, con la flechita en un cuadrito negro). Entra como
-la portada del index: baja la barra, sube el texto y al titular le pasa el brillo azul. Se comparó en una página de
+la portada del index: baja la barra, sube el texto, al titular le pasa el brillo azul y las palabras del párrafo se
+encienden una tras otra (las mismas animaciones y tiempos). Se comparó en una página de
 prueba con la de la NASA (una franja negra, el texto a la izquierda y la Tierra a la derecha) y eligió Scale.
 La Tierra va quieta y oscura (3 de noviembre, «es demasiado interactivo»): `interactive={false}` en `wave-entry.tsx`
 le quita la luz que seguía al mouse y la aurora del clic, y `textureUrl=""` le quita la foto del planeta (el Blue

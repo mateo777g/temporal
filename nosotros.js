@@ -16,8 +16,9 @@
   for (const bloque of bloques) observador.observe(bloque);
 })();
 
-// El titular de la portada, letra por letra, para el brillo azul que le pasa en cuanto termina de subir
-// (nosotros.css). La entrada del logo en vidrio que también iba aquí está guardada en guardado/intro-logo-vidrio/.
+// El titular de la portada, letra por letra, para el brillo azul que le pasa en cuanto termina de subir, y su
+// párrafo, palabra por palabra, para que se enciendan una tras otra como en la portada del index (nosotros.css).
+// La entrada del logo en vidrio que también iba aquí está guardada en guardado/intro-logo-vidrio/.
 (() => {
   const titular = document.querySelector('.ns-portada h1');
   if (!titular) return;
@@ -30,4 +31,14 @@
     span.textContent = caracter;
     return span;
   }));
+
+  const parrafo = document.querySelector('.ns-hero-texto p');
+  const palabras = parrafo.textContent.trim().split(/\s+/);
+  parrafo.replaceChildren();
+  palabras.forEach((palabra, i) => {
+    const span = document.createElement('span');
+    span.textContent = palabra;
+    span.style.setProperty('--i', i);
+    parrafo.append(span, i < palabras.length - 1 ? ' ' : '');
+  });
 })();
