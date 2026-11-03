@@ -3,6 +3,7 @@ import PanelShowcase from "@/components/panel-showcase";
 import FeatureCards from "@/components/feature-cards";
 import HalftoneWordmarkFooter from "@/components/ui/halftone-wordmark-footer";
 import { EarthBlaze } from "@/components/ui/earth-blaze";
+import { AnimatedGradient } from "@/components/ui/animated-gradient";
 
 const panel = document.getElementById("panel-showcase");
 if (panel) createRoot(panel).render(<PanelShowcase />);
@@ -20,6 +21,31 @@ if (features) createRoot(features).render(<FeatureCards />);
 const tierra = document.getElementById("tierra");
 if (tierra) createRoot(tierra).render(
   <EarthBlaze interactive={false} textureUrl="" style={{ position: "absolute", inset: 0, height: "100%", aspectRatio: "auto" }} />,
+);
+
+// El recuadro negro del final de Nosotros: el «Animated Gradient» de 21st.dev con su preset «Aurora» tal cual, nada
+// más que con el azul de la marca (--azul) en lugar de su rosa (#f20089). Las esquinas las recorta el recuadro.
+const degradado = document.getElementById("degradado");
+if (degradado) createRoot(degradado).render(
+  <AnimatedGradient
+    config={{
+      preset: "custom",
+      color1: "#0a001a",
+      color2: "#1a0b2e",
+      color3: "#1355E8",
+      rotation: -45,
+      proportion: 60,
+      scale: 0.6,
+      speed: 15,
+      distortion: 40,
+      swirl: 80,
+      swirlIterations: 10,
+      softness: 100,
+      offset: 200,
+      shape: "Edge",
+      shapeSize: 50,
+    }}
+  />,
 );
 
 const footer = document.getElementById("site-footer");
