@@ -1,6 +1,7 @@
 /* nosotros.css — la página Nosotros de Fragmentless (nosotros.html). La barra, los botones y el footer vienen
-   de style.css; aquí van solo sus secciones: la portada (un recuadro negro con la Tierra), blancas (el logo y cómo
-   trabajamos), una negra (hacia dónde vamos) y la última en el azul de la marca. */
+   de style.css; aquí van solo sus secciones: la portada (un recuadro negro con la Tierra), la del logo (blanca), la
+   de hacia dónde vamos (negra) y, al final, un recuadro negro sobre blanco. La azul del producto y la de los
+   principios («Hecho bien, desde los cimientos.») se quitaron el 3 de noviembre. */
 
 .pagina-nosotros {
   --ancho-texto: 1180px;
@@ -12,35 +13,6 @@
 :where(.pagina-nosotros main > section) {
   padding-block: clamp(72px, 10vw, 140px);
   padding-inline: max(var(--relleno), (100% - var(--ancho-texto)) / 2);
-}
-
-/* El título de cada sección (su <h2>). Sin etiqueta chica encima: el index no las usa. */
-.ns-titulo {
-  margin: 0;
-  font-size: clamp(2rem, 3.6vw, 3.5rem);
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
-}
-
-.ns-texto,
-.ns-columna-texto p,
-p.ns-columna-texto {
-  color: #515154;
-  font-size: clamp(1rem, 1.1vw, 1.1875rem);
-  line-height: 1.65;
-}
-.ns-texto { max-width: 40em; margin: 24px 0 0; }
-.ns-columna-texto p { margin: 0 0 18px; }
-.ns-columna-texto strong { color: var(--tinta); font-weight: 600; }
-
-/* Dos columnas en escritorio: el título a la izquierda y el texto a la derecha */
-.ns-columnas {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-  gap: clamp(32px, 6vw, 96px);
-  align-items: start;
 }
 
 /* Portada, como la de Scale: un recuadro redondeado casi de orilla a orilla, justo debajo de la barra, con la Tierra
@@ -144,116 +116,170 @@ p.ns-columna-texto {
 /* La estrella es luz sobre negro: «screen» deja ver el cielo donde es negra y suma su luz encima */
 .ns-estrella-cuadro .estrella-3d { mix-blend-mode: screen; }
 
-/* Hacia dónde vamos, en negro: una línea con un punto azul por paso */
+/* Hacia dónde vamos, en negro: el título y tres tarjetas, como las del «Feature Card» de 21st.dev: oscuras y planas
+   (sin la orilla ni la sombra del ejemplo, a pedido suyo), todo centrado, el ícono en un círculo arriba y, al pasar
+   el mouse, suben 8 px. Las letras, no las del
+   ejemplo sino las de la sección del logo: el título como su título y los textos de las tarjetas (también el
+   suyo) como sus párrafos, con su misma entrada (ver abajo). Tres columnas, dos en tablet y una en celular, como el
+   ejemplo. Antes era el título con la línea del fundador a la izquierda, los tres pasos en una línea con
+   puntos azules a la derecha y una frase grande abajo («No hacemos herramientas sueltas…»). */
 .ns-vision {
   --tinta: #FFFFFF;
   background: var(--noche);
   color: #FFFFFF;
 }
-.ns-vision .ns-columna-texto,
-.ns-vision .ns-linea p { color: #A1A1A6; }
-.ns-vision .ns-columna-texto strong { color: #FFFFFF; font-weight: 500; }
-p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
-
-.ns-linea {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-left: 1px solid #3A3A3D;
-}
-.ns-linea li {
-  position: relative;
-  padding: 0 0 40px 32px;
-}
-.ns-linea li:last-child { padding-bottom: 0; }
-.ns-linea li::before {
-  content: '';
-  position: absolute;
-  left: -5px;
-  top: 0.45em;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--azul-noche);
-  box-shadow: 0 0 0 4px var(--noche);
-}
-.ns-linea h3 { margin: 0 0 8px; font-size: 1.1875rem; font-weight: 500; letter-spacing: -0.01em; }
-.ns-linea p { margin: 0; font-size: 1rem; line-height: 1.6; max-width: 34em; }
-
-/* Una cita grande debajo de la línea: cómo construimos */
-.ns-leccion {
-  margin: clamp(64px, 8vw, 112px) 0 0;
-  padding-top: clamp(40px, 5vw, 64px);
-  border-top: 1px solid #3A3A3D;
-}
-.ns-leccion blockquote { margin: 0; }
-.ns-leccion blockquote p {
-  margin: 0;
-  max-width: 24em;
-  font-size: clamp(1.75rem, 3.4vw, 3rem);
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.035em;
-  text-wrap: balance;
-}
-.ns-leccion figcaption { margin-top: 20px; color: #A1A1A6; font-size: 14px; }
-
-/* Los principios, en una rejilla de tres columnas con su número */
-.ns-rejilla {
-  counter-reset: principio;
+.ns-tarjetas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
   margin: clamp(40px, 5vw, 64px) 0 0;
   padding: 0;
   list-style: none;
+}
+.ns-tarjeta {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 32px;
+  border-radius: 12px;
+  background: #111112;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ns-tarjeta:hover { transform: translateY(-8px); }
+}
+.ns-tarjeta-icono {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: color-mix(in srgb, var(--tinta) 10%, transparent);
-  border: 1px solid color-mix(in srgb, var(--tinta) 10%, transparent);
-  border-radius: 16px;
-  overflow: hidden;
+  place-items: center;
+  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 50%;
+  background: #232326;
 }
-.ns-rejilla li {
-  counter-increment: principio;
-  padding: clamp(24px, 3vw, 40px);
-  background: var(--fondo);
+.ns-tarjeta-icono svg {
+  width: 48px;
+  height: 48px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.ns-rejilla li::before {
-  content: counter(principio, decimal-leading-zero);
-  display: block;
-  margin-bottom: 28px;
-  color: var(--azul);
-  font-size: 14px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-.ns-rejilla h3 { margin: 0 0 10px; font-size: 1.1875rem; font-weight: 500; letter-spacing: -0.01em; }
-.ns-rejilla p { margin: 0; color: #515154; font-size: 0.9375rem; line-height: 1.6; }
+.ns-tarjeta :is(h3, p) { margin: 0; font-size: clamp(0.875rem, 0.74vw, 1rem); line-height: 1.6; }
+.ns-tarjeta h3 { margin-bottom: 8px; font-weight: 500; }
+.ns-tarjeta p { color: #A1A1A6; }
 
-/* El producto, en el azul de la marca, con un botón blanco que lleva al sistema (saas-restaurante.html) */
-.ns-producto {
-  background: var(--azul);
+/* Debajo de las tarjetas, acomodados como la frase grande que iba aquí antes («No hacemos herramientas sueltas…»,
+   commit a81fa39): una línea arriba, el eslogan, del tamaño de «Somos Fragmentless.» de la portada (sin el brillo
+   azul: él se lo quitó, igual que a «La historia detrás de nuestro logo.»), y debajo quién la fundó, como los párrafos de la sección del logo en el gris de las tarjetas.
+   La línea (::before) se dibuja de izquierda a derecha cuando asoma, en 1 s y con la curva de los textos, que suben
+   al mismo tiempo. */
+.ns-cierre {
+  position: relative;
+  margin-top: clamp(64px, 8vw, 112px);
+  padding-top: clamp(40px, 5vw, 64px);
+}
+.ns-cierre::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #3A3A3D;
+  transform-origin: left;
+}
+.ns-animada .ns-cierre::before { transform: scaleX(0); }
+.ns-animada .ns-cierre[data-visto]::before { transform: none; transition: transform 1s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.ns-cierre p { margin: 20px 0 0; color: #A1A1A6; text-wrap: pretty; }
+.ns-texto-escena .ns-eslogan {
+  max-width: none;
+  margin: 0;
   color: #FFFFFF;
+  font-size: clamp(2.25rem, 3.6vw, 4rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
 }
-.ns-producto .ns-texto { color: rgb(255 255 255 / 0.85); }
-.ns-botones { margin-top: 36px; }
-.ns-boton-blanco { background: #FFFFFF; color: var(--azul); font-weight: 500; }
-.ns-boton-blanco:hover { opacity: 0.9; }
-.ns-boton-blanco:focus-visible { outline-color: #FFFFFF; }
 
-/* Al bajar, cada bloque sube un poco y aparece (nosotros.js le pone data-visto). Solo si corrió el script:
-   sin él, todo se ve desde el principio. */
-.ns-animada .aparece {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+/* Al final, un recuadro negro del tamaño del de la portada (.ns-hero): casi de orilla a orilla, del alto de la
+   pantalla menos la barra y 118 px, con sus mismas esquinas; en celular, en 3:4 y con el margen de la página, como el
+   de la portada ahí (ver su @media). Va sobre blanco, después de la sección negra, con el mismo aire arriba y abajo
+   que las demás secciones. Adentro, el «Animated Gradient» de 21st.dev (#degradado, montado por el bundle), que lo
+   llena; el recuadro le recorta las esquinas. Sin WebGL, se queda negro. */
+.ns-final { padding: clamp(72px, 10vw, 140px) 18px; }
+.ns-recuadro {
+  position: relative;
+  overflow: hidden;
+  height: calc(100vh - var(--alto-barra) - 118px);
+  height: calc(100svh - var(--alto-barra) - 118px);
+  min-height: 480px;
+  border-radius: 24px;
+  background: var(--noche);
 }
-.ns-animada .aparece[data-visto] { opacity: 1; transform: none; }
-/* Los pasos de la visión y los principios entran uno tras otro */
-.ns-animada :is(.ns-linea, .ns-rejilla) > .aparece:nth-child(2) { transition-delay: 80ms; }
-.ns-animada :is(.ns-linea, .ns-rejilla) > .aparece:nth-child(3) { transition-delay: 160ms; }
-.ns-animada :is(.ns-linea, .ns-rejilla) > .aparece:nth-child(4) { transition-delay: 240ms; }
-.ns-animada :is(.ns-linea, .ns-rejilla) > .aparece:nth-child(5) { transition-delay: 320ms; }
-.ns-animada :is(.ns-linea, .ns-rejilla) > .aparece:nth-child(6) { transition-delay: 400ms; }
+.ns-degradado { position: absolute; inset: 0; }
+/* Encima del degradado, centrados como en su ejemplo: el título, blanco y del tamaño de «Somos Fragmentless.» de la
+   portada, y el botón blanco de la sección 2 del index (como «Comprar»), que lleva al sistema. Entran como el texto
+   de la portada cuando asoma el recuadro: suben, y el botón un poco después. Sin brillo azul (no se pidió). */
+.ns-recuadro-texto {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+  color: #FFFFFF;
+  text-align: center;
+}
+.ns-recuadro-texto h2 {
+  margin: 0;
+  font-size: clamp(2.25rem, 3.6vw, 4rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+.ns-recuadro-boton { margin-top: 32px; }
+.ns-recuadro-texto .boton-primario { background: #FFFFFF; color: var(--hueco); }
+.ns-recuadro-texto .boton-primario:focus-visible { outline-color: #FFFFFF; }
+.ns-animada .ns-recuadro-texto > * { opacity: 0; transform: translateY(16px); }
+.ns-animada .ns-recuadro[data-visto] .ns-recuadro-texto > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.ns-animada .ns-recuadro[data-visto] .ns-recuadro-boton { transition-delay: 0.6s; }
+
+/* Las tarjetas de «Hacia dónde vamos» entran como en el ejemplo, cuando asoma su lista (data-visto): suben 20 px y
+   aparecen en 0.5 s, una 0.2 s después de la otra (--retraso). Lo de adentro, contado desde que entra su tarjeta:
+   las palabras de su texto se encienden una tras otra, como en la sección del logo (--i: su lugar, nosotros.js), y a
+   su título le pasa el efecto del brillo, letra por letra y con sus tiempos, pero sin el azul (él no lo quiso ahí):
+   empieza en el gris de su texto y cada letra se vuelve blanca y así se queda, encima del texto. */
+.ns-tarjetas > li:nth-child(2) { --retraso: 0.2s; }
+.ns-tarjetas > li:nth-child(3) { --retraso: 0.4s; }
+.ns-animada .ns-tarjetas > li { opacity: 0; transform: translateY(20px); }
+.ns-animada .ns-tarjetas[data-visto] > li {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s ease-out var(--retraso, 0s), transform 0.5s ease-out var(--retraso, 0s);
+}
+.ns-animada .ns-tarjeta p span { opacity: 0.3; }
+.ns-animada .ns-tarjetas[data-visto] .ns-tarjeta p span {
+  opacity: 1;
+  transition: opacity 0.4s ease calc(var(--retraso, 0s) + 0.35s + var(--i) * 70ms);
+}
+.ns-animada .ns-tarjeta h3 .brilla { color: #A1A1A6; }
+.ns-animada .ns-tarjetas[data-visto] .ns-tarjeta h3 .brilla {
+  color: #FFFFFF;
+  transition: color 0.4s ease-in-out calc(var(--retraso, 0s) + 0.5s + var(--i) * 18ms);
+}
 
 /* Los textos de la sección del logo entran como los de la parte oscura del index: cuando asoman (data-visto) suben el
    título y su párrafo, al título le pasa el brillo azul letra por letra en cuanto queda quieto y las palabras del
@@ -264,22 +290,18 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
   transform: none;
   transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.ns-animada .ns-texto-escena p span { opacity: 0.3; }
-.ns-animada .ns-texto-escena[data-visto] p span { opacity: 1; transition: opacity 0.4s ease calc(0.35s + var(--i) * 70ms); }
+.ns-animada .ns-texto-escena p:not(.ns-eslogan) span { opacity: 0.3; }
+.ns-animada .ns-texto-escena[data-visto] p:not(.ns-eslogan) span { opacity: 1; transition: opacity 0.4s ease calc(0.35s + var(--i) * 70ms); }
 .ns-animada .ns-texto-escena[data-visto] h2 .brilla { animation: brillo-submenu 0.4s ease-in-out calc(0.5s + var(--i) * 18ms); }
 
-/* El cuadro de la estrella no aparece: siempre está, pero empieza más chico y, cuando asoma (data-visto), crece hasta
-   su tamaño con el reloj y no con el scroll, como entran los textos y con su misma curva. */
+/* El cuadro de la estrella y el recuadro negro del final no aparecen: siempre están, pero empiezan más chicos y,
+   cuando asoman (data-visto), crecen hasta su tamaño con el reloj y no con el scroll, como entran los textos y con su
+   misma curva. */
 .ns-animada .ns-crece { transform: scale(0.8); }
 .ns-animada .ns-crece[data-visto] { transform: none; transition: transform 1.5s cubic-bezier(0.2, 0.7, 0.2, 1); }
 
-@media (prefers-reduced-motion: reduce) {
-  .ns-animada .aparece { opacity: 1; transform: none; transition: none; }
-}
-
-@media (max-width: 900px) {
-  .ns-columnas { grid-template-columns: minmax(0, 1fr); }
-  .ns-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 1023px) {
+  .ns-tarjetas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
   /* La portada en celular, como la tarjeta «About» de Scale (comparada con la de antes en una página de prueba): el
@@ -310,6 +332,10 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
     background: var(--noche);
   }
   .ns-hero-texto h1 { grid-area: 1 / 1; align-self: end; z-index: 1; padding: 24px; color: #FFFFFF; }
+  .ns-tarjetas { grid-template-columns: minmax(0, 1fr); }
+  /* El recuadro negro del final, como el de la portada en celular */
+  .ns-final { padding-inline: var(--margen); }
+  .ns-recuadro { height: auto; min-height: 0; aspect-ratio: 3 / 4; border-radius: 20px; }
   .ns-hero-texto p,
   .ns-solo-pc { display: none; }
   .ns-solo-celular { display: block; }
@@ -320,7 +346,4 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
      PC y como la foto de la bahía de Scale en celular, con la estrella un poco acercada para que no salga chiquita;
      antes el cuadro era cuadrado): la de WebGL, escondida, ni arranca (estrella.js) */
   .ns-estrella-cuadro .estrella-3d { display: none; }
-}
-@media (max-width: 560px) {
-  .ns-rejilla { grid-template-columns: minmax(0, 1fr); }
 }

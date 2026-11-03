@@ -10,6 +10,7 @@ Fragmentless se presenta como una empresa sólida y con visión, no como un proy
 - Nada de historia personal (la prepa, primeros trabajos, ventas que no se cerraron) ni de cosas que
   suenen a registro de cambios o proceso interno («rediseñamos las vistas», «todo queda escrito»).
 - El fundador aparece solo como un detalle breve: «Fragmentless la fundó Matthew Santibañez Reyes a los 19 años».
+  Va en la sección negra de Nosotros, debajo de las tres tarjetas y arriba del eslogan.
 - Los principios y beneficios se escriben como promesas para el cliente, no como reglas internas.
 - De los documentos internos (como «Visión de Fragmentless») no se publican precios, costos,
   distribuidores, infraestructura ni nombres de clientes.
@@ -17,10 +18,11 @@ Fragmentless se presenta como una empresa sólida y con visión, no como un proy
   naciendo (decidido el 1 de noviembre): HH 30, la estrella de verdad que se le parece, va al final, «de postre»;
   nunca se presenta el logo diciendo que «es HH 30».
 - Los botones de la portada que hablan de la empresa (como «Conócenos») llevan a `nosotros.html`, no al
-  sistema. Todos los «Conoce el Sistema» (el de la barra en las tres páginas y el botón de «Nuestro primer producto»
-  en Nosotros) y «SaaS Restaurante» (en la barra y el footer) llevan a `saas-restaurante.html` (desde el 3 de
-  noviembre; antes iban a `./#sistema`, la sección 3 del index). La portada de Nosotros ya no lleva botón: ahí se habla
-  de la empresa, no del sistema (él lo quitó el 3 de noviembre).
+  sistema. Todos los «Conoce el Sistema» (el de la barra en las tres páginas) y «SaaS Restaurante» (en la barra y el
+  footer) llevan a `saas-restaurante.html` (desde el 3 de noviembre; antes iban a `./#sistema`, la sección 3 del
+  index). En Nosotros, la portada ya no lleva botón (ahí se habla de la empresa, no del sistema) y la sección azul
+  «Un sistema para restaurantes» se quitó (3 de noviembre); el único que lleva al sistema es «Más información», en el
+  recuadro del final («Conoce nuestro último sistema.»).
 
 ## Estructura
 
@@ -35,9 +37,9 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `barrido.js` | La franja de luz que cruza la pantalla de la laptop y cambia el azul por la captura del panel (y de regreso) |
 | `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí. Hasta 900 px, la hamburguesa |
 | `lanzamiento.js` | La sección 3 (`.lanzamiento`): dos tarjetas que se alejan, se inclinan y bajan con el scroll, con un anillo y un remolino de imágenes, y el título. Antes era la fila curva de capturas (`hoja.js`, en el historial de git) |
-| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada (un recuadro con la Tierra, como la de Scale, con el nombre y el eslogan), el logo (la estrella 3D en un cuadro), hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
+| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada (un recuadro con la Tierra, como la de Scale, con el nombre y el eslogan), el logo (la estrella 3D en un cuadro), hacia dónde vamos (negra: el título y tres tarjetas, «Hoy», «Lo que sigue» y «La meta», como las del «Feature Card» de 21st.dev, en HTML y CSS con íconos de línea hechos aquí; el título y los textos de las tarjetas, del tamaño y con la entrada de los de la sección del logo (él lo pidió así: los textos nuevos, como los que ya había); los títulos de las tarjetas, sin brillo azul: de gris a blanco letra por letra; tarjetas planas, sin orilla. Debajo, acomodados como la frase que iba ahí antes (una línea arriba, que se dibuja de izquierda a derecha al asomar, el título y abajo la descripción, con sus mismos espacios), el eslogan «Un mundo sin piezas sueltas.» del tamaño de «Somos Fragmentless.» y la línea del fundador; la sección mide casi lo de antes (920 / 937 / 960 px a 1280 / 1440 / 1920; antes 887 / 931 / 931). Ya no va la frase «No hacemos herramientas sueltas…») y, al final, sobre blanco, un recuadro negro del tamaño del de la portada (`.ns-recuadro`, 3:4 en celular) que crece al asomar como el cuadro de la estrella (`.ns-crece`); adentro, el «Animated Gradient» de 21st.dev (`components/ui/animated-gradient.tsx`, montado en `#degradado` desde `wave-entry.tsx`) con su preset «Aurora» y el azul de la marca en lugar del rosa; encima, centrados como en su ejemplo, «Conoce nuestro último sistema.» en blanco y del tamaño de «Somos Fragmentless.» (sin brillo) y el botón blanco de la sección 2 del index, «Más información», a `saas-restaurante.html`. Se le agregó que fuera de la pantalla no dibuje y que con «reducir movimiento» se quede quieto; su respaldo de WebGL (`animated-gradient-utils/webgl-error-boundary.tsx`) no venía en el prompt y se hizo aquí (sin WebGL, queda el negro). «Cómo trabajamos» («Hecho bien, desde los cimientos.» y sus seis cuadros) se quitó el 3 de noviembre, igual que la sección azul del primer producto. |
 | `saas-restaurante.html`, `saas-restaurante.css`, `saas-restaurante.js` | Página del sistema para restaurantes (el atajo «SaaS Restaurante» de la barra y del footer): solo la barra, el anuncio (`prueba/anuncio-restaurante.mp4`) en el recuadro de la portada de Nosotros y el footer |
-| `src/wave-entry.tsx` | Entrada React: monta `#site-footer` (y `#tierra`, la Tierra en vivo de Nosotros, `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
+| `src/wave-entry.tsx` | Entrada React: monta `#site-footer`, en Nosotros `#degradado` (el degradado animado del recuadro del final) (y `#tierra`, la Tierra en vivo de Nosotros, `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
 | `components/` | Componentes React (footer con brillo; `ui/earth-blaze.tsx`, la Tierra de la portada de Nosotros; las tarjetas del producto y la fila curva vieja con OGL, y `logo-vidrio.tsx` con `ui/liquid-glass-logo-reveal.tsx`, la entrada del logo en vidrio, que ya no se usan) |
 | `guardado/` | Lo que se quitó de la página y se guarda para después, con cómo regresarlo: `intro-logo-vidrio/`, la entrada del logo en vidrio de Nosotros (su HTML, CSS y JS y un `LEEME.md`). No se publica |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` (la imagen al compartir el enlace: la entrada del logo en vidrio de Nosotros, que ya no está, congelada en el segundo 2.0, con `time` de `GlassIconReveal`, a 1200 × 630) |
@@ -545,7 +547,9 @@ sin tocar archivos; se pasan a los archivos cuando dice «pásalo». Trucos que 
   de `style.css` (del color de la letra al azul claro y al azul de la marca, y de regreso), letra por letra, 0.4 s
   por letra y 18 ms entre una y otra; a los títulos, 0.5 s después de que empiezan a entrar. Lo llevan la barra, el
   footer, los titulares del index y de Nosotros, los títulos de la escena (`.se-brilla`) y la sección 3. Nada de
-  otro efecto, otro azul ni otras velocidades.
+  otro efecto, otro azul ni otras velocidades. No todo título lo lleva: él decide dónde no. En Nosotros lo quitó
+  (3 de noviembre) de «La historia detrás de nuestro logo.» y del eslogan «Un mundo sin piezas sueltas.»
+  (`.ns-sin-brillo`), y los títulos de las tarjetas negras llevan el mismo letra por letra pero de gris a blanco.
 - Probar en escritorio y en celular (375 px) sin scroll horizontal, y revisar la consola. Los detalles de la
   laptop, en escritorio (1280, 1440 y 1920 px); en celular, que siga centrada en cada pose.
 - Un commit por cambio, subido a GitHub, para poder regresar solo esa parte.
