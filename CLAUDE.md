@@ -216,7 +216,7 @@ junto al texto del logo (ver «El logo de Nosotros» arriba). `estrella.js` y `c
 - `prueba-estrella.html`: la prueba, en `localhost:5510/prueba-estrella.html`. Abajo, un selector: «Azules del
   logo», «Colores de la foto» (la que se está afinando; abre con esa) y «La foto (actual)» (HH 30, para
   comparar). Cada cambio a `estrella.js` o `cielo.js` sube su `?v=` en esta página (`estrella.js?v=54`,
-  `cielo.js?v=2`).
+  `cielo.js?v=3`).
 
 El 1 de noviembre en la noche el usuario dijo que «de lejos casi casi las ves iguales» (la nuestra y la foto), y al
 cerrar la sesión siguiente, que **ya quedó, «igualita»**: el aspecto está terminado. Todo se afinó con su ojo,
@@ -280,11 +280,11 @@ comparándola con la foto; estos son sus pedidos y lo que se probó y se descart
   corto, una mancha más que una línea (`CHORRO_ABAJO_*`, largo 0.38 y fuerza 0.42); como estaba al principio, más
   largo y fuerte, se veía muy marcado, y con fuerza 0.22 se perdía entre las tiras de la hoja de abajo. Se ensancha
   hacia afuera y lleva los mismos colores.
-- **El cielo** (`cielo.js`): del «Earth Blaze» de 21st.dev se copió **solo el fondo**, sus sombreadores tal cual:
-  la nebulosa en franja diagonal y sus 1800 estrellas que titilan, con su misma semilla. Sin el planeta, sin el
-  brillo del sol en su orilla, sin la aurora y sin lo que se movía con el mouse. La nebulosa tapa el lienzo sin
-  deformarse (el original la estira, y en celular salía en vetas verticales). La estrella va encima con
-  `mix-blend-mode: screen` (su negro deja ver el cielo).
+- **El cielo** (`cielo.js`): del «Earth Blaze» de 21st.dev se copiaron **solo sus 1800 estrellas que titilan**, su
+  sombreador tal cual y con su misma semilla, sobre negro. Sin el planeta, sin el brillo del sol en su orilla, sin la
+  aurora y sin lo que se movía con el mouse. Hasta el 3 de noviembre llevaba también su nebulosa (la franja diagonal
+  de nubes de colores); se quitó porque ya sale en la Tierra de la portada de Nosotros y se veía repetida (está en el
+  historial de git, en `cielo.js?v=2`). La estrella va encima con `mix-blend-mode: screen` (su negro deja ver el cielo).
 
 Lo que falta: probarla en un cel de verdad (cada píxel recorre su rayo, puede ir lenta). Con «reducir movimiento» se
 dibuja una sola vez. La regla de la marca sigue: HH 30 después de contar el logo, nunca «el logo es HH 30».
