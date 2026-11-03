@@ -3,6 +3,8 @@
 // como mucho 30 cuadros por segundo), sin el planeta, sin el brillo del sol, sin la aurora y sin lo que se movía con
 // el mouse. Tampoco lleva su nebulosa (la franja de nubes de colores): ya sale en la Tierra de la portada y aquí se
 // veía repetida (3 de noviembre). Sin WebGL se queda el fondo negro de la página.
+// En Nosotros ya no corre: va su imagen (prueba/cielo-estrella.webp, sacada de aquí), porque en celular todo en vivo
+// iba trabado. Lo usa prueba-estrella.html.
 (() => {
   const lienzo = document.querySelector('.cielo');
   if (!lienzo) return;

@@ -23,12 +23,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=brillo-igual-1">
 <link rel="stylesheet" href="assets/components.css">
-<link rel="stylesheet" href="nosotros.css?v=estrella-crece-2">
+<link rel="stylesheet" href="nosotros.css?v=imagenes-2">
 <script src="assets/wave-background.js?v=tierra-3" defer></script>
 <script src="barra.js" defer></script>
-<!-- La estrella del logo, en 3D, y su cielo de fondo -->
-<script src="cielo.js?v=3" defer></script>
-<script src="estrella.js?v=54" defer></script>
+<!-- La estrella del logo, en 3D (en PC; en celular va en imagen) -->
+<script src="estrella.js?v=55" defer></script>
 <script src="nosotros.js?v=estrella-crece-1" defer></script>
 </head>
 <body class="pagina-nosotros">
@@ -78,13 +77,18 @@
 <div class="velo" aria-hidden="true"></div>
 
 <main>
-  <!-- Portada, como la de Scale: un recuadro con la Tierra del «Earth Blaze» de 21st.dev adentro (#tierra,
-       components/ui/earth-blaze.tsx en el bundle) y, abajo a la izquierda, el titular y lo que significa el nombre y
-       el eslogan que sale de él (no lo mismo que la portada del index, para que quien llega aquí lea algo nuevo). La
-       entrada del logo en vidrio que iba aquí está guardada en guardado/intro-logo-vidrio/. -->
+  <!-- Portada, como la de Scale: un recuadro con la Tierra del «Earth Blaze» de 21st.dev adentro y, abajo a la
+       izquierda, el titular y lo que significa el nombre y el eslogan que sale de él (no lo mismo que la portada del
+       index, para que quien llega aquí lea algo nuevo). La Tierra va en imagen, sacada del componente
+       (components/ui/earth-blaze.tsx): en vivo, en celular iba trabadísima. Ancha en pantallas acostadas y alta en las
+       paradas, cada una sacada a ese tamaño. La entrada del logo en vidrio que iba aquí está guardada en
+       guardado/intro-logo-vidrio/. -->
   <section class="ns-portada">
     <div class="ns-hero">
-      <div class="ns-tierra" id="tierra"></div>
+      <picture class="ns-tierra">
+        <source media="(orientation: portrait)" srcset="prueba/tierra-alta.webp" width="957" height="1818">
+        <img src="prueba/tierra-ancha.webp" alt="" width="2808" height="1388">
+      </picture>
       <div class="ns-hero-texto">
         <h1>Somos Fragmentless.</h1>
         <p>Nuestro nombre significa «sin fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando bien. Por eso nuestro eslogan es «Un mundo sin piezas sueltas», y hacia allá vamos.</p>
@@ -103,9 +107,14 @@
       <h2 id="ns-logo-titulo">La historia detrás de nuestro logo.</h2>
       <p>Cuando una estrella muere, se deshace en pedazos. Cuando nace, pasa lo contrario: el polvo y el gas que andaban sueltos se juntan hasta volverse una sola cosa. Por eso nuestro logo es una estrella naciendo, y por eso nos llamamos Fragmentless: sin fragmentos.</p>
     </div>
-    <figure class="ns-estrella-cuadro ns-crece">
-      <canvas class="cielo" aria-hidden="true"></canvas>
-      <canvas class="estrella-3d" data-paleta="foto" role="img" aria-label="Una estrella naciendo: un disco oscuro visto de canto, luz azul a sus dos lados y un chorro que sale del centro."></canvas>
+    <!-- En PC, la estrella en vivo (estrella.js) sobre su cielo en imagen, sacado de cielo.js. En celular, la estrella y
+         su cielo en una sola imagen, sacada de los dos: en vivo iba trabadísima. -->
+    <figure class="ns-estrella-cuadro ns-crece" role="img" aria-label="Una estrella naciendo: un disco oscuro visto de canto, luz azul a sus dos lados y un chorro que sale del centro.">
+      <picture class="ns-cielo">
+        <source media="(max-width: 760px)" srcset="prueba/estrella-celular.webp" width="1080" height="1080">
+        <img src="prueba/cielo-estrella.webp" alt="" width="2360" height="1328" loading="lazy">
+      </picture>
+      <canvas class="estrella-3d" data-paleta="foto" aria-hidden="true"></canvas>
     </figure>
     <div class="ns-texto-escena ns-postre">
       <p>Y existe: HH 30 es una estrella naciendo a unos 450 años luz de aquí, y se ve casi igual: el corte oscuro en medio y el chorro puntiagudo.</p>

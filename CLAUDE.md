@@ -36,12 +36,12 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `lanzamiento.js` | La sección 3 (`.lanzamiento`): dos tarjetas que se alejan, se inclinan y bajan con el scroll, con un anillo y un remolino de imágenes, y el título. Antes era la fila curva de capturas (`hoja.js`, en el historial de git) |
 | `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: portada (un recuadro con la Tierra, como la de Scale, con el nombre y el eslogan), el logo (la estrella 3D en un cuadro), hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
 | `saas-restaurante.html`, `saas-restaurante.css`, `saas-restaurante.js` | Página del sistema para restaurantes (el atajo «SaaS Restaurante» de la barra y del footer): solo la barra, el anuncio (`prueba/anuncio-restaurante.mp4`) en el recuadro de la portada de Nosotros y el footer |
-| `src/wave-entry.tsx` | Entrada React: monta `#site-footer` y, en Nosotros, `#tierra` (y `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
+| `src/wave-entry.tsx` | Entrada React: monta `#site-footer` (y `#tierra`, la Tierra en vivo de Nosotros, `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
 | `components/` | Componentes React (footer con brillo; `ui/earth-blaze.tsx`, la Tierra de la portada de Nosotros; las tarjetas del producto y la fila curva vieja con OGL, y `logo-vidrio.tsx` con `ui/liquid-glass-logo-reveal.tsx`, la entrada del logo en vidrio, que ya no se usan) |
 | `guardado/` | Lo que se quitó de la página y se guarda para después, con cómo regresarlo: `intro-logo-vidrio/`, la entrada del logo en vidrio de Nosotros (su HTML, CSS y JS y un `LEEME.md`). No se publica |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` (la imagen al compartir el enlace: la entrada del logo en vidrio de Nosotros, que ya no está, congelada en el segundo 2.0, con `time` de `GlassIconReveal`, a 1200 × 630) |
-| `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
-| `estrella.js`, `cielo.js`, `prueba-estrella.html` | La estrella de Nosotros en 3D (WebGL), su cielo de fondo y su página de prueba (esta no va en git). Ya están en Nosotros, en «El nombre y el logo» |
+| `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad). Entre ellas, las de Nosotros sacadas de lo que antes iba en vivo: `tierra-ancha.webp` y `tierra-alta.webp`, `cielo-estrella.webp` y `estrella-celular.webp` (ver «Todo en imagen» abajo) |
+| `estrella.js`, `cielo.js`, `prueba-estrella.html` | La estrella de Nosotros en 3D (WebGL), su cielo de fondo y su página de prueba (esta no va en git). En Nosotros solo corre `estrella.js`, en PC; el cielo va en imagen |
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
 
@@ -156,6 +156,18 @@ La Tierra va quieta y oscura (3 de noviembre, «es demasiado interactivo»): `in
 le quita la luz que seguía al mouse y la aurora del clic, y `textureUrl=""` le quita la foto del planeta (el Blue
 Marble de la NASA, de cdn.21st.dev), que solo se veía al aclararlo con el mouse. Así no se usa ninguna foto real ni se
 descarga nada de fuera; la orilla de luz, el sol, la nebulosa y las estrellas que titilan siguen igual.
+**Todo en imagen** (3 de noviembre, noche): en su cel Nosotros iba «trabadísimo», y él pidió pasar a imágenes todo lo
+que corría en vivo, menos la estrella en PC. La Tierra de la portada ya no se monta (no hay `#tierra`; el componente
+sigue en el bundle): es una imagen sacada del componente, `tierra-ancha.webp` (2808 × 1388, el recuadro a 1440 × 900
+al doble) en pantallas acostadas y `tierra-alta.webp` (957 × 1818, el de 375 × 812 al triple) en las paradas, con
+`<picture>`, tapando el recuadro y volteada con el mismo `scaleX(-1)`. Ya no titilan sus estrellas. En el cuadro del
+logo, en PC, la estrella sigue en vivo (`estrella.js`) sobre su cielo en imagen (`cielo-estrella.webp`, sacado de
+`cielo.js` a 1180 × 664 al doble, sin pérdida); en celular (hasta 760 px) va todo en una imagen cuadrada
+(`estrella-celular.webp`, 1080 × 1080) y el lienzo de la estrella se esconde y ni arranca (`estrella.js` no empieza si
+está escondido). Cada versión baja solo sus imágenes. Se sacaron con Chrome sin ventana (`--headless=new
+--use-angle=d3d11 --force-device-scale-factor --virtual-time-budget --screenshot`) desde páginas que solo tenían el
+componente, y se pasaron a WebP con ffmpeg (calidad 95); si se cambia la Tierra, el cielo o la estrella, hay que
+volver a sacarlas.
 El párrafo, desde el mismo día: en lugar de «Una empresa de software…» (casi lo mismo que la portada del index, y él
 lo notó dos veces), lo que significa el nombre y el eslogan que sale de él: «Nuestro nombre significa «sin
 fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando bien. Por eso nuestro eslogan es «Un

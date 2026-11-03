@@ -7,7 +7,8 @@
 // Desde fuera se maneja con el propio lienzo: lienzo.dataset.paleta ('logo' o 'foto').
 (() => {
   const lienzo = document.querySelector('.estrella-3d');
-  if (!lienzo) return;
+  // Escondida (en celular, en Nosotros, donde va en imagen) ni arranca: en vivo iba trabadísima
+  if (!lienzo || !lienzo.getClientRects().length) return;
   const sinMovimiento = matchMedia('(prefers-reduced-motion: reduce)');
   const gl = lienzo.getContext('webgl', {
     alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'high-performance',
