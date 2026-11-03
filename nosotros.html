@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=brillo-igual-1">
 <link rel="stylesheet" href="assets/components.css">
-<link rel="stylesheet" href="nosotros.css?v=imagenes-2">
+<link rel="stylesheet" href="nosotros.css?v=portada-cel-1">
 <script src="assets/wave-background.js?v=tierra-3" defer></script>
 <script src="barra.js" defer></script>
 <!-- La estrella del logo, en 3D (en PC; en celular va en imagen) -->
@@ -79,20 +79,19 @@
 <main>
   <!-- Portada, como la de Scale: un recuadro con la Tierra del «Earth Blaze» de 21st.dev adentro y, abajo a la
        izquierda, el titular y lo que significa el nombre y el eslogan que sale de él (no lo mismo que la portada del
-       index, para que quien llega aquí lea algo nuevo). La Tierra va en imagen, sacada del componente
-       (components/ui/earth-blaze.tsx): en vivo, en celular iba trabadísima. Ancha en pantallas acostadas y alta en las
-       paradas, cada una sacada a ese tamaño. La entrada del logo en vidrio que iba aquí está guardada en
-       guardado/intro-logo-vidrio/. -->
+       index, para que quien llega aquí lea algo nuevo). Sin botón: aquí se habla de la empresa, no del sistema. La
+       Tierra va en imagen, sacada del componente (components/ui/earth-blaze.tsx): en vivo, en celular iba trabadísima.
+       Ancha en pantallas acostadas y en 3:4 en celular y en las paradas, cada una sacada a ese tamaño. La entrada del
+       logo en vidrio que iba aquí está guardada en guardado/intro-logo-vidrio/. -->
   <section class="ns-portada">
     <div class="ns-hero">
       <picture class="ns-tierra">
-        <source media="(orientation: portrait)" srcset="prueba/tierra-alta.webp" width="957" height="1818">
+        <source media="(max-width: 760px), (orientation: portrait)" srcset="prueba/tierra-celular.webp" width="957" height="1275">
         <img src="prueba/tierra-ancha.webp" alt="" width="2808" height="1388">
       </picture>
       <div class="ns-hero-texto">
         <h1>Somos Fragmentless.</h1>
         <p>Nuestro nombre significa «sin fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando bien. Por eso nuestro eslogan es «Un mundo sin piezas sueltas», y hacia allá vamos.</p>
-        <a class="boton boton-primario" href="saas-restaurante.html">Conoce el sistema</a>
       </div>
     </div>
   </section>

@@ -44,8 +44,8 @@ p.ns-columna-texto {
 }
 
 /* Portada, como la de Scale: un recuadro redondeado casi de orilla a orilla, justo debajo de la barra, con la Tierra
-   adentro (#tierra, el «Earth Blaze» de 21st.dev en el bundle) y el texto abajo a la izquierda. El recuadro termina
-   antes de la orilla de abajo de la pantalla, para que asome lo que sigue. */
+   adentro (una imagen del «Earth Blaze» de 21st.dev) y el texto abajo a la izquierda. El recuadro termina antes de la
+   orilla de abajo de la pantalla, para que asome lo que sigue. En celular es otra (ver su @media abajo). */
 .ns-portada { padding: calc(var(--alto-barra) + 8px) 18px 0; }
 .ns-hero {
   position: relative;
@@ -82,19 +82,14 @@ p.ns-columna-texto {
   line-height: 1.6;
   text-wrap: pretty;
 }
-/* El botón, igual al blanco de «Comprar» en la parte negra del index (.texto-botones, en style.css): mismo tamaño,
-   blanco con letra negra */
-.ns-hero-texto .boton-primario { margin-top: 32px; background: #FFFFFF; color: var(--hueco); }
-.ns-hero-texto .boton-primario:focus-visible { outline-color: #FFFFFF; }
 
-/* La entrada, como la portada del index: baja la barra y sube el texto (el botón un poco después), al titular, en
-   cuanto queda quieto, le pasa el brillo azul de toda la página (brillo-submenu, en style.css), letra por letra, y
-   las palabras del párrafo se encienden una tras otra (encender-portada, en style.css): nosotros.js pone cada letra y
-   cada palabra en su span con su lugar (--i). Con «reducir movimiento», todo quieto. */
+/* La entrada, como la portada del index: baja la barra y sube el texto, al titular, en cuanto queda quieto, le pasa
+   el brillo azul de toda la página (brillo-submenu, en style.css), letra por letra, y las palabras del párrafo se
+   encienden una tras otra (encender-portada, en style.css): nosotros.js pone cada letra y cada palabra en su span con
+   su lugar (--i). Con «reducir movimiento», todo quieto. */
 @media (prefers-reduced-motion: no-preference) {
   .pagina-nosotros .barra { animation: entrada-barra 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
   .ns-hero-texto > * { animation: entrada-portada 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-  .ns-hero-texto > .boton { animation-delay: 0.6s; }
   .ns-hero-texto h1 .brilla { animation: brillo-submenu 0.4s ease-in-out calc(0.5s + var(--i) * 18ms); }
   .ns-hero-texto p span { animation: encender-portada 0.4s ease calc(0.35s + var(--i) * 70ms) both; }
 }
@@ -232,7 +227,7 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
 .ns-rejilla h3 { margin: 0 0 10px; font-size: 1.1875rem; font-weight: 500; letter-spacing: -0.01em; }
 .ns-rejilla p { margin: 0; color: #515154; font-size: 0.9375rem; line-height: 1.6; }
 
-/* El producto, en el azul de la marca, con un botón blanco que lleva al sistema en index.html */
+/* El producto, en el azul de la marca, con un botón blanco que lleva al sistema (saas-restaurante.html) */
 .ns-producto {
   background: var(--azul);
   color: #FFFFFF;
@@ -285,9 +280,34 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
   .ns-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 760px) {
-  /* El recuadro de la portada con el margen de la página y el texto con menos relleno */
+  /* La portada en celular, como la tarjeta «About» de Scale (comparada con la de antes en una página de prueba): el
+     recuadro es la imagen, en 3:4 (tierra-celular.webp) y con el margen de la página, y adentro solo va el titular,
+     abajo a la izquierda. El párrafo queda debajo, sobre el blanco y centrado, como la portada del index en celular.
+     La caja de la portada deja de ser el recuadro (.ns-hero, en rejilla) y el texto se acomoda en ella
+     (display: contents), así el HTML es el mismo que en PC. */
   .ns-portada { padding-inline: var(--margen); }
-  .ns-hero { padding: 24px; border-radius: 20px; }
+  .ns-hero {
+    display: grid;
+    height: auto;
+    min-height: 0;
+    padding: 0;
+    overflow: visible;
+    border-radius: 0;
+    background: none;
+    color: var(--tinta);
+  }
+  .ns-hero-texto { display: contents; }
+  .ns-tierra {
+    position: relative;
+    inset: auto;
+    grid-area: 1 / 1;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--noche);
+  }
+  .ns-hero-texto h1 { grid-area: 1 / 1; align-self: end; z-index: 1; padding: 24px; color: #FFFFFF; }
+  .ns-hero-texto p { margin: 24px auto 0; color: #515154; text-align: center; text-wrap: balance; }
   /* El cuadro de la estrella, cuadrado como antes: a lo ancho del celular y en 16:9, la estrella saldría chiquita */
   .ns-estrella-cuadro { aspect-ratio: 1; }
   /* En celular la estrella va en la imagen (la de .ns-cielo cambia a estrella-celular.webp): la de WebGL, escondida,

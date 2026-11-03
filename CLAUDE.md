@@ -17,9 +17,10 @@ Fragmentless se presenta como una empresa sólida y con visión, no como un proy
   naciendo (decidido el 1 de noviembre): HH 30, la estrella de verdad que se le parece, va al final, «de postre»;
   nunca se presenta el logo diciendo que «es HH 30».
 - Los botones de la portada que hablan de la empresa (como «Conócenos») llevan a `nosotros.html`, no al
-  sistema. Todos los «Conoce el Sistema» (el de la barra en las tres páginas y los dos botones de Nosotros, el de la
-  portada y el de «Nuestro primer producto») y «SaaS Restaurante» (en la barra y el footer) llevan a
-  `saas-restaurante.html` (desde el 3 de noviembre; antes iban a `./#sistema`, la sección 3 del index).
+  sistema. Todos los «Conoce el Sistema» (el de la barra en las tres páginas y el botón de «Nuestro primer producto»
+  en Nosotros) y «SaaS Restaurante» (en la barra y el footer) llevan a `saas-restaurante.html` (desde el 3 de
+  noviembre; antes iban a `./#sistema`, la sección 3 del index). La portada de Nosotros ya no lleva botón: ahí se habla
+  de la empresa, no del sistema (él lo quitó el 3 de noviembre).
 
 ## Estructura
 
@@ -40,7 +41,7 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `components/` | Componentes React (footer con brillo; `ui/earth-blaze.tsx`, la Tierra de la portada de Nosotros; las tarjetas del producto y la fila curva vieja con OGL, y `logo-vidrio.tsx` con `ui/liquid-glass-logo-reveal.tsx`, la entrada del logo en vidrio, que ya no se usan) |
 | `guardado/` | Lo que se quitó de la página y se guarda para después, con cómo regresarlo: `intro-logo-vidrio/`, la entrada del logo en vidrio de Nosotros (su HTML, CSS y JS y un `LEEME.md`). No se publica |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` (la imagen al compartir el enlace: la entrada del logo en vidrio de Nosotros, que ya no está, congelada en el segundo 2.0, con `time` de `GlassIconReveal`, a 1200 × 630) |
-| `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad). Entre ellas, las de Nosotros sacadas de lo que antes iba en vivo: `tierra-ancha.webp` y `tierra-alta.webp`, `cielo-estrella.webp` y `estrella-celular.webp` (ver «Todo en imagen» abajo) |
+| `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad). Entre ellas, las de Nosotros sacadas de lo que antes iba en vivo: `tierra-ancha.webp` y `tierra-celular.webp`, `cielo-estrella.webp` y `estrella-celular.webp` (ver «Todo en imagen» abajo) |
 | `estrella.js`, `cielo.js`, `prueba-estrella.html` | La estrella de Nosotros en 3D (WebGL), su cielo de fondo y su página de prueba (esta no va en git). En Nosotros solo corre `estrella.js`, en PC; el cielo va en imagen |
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
@@ -146,9 +147,12 @@ redondas (`.ns-hero`, 24 px) casi de orilla a orilla, 8 px debajo de la barra, q
 de abajo de la pantalla para que asome lo que sigue. Adentro, la Tierra del «Earth Blaze» de 21st.dev
 (`components/ui/earth-blaze.tsx`, copiado tal cual, montado en `#tierra`: la orilla del planeta con el sol detrás, la
 nebulosa y las estrellas; desde el 3 de noviembre, volteada de lado con `scaleX(-1)` en `.ns-tierra`, el planeta a la
-izquierda y el cielo a la derecha) y, abajo a la izquierda, «Somos Fragmentless.», el párrafo del nombre y un botón blanco
-igual al «Comprar» de la parte negra del index, del mismo tamaño y con letra negra («Conoce el sistema», a
-`saas-restaurante.html`; desde el 3 de noviembre: antes era el de Scale, con la flechita en un cuadrito negro). Entra como
+izquierda y el cielo a la derecha) y, abajo a la izquierda, «Somos Fragmentless.» y el párrafo del nombre. Sin botón
+desde el 3 de noviembre (era «Conoce el sistema»: primero el de Scale, con la flechita en un cuadrito negro, y luego
+igual al «Comprar» blanco del index; él lo quitó porque la portada habla de la empresa). **En celular** es como la
+tarjeta «About» de Scale (la eligió contra la de antes en una página de prueba): el recuadro es solo la imagen, en 3:4,
+con «Somos Fragmentless.» adentro, abajo a la izquierda, y el párrafo debajo, sobre el blanco y centrado (en
+`nosotros.css`, `.ns-hero` pasa a rejilla y `.ns-hero-texto` a `display: contents`; el HTML es el mismo). Entra como
 la portada del index: baja la barra, sube el texto, al titular le pasa el brillo azul y las palabras del párrafo se
 encienden una tras otra (las mismas animaciones y tiempos). Se comparó en una página de
 prueba con la de la NASA (una franja negra, el texto a la izquierda y la Tierra a la derecha) y eligió Scale.
@@ -159,7 +163,8 @@ descarga nada de fuera; la orilla de luz, el sol, la nebulosa y las estrellas qu
 **Todo en imagen** (3 de noviembre, noche): en su cel Nosotros iba «trabadísimo», y él pidió pasar a imágenes todo lo
 que corría en vivo, menos la estrella en PC. La Tierra de la portada ya no se monta (no hay `#tierra`; el componente
 sigue en el bundle): es una imagen sacada del componente, `tierra-ancha.webp` (2808 × 1388, el recuadro a 1440 × 900
-al doble) en pantallas acostadas y `tierra-alta.webp` (957 × 1818, el de 375 × 812 al triple) en las paradas, con
+al doble) en pantallas acostadas y `tierra-celular.webp` (957 × 1275, el recuadro 3:4 del celular al triple) en
+celular y en las paradas (antes `tierra-alta.webp`, más alta, para el recuadro de antes en celular), con
 `<picture>`, tapando el recuadro y volteada con el mismo `scaleX(-1)`. Ya no titilan sus estrellas. En el cuadro del
 logo, en PC, la estrella sigue en vivo (`estrella.js`) sobre su cielo en imagen (`cielo-estrella.webp`, sacado de
 `cielo.js` a 1180 × 664 al doble, sin pérdida); en celular (hasta 760 px) va todo en una imagen cuadrada
