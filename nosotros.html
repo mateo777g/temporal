@@ -23,21 +23,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=brillo-igual-1">
 <link rel="stylesheet" href="assets/components.css">
-<link rel="stylesheet" href="nosotros.css?v=logo-2">
-<script src="assets/wave-background.js?v=intro-4" defer></script>
+<link rel="stylesheet" href="nosotros.css?v=tierra-2">
+<script src="assets/wave-background.js?v=tierra-3" defer></script>
 <script src="barra.js" defer></script>
 <!-- La estrella del logo, en 3D, y su cielo de fondo -->
 <script src="cielo.js?v=2" defer></script>
 <script src="estrella.js?v=54" defer></script>
-<script src="nosotros.js?v=logo-1" defer></script>
-<!-- La entrada del logo (components/logo-vidrio.tsx): desde antes de pintar, la barra y el texto de la portada
-     esperan escondidos y no se puede bajar. Siempre arranca arriba. Con «reducir movimiento» no hay entrada. -->
-<script>
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.documentElement.dataset.intro = 'logo';
-    history.scrollRestoration = 'manual';
-  }
-</script>
+<script src="nosotros.js?v=tierra-1" defer></script>
 </head>
 <body class="pagina-nosotros">
 
@@ -86,15 +78,19 @@
 <div class="velo" aria-hidden="true"></div>
 
 <main>
-  <!-- Portada: el logo y, debajo, lo que significa el nombre y el eslogan que sale de él (no lo mismo que la portada
-       del index, para que quien llega aquí lea algo nuevo). El logo entra primero, a pantalla completa, dentro de un
-       vidrio líquido (components/logo-vidrio.tsx, en el bundle); luego sube al lugar que le aparta .ns-logo-lugar, y
-       salen la barra y el texto. -->
+  <!-- Portada, como la de Scale: un recuadro con la Tierra del «Earth Blaze» de 21st.dev adentro (#tierra,
+       components/ui/earth-blaze.tsx en el bundle) y, abajo a la izquierda, el titular y lo que significa el nombre y
+       el eslogan que sale de él (no lo mismo que la portada del index, para que quien llega aquí lea algo nuevo). La
+       entrada del logo en vidrio que iba aquí está guardada en guardado/intro-logo-vidrio/. -->
   <section class="ns-portada">
-    <div class="ns-logo" id="logo-vidrio"></div>
-    <div class="ns-logo-lugar" aria-hidden="true"></div>
-    <h1>Somos Fragmentless.</h1>
-    <p class="ns-entrada">Nuestro nombre significa «sin fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando bien. Por eso nuestro eslogan es «Un mundo sin piezas sueltas», y hacia allá vamos.</p>
+    <div class="ns-hero">
+      <div class="ns-tierra" id="tierra"></div>
+      <div class="ns-hero-texto">
+        <h1>Somos Fragmentless.</h1>
+        <p>Nuestro nombre significa «sin fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando bien. Por eso nuestro eslogan es «Un mundo sin piezas sueltas», y hacia allá vamos.</p>
+        <a class="ns-boton-flecha" href="./#sistema">Conoce el sistema <span aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M4.5 2.5 8 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+      </div>
+    </div>
   </section>
 
   <!-- El logo, después de la portada: una estrella naciendo, materia suelta que se junta en una sola cosa. El texto a

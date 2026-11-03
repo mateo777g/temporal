@@ -16,6 +16,9 @@ package-lock.json
 tsconfig.json
 components.json
 
+# Lo que se quitó de la página y se guarda para después (como la entrada del logo en vidrio).
+guardado/
+
 # Páginas de prueba y el archivo que Windows mete en las carpetas.
 prueba-*.html
 prueba-*.js

@@ -1,6 +1,6 @@
 /* nosotros.css — la página Nosotros de Fragmentless (nosotros.html). La barra, los botones y el footer vienen
-   de style.css; aquí van solo sus secciones: blancas (la portada, el logo y cómo trabajamos), una negra (hacia dónde
-   vamos) y la última en el azul de la marca. */
+   de style.css; aquí van solo sus secciones: la portada (un recuadro negro con la Tierra), blancas (el logo y cómo
+   trabajamos), una negra (hacia dónde vamos) y la última en el azul de la marca. */
 
 .pagina-nosotros {
   --ancho-texto: 1180px;
@@ -52,80 +52,77 @@ p.ns-columna-texto {
   align-items: start;
 }
 
-/* Portada: el logo y debajo el titular, tan grande como el de index.html, todo centrado en la primera pantalla */
-.ns-portada {
+/* Portada, como la de Scale: un recuadro redondeado casi de orilla a orilla, justo debajo de la barra, con la Tierra
+   adentro (#tierra, el «Earth Blaze» de 21st.dev en el bundle) y el texto abajo a la izquierda. El recuadro termina
+   antes de la orilla de abajo de la pantalla, para que asome lo que sigue. */
+.ns-portada { padding: calc(var(--alto-barra) + 8px) 18px 0; }
+.ns-hero {
   position: relative;
   box-sizing: border-box;
-  min-height: 100vh;
-  min-height: 100svh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding-top: calc(var(--alto-barra) + 32px);
-  padding-bottom: 64px;
-  border-bottom: 1px solid color-mix(in srgb, var(--tinta) 10%, transparent);
+  align-items: flex-end;
+  height: calc(100vh - var(--alto-barra) - 118px);
+  height: calc(100svh - var(--alto-barra) - 118px);
+  min-height: 480px;
+  padding: 64px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--noche);
+  color: #FFFFFF;
 }
-.ns-portada > :not(.ns-logo) { position: relative; z-index: 1; }
-
-/* El logo en su vidrio: un lienzo del tamaño de la pantalla con el logo al centro, que el componente pinta con
-   su fondo (gris en la entrada, blanco después). Al terminar la entrada sube --sube (nosotros.js) para que el
-   logo quede sobre .ns-logo-lugar. No se puede tocar: así no repite la entrada al hacer clic. */
-.ns-logo {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  height: 100svh;
-  min-height: 420px;
-  translate: 0 var(--sube, 0px);
-  pointer-events: none;
-}
-/* El espacio del logo ya terminado: lo que mide en el componente (0.46 de su cuadro, que es el lado corto de la
-   pantalla entre 1.75, hasta 256 px) */
-.ns-logo-lugar {
-  flex: none;
-  width: calc(min(256px, 100vw / 1.75, 100svh / 1.75) * 0.46);
-  aspect-ratio: 1;
-  margin-bottom: 40px;
-}
-
-/* La entrada (data-intro en <html>: «logo» lo pone un script en <head> y «sube», components/logo-vidrio.tsx).
-   Mientras el logo sale en su vidrio, toda la pantalla es el gris de la referencia, sin barra ni texto, y no se
-   puede bajar. Luego el logo sube a su lugar mientras el fondo se pone blanco, baja la barra y al final sube el
-   texto, con las mismas entradas que la barra y la portada del index. */
-:root[data-intro="logo"] { overflow: hidden; }
-/* Al subir, el lienzo del logo se lleva su fondo y deja ver la portada debajo: va del mismo color que él (gris, y
-   luego el que le pone components/logo-vidrio.tsx en --fondo-logo mientras pasa a blanco) */
-:root[data-intro] .ns-portada { background: var(--fondo-logo, #E9E9EB); }
-:root[data-intro="logo"] .ns-logo { translate: 0 0; background: #E9E9EB; }
-:root[data-intro="logo"] .barra { visibility: hidden; }
-:root[data-intro="logo"] .ns-portada > :not(.ns-logo) { opacity: 0; }
-:root[data-intro="sube"] .ns-logo { transition: translate 0.9s cubic-bezier(0.65, 0, 0.35, 1); }
-:root[data-intro="sube"] .barra { animation: entrada-barra 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.9s both; }
-:root[data-intro="sube"] .ns-portada > :is(h1, .ns-entrada) {
-  animation: entrada-portada 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 1.4s both;
-}
-:root[data-intro="sube"] .ns-portada > .ns-entrada { animation-delay: 1.48s; }
-/* En cuanto el titular termina de subir, le pasa el brillo azul de toda la página (brillo-submenu, en style.css),
-   letra por letra: nosotros.js pone cada una en su span con su lugar (--i) */
-:root[data-intro="sube"] .ns-portada h1 .brilla { animation: brillo-submenu 0.4s ease-in-out calc(1.9s + var(--i) * 18ms); }
-.ns-portada h1 {
+.ns-tierra { position: absolute; inset: 0; }
+.ns-hero-texto { position: relative; z-index: 1; }
+.ns-hero-texto h1 {
   margin: 0;
-  font-size: clamp(2.75rem, 7vw, 6.5rem);
+  font-size: clamp(2.5rem, 3.4vw, 4rem);
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.05em;
-}
-.ns-entrada {
-  margin: 28px 0 0;
   text-wrap: balance;
-  color: #515154;
-  font-size: clamp(1.125rem, 1.6vw, 1.5rem);
-  line-height: 1.5;
-  max-width: 34em;
+}
+.ns-hero-texto p {
+  max-width: 36em;
+  margin: 20px 0 0;
+  font-size: clamp(1rem, 1vw, 1.125rem);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+/* El botón de Scale: blanco, con la flecha en un cuadrito negro */
+.ns-boton-flecha {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  height: 40px;
+  margin-top: 32px;
+  padding: 0 5px 0 16px;
+  border-radius: 7px;
+  background: #FFFFFF;
+  color: var(--tinta);
+  font-size: 14px;
+  text-decoration: none;
+  transition: opacity var(--abrir);
+}
+.ns-boton-flecha:hover { opacity: 0.9; }
+.ns-boton-flecha:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 4px; }
+.ns-boton-flecha span {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+  background: var(--tinta);
+  color: #FFFFFF;
+}
+
+/* La entrada, como la portada del index: baja la barra y sube el texto (el botón un poco después), y al titular,
+   en cuanto queda quieto, le pasa el brillo azul de toda la página (brillo-submenu, en style.css), letra por letra:
+   nosotros.js pone cada una en su span con su lugar (--i). Con «reducir movimiento», todo quieto. */
+@media (prefers-reduced-motion: no-preference) {
+  .pagina-nosotros .barra { animation: entrada-barra 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .ns-hero-texto > * { animation: entrada-portada 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .ns-hero-texto > .ns-boton-flecha { animation-delay: 0.6s; }
+  .ns-hero-texto h1 .brilla { animation: brillo-submenu 0.4s ease-in-out calc(0.5s + var(--i) * 18ms); }
 }
 
 /* El logo, en blanco, entre la portada y el negro de «Hacia dónde vamos»: el texto a la izquierda y la estrella en
@@ -276,6 +273,11 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
   .ns-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* El cuadro de la estrella, debajo del texto y alineado con él */
   .ns-estrella-cuadro { justify-self: start; }
+}
+@media (max-width: 760px) {
+  /* El recuadro de la portada con el margen de la página y el texto con menos relleno */
+  .ns-portada { padding-inline: var(--margen); }
+  .ns-hero { padding: 24px; border-radius: 20px; }
 }
 @media (max-width: 560px) {
   .ns-rejilla { grid-template-columns: minmax(0, 1fr); }

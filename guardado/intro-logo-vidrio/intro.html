@@ -1,0 +1,21 @@
+<!-- intro.html — lo de la entrada del logo en vidrio que iba en nosotros.html (guardado el 2 de noviembre de 2026).
+     Son dos pedazos: el script del <head> y la portada con el lienzo del logo. -->
+
+<!-- 1. En el <head>, después de los <script defer>. Desde antes de pintar, la barra y el texto de la portada
+     esperan escondidos y no se puede bajar. Siempre arranca arriba. Con «reducir movimiento» no hay entrada. -->
+<script>
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.dataset.intro = 'logo';
+    history.scrollRestoration = 'manual';
+  }
+</script>
+
+<!-- 2. La portada, al principio de <main>. El logo entra primero, a pantalla completa, dentro de un vidrio líquido
+     (components/logo-vidrio.tsx, en el bundle, que se monta en #logo-vidrio); luego sube al lugar que le aparta
+     .ns-logo-lugar, y salen la barra y el texto. -->
+<section class="ns-portada">
+  <div class="ns-logo" id="logo-vidrio"></div>
+  <div class="ns-logo-lugar" aria-hidden="true"></div>
+  <h1>Somos Fragmentless.</h1>
+  <p class="ns-entrada">Nuestro nombre significa «sin fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando bien. Por eso nuestro eslogan es «Un mundo sin piezas sueltas», y hacia allá vamos.</p>
+</section>
