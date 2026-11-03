@@ -32,12 +32,12 @@ Sitio estático en HTML, CSS y JS sin framework, más unos componentes React/Typ
 | `barrido.js` | La franja de luz que cruza la pantalla de la laptop y cambia el azul por la captura del panel (y de regreso) |
 | `barra.js` | La barra de arriba y sus submenús. Abierta con el mouse no frena el scroll; con dedo o teclado sí. Hasta 900 px, la hamburguesa |
 | `lanzamiento.js` | La sección 3 (`.lanzamiento`): dos tarjetas que se alejan, se inclinan y bajan con el scroll, con un anillo y un remolino de imágenes, y el título. Antes era la fila curva de capturas (`hoja.js`, en el historial de git) |
-| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: entrada del logo en vidrio y portada, el nombre y el logo (negra, la estrella naciendo), el nombre (gris), hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
+| `nosotros.html`, `nosotros.css`, `nosotros.js` | Página Nosotros: entrada del logo en vidrio y portada (el nombre y el eslogan), el logo (la estrella 3D en un cuadro), hacia dónde vamos (negra), cómo trabajamos, primer producto (azul) |
 | `src/wave-entry.tsx` | Entrada React: monta `#site-footer` y, en Nosotros, `#logo-vidrio` (y `#feature-cards`, las tarjetas del producto, y `#panel-showcase`, la fila curva vieja, si existieran; ya no están en la página) |
 | `components/` | Componentes React (footer con brillo; `logo-vidrio.tsx`, el logo en el vidrio líquido de `ui/liquid-glass-logo-reveal.tsx`; las tarjetas del producto y la fila curva vieja con OGL, que ya no se usan) |
 | `assets/` | Bundle compilado (`wave-background.js`, `components.css`), logos, `og-imagen.jpg` (la imagen al compartir el enlace: la entrada de Nosotros congelada en el segundo 2.0, con `time` de `GlassIconReveal`, a 1200 × 630) |
 | `prueba/` | Imágenes que usa la página (a pesar del nombre, son las de verdad) |
-| `estrella.js`, `cielo.js`, `prueba-estrella.html` | La estrella de Nosotros en 3D (WebGL), su cielo de fondo y su página de prueba (esta no va en git). Todavía no se usan en Nosotros; ver «Dónde nos quedamos (1 de noviembre de 2026, noche)» |
+| `estrella.js`, `cielo.js`, `prueba-estrella.html` | La estrella de Nosotros en 3D (WebGL), su cielo de fondo y su página de prueba (esta no va en git). Ya están en Nosotros, en «El nombre y el logo» |
 
 La laptop: `.laptop` contiene `.video` (pantalla), `.grosor-pantalla` y `.teclado`.
 
@@ -149,23 +149,27 @@ pasos van en `data-intro` de `<html>` («logo», que pone un script en `<head>`,
 sube el logo (`--sube`, hasta `.ns-logo-lugar`). Con «reducir movimiento» no hay entrada; sin WebGL o si el bundle
 no carga, se salta sola. Tarda unos 6 s y sale en cada visita. Se quitó la etiqueta «Nosotros» de la portada.
 
-**La estrella de Nosotros** (1 de noviembre; `.ns-estrella`): en lugar de «La misión», justo después de la portada,
-una sección negra con el nombre y el logo, sacada de «Marca» en la libreta «Visión de Fragmentless»: el logo es una
-estrella naciendo, materia suelta que se junta en una sola cosa (una que muere se deshace en pedazos). Arriba, el
-título y ese párrafo; luego una escena que se queda fija mientras el scroll pasa cuatro pasos (`nosotros.js` pone
-`data-paso`; lo de adentro cambia con el reloj): la luz (las dos piezas brillan), el disco (se apagan y se dibuja
-la línea que las separa), el chorro (solo la punta, con una línea que sale de ella) y «Y existe»: el logo se va y
-en su lugar aparece HH 30, la foto del Webb (`prueba/hh30.webp`), con su crédito (ESA/Webb, NASA y CSA, Tazaki et
-al.; se tiene que poner). La foto va girada 50° en el archivo para que su chorro apunte como la punta del logo, con
-el corte del logo sobre su disco (se comprobó encimando los dos), y su fondo bajado a negro total para que no se
-note su orilla. Cierra la frase «Materia dispersa que colapsa en una sola cosa…» con la idea de la misión debajo.
-El logo es la estrella oficial, la de `components/logo-vidrio.tsx`, en un `svg` dentro del HTML.
+**La portada de Nosotros** (2 de noviembre): debajo de «Somos Fragmentless.», en lugar de «Una empresa de software…»
+(casi lo mismo que la portada del index, y él lo notó dos veces), va lo que significa el nombre y el eslogan que sale
+de él: «Nuestro nombre significa «sin fragmentos»: algo completo, sin pedazos sueltos, todo integrado y funcionando
+bien. Por eso nuestro eslogan es «Un mundo sin piezas sueltas», y hacia allá vamos.» Con eso se quitó la sección gris
+«El nombre», que decía lo mismo.
+
+**El logo de Nosotros** (2 de noviembre, idea suya, «algo más sencillo»; `.ns-logo-seccion`): después de la
+portada, una sección blanca con el texto a la izquierda («El logo», «Una estrella
+naciendo.», el párrafo de la estrella que nace y, al final, «de postre», «Y existe: HH 30…») y, a la derecha, la
+estrella en 3D (`estrella.js`) con su cielo (`cielo.js`) en un cuadro oscuro de esquinas redondas
+(`.ns-estrella-cuadro`, hasta 520 px, cuadrado, con `isolation` para que el «screen» de la estrella solo se mezcle con
+el cielo). En celular el cuadro va debajo del texto, a todo lo ancho. No hay scroll ni escena: la estrella se mueve
+sola (su gas) y deja de dibujar fuera de la pantalla. Reemplaza la sección negra de los cuatro pasos con la foto de
+HH 30 (la luz, el disco, el chorro y «Y existe», con el logo en `svg`; es la que está publicada en Vercel, commit
+`14441c1`) y su frase de cierre «Materia dispersa que colapsa…». Sin commit, esperando su visto bueno.
 
 ## Dónde nos quedamos (1 de noviembre de 2026, noche): la estrella en 3D, ya igual a HH 30
 
-**Se está haciendo la estrella de Nosotros en 3D, nuestra, para reemplazar la foto de HH 30** (`prueba/hh30.webp`,
-que no se puede quedar por los derechos). Va en una página de prueba, **todavía fuera de Nosotros** (Nosotros sigue
-con la foto). `estrella.js` y `cielo.js` ya están en GitHub; la página de prueba solo en la carpeta local:
+**La estrella de Nosotros en 3D, nuestra, para reemplazar la foto de HH 30** (`prueba/hh30.webp`, que no se puede
+quedar por los derechos). Se hizo en una página de prueba; desde el 2 de noviembre está en Nosotros, en un cuadro
+junto al texto del logo (ver «El logo de Nosotros» arriba). `estrella.js` y `cielo.js` ya están en GitHub; la página de prueba solo en la carpeta local:
 
 - `estrella.js`: la estrella, en vivo con WebGL (como `pantalla.js`). No es una imagen: es un volumen de gas y
   polvo que se recorre rayo por rayo (64 muestras por píxel, como mucho 720 px del lado largo). Se ve siempre en la
@@ -245,19 +249,29 @@ comparándola con la foto; estos son sus pedidos y lo que se probó y se descart
   deformarse (el original la estira, y en celular salía en vetas verticales). La estrella va encima con
   `mix-blend-mode: screen` (su negro deja ver el cielo).
 
-Lo que falta (el aspecto ya está y está en GitHub): cómo se mueve con el scroll y cómo entra en los pasos de la sección (la luz,
-el disco, el chorro, «Y existe»; idea sin decidir: que empiece como polvo suelto que se junta; que la cámara la
-rodee ya no se puede, ver «Las dos vistas»); pasarla a Nosotros en lugar de la foto, y cambiar el texto de «Y existe»
-y el crédito de la foto; probarla en un cel de verdad (cada píxel recorre su rayo, puede ir lenta). Con «reducir
-movimiento» se dibuja una sola vez. La regla de la marca sigue: HH 30 al final, nunca «el logo es HH 30».
+Lo que falta: probarla en un cel de verdad (cada píxel recorre su rayo, puede ir lenta). Con «reducir movimiento» se
+dibuja una sola vez. La regla de la marca sigue: HH 30 después de contar el logo, nunca «el logo es HH 30».
 
 Para probarla con el panel escondido: la primera captura suele salir negra o vieja (tomar otra), y el usuario cambia
 mucho el selector; antes de una captura, poner la paleta con `document.querySelector('[data-opcion="foto"]').click()`
 en la misma tanda. Para recargar sin caché: `await fetch('prueba-estrella.html', {cache: 'reload'}); location.reload()`.
 
-También queda pendiente: la sección gris «El nombre» ahora repite lo de «Fragmentless: sin fragmentos» de la
-estrella. Se le preguntó si se quita (quedarían juntas dos secciones negras, la estrella y «Hacia dónde vamos»);
-no ha contestado.
+**Lo que se descartó en Nosotros (2 de noviembre)**: el usuario pidió borrarlo todo y regresar Nosotros a como está
+en Vercel (commit `14441c1`; en ese commit `nosotros.*` es igual al último commit, así que se regresaron a él). Lo
+descartado está guardado en `git stash` («Nosotros: escena con planeta, paso a la noche y viaje (descartada el 2
+nov)»; `git stash list` para verlo): `nosotros.html`, `nosotros.css`, `nosotros.js`, `cielo.js` y
+`components/logo-vidrio.tsx`. Incluye también la versión sin commit del 1 de noviembre en la noche (la estrella 3D
+como el inicio del index, en lugar de la secuencia de cuatro pasos). En orden, se había hecho:
+- La portada con el texto del nombre y el eslogan en lugar de «Una empresa de software…» (el usuario notó que
+  repetía la portada del index); se quitó la sección gris «El nombre».
+- La portada como la del index: texto a la izquierda, sin el logo encima, y un planeta a la derecha (el «Globe» de
+  21st.dev en CSS, más chico y más claro que el original; su mapa de 500 × 313, de cdn.21st.dev, no empata en sus
+  orillas y se ve una línea al girar).
+- La portada y la estrella en una sola escena: el blanco se apagaba hasta el negro (una capa negra, como en el
+  index) y luego salían las estrellas; el planeta iba al centro con «Una estrella naciendo» debajo; luego un viaje
+  (el cielo corría, el planeta se quedaba atrás y llegaba la estrella con «Y existe»).
+
+Luego, sobre la versión publicada, se hizo su idea «más sencilla»: ver «El logo de Nosotros» arriba.
 
 **Cómo trabaja el usuario** (dicho el 1 de noviembre):
 
