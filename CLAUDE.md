@@ -163,7 +163,8 @@ estrella en 3D (`estrella.js`) con su cielo (`cielo.js`) en un cuadro oscuro de 
 el cielo). En celular el cuadro va debajo del texto, a todo lo ancho. No hay scroll ni escena: la estrella se mueve
 sola (su gas) y deja de dibujar fuera de la pantalla. Reemplaza la sección negra de los cuatro pasos con la foto de
 HH 30 (la luz, el disco, el chorro y «Y existe», con el logo en `svg`; es la que está publicada en Vercel, commit
-`14441c1`) y su frase de cierre «Materia dispersa que colapsa…». Sin commit, esperando su visto bueno.
+`14441c1`) y su frase de cierre «Materia dispersa que colapsa…». Publicado en Vercel el 2 de noviembre, con la
+portada nueva (commits `f660233` y `30bd8b2`).
 
 ## Dónde nos quedamos (1 de noviembre de 2026, noche): la estrella en 3D, ya igual a HH 30
 
