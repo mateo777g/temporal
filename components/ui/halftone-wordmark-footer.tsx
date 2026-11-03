@@ -9,7 +9,7 @@ export interface HalftoneWordmarkFooterProps {
 }
 
 const defaultColumns: FooterColumn[] = [
-  { title: "Productos", links: [{ label: "SaaS Restaurante", href: "./#sistema" }] },
+  { title: "Productos", links: [{ label: "SaaS Restaurante", href: "saas-restaurante.html" }] },
   { title: "Soluciones", links: [{ label: "Planes" }] },
   { title: "Acerca de", links: [{ label: "Nosotros", href: "nosotros.html" }, { label: "Contáctanos" }] },
   { title: "Contacto", links: [{ label: "Instagram" }, { label: "WhatsApp" }] },

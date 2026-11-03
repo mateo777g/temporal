@@ -1,0 +1,65 @@
+/* saas-restaurante.css — la página del sistema para restaurantes (saas-restaurante.html): la barra, el anuncio en un
+   recuadro y el footer. La barra, los botones y el footer vienen de style.css; aquí va solo el recuadro. */
+
+/* El mismo recuadro de la portada de Nosotros (como la de Scale), del mismo tamaño: 8 px debajo de la barra, casi de
+   orilla a orilla, y termina 110 px antes de la orilla de abajo de la pantalla; negro y con las esquinas redondas. El
+   anuncio lo llena (es más ancho que él a lo alto, así que se le recorta arriba y abajo, y en celular a los lados). */
+.sr-portada { padding: calc(var(--alto-barra) + 8px) 18px clamp(48px, 6vw, 96px); }
+.sr-cuadro {
+  position: relative;
+  height: calc(100vh - var(--alto-barra) - 118px);
+  height: calc(100svh - var(--alto-barra) - 118px);
+  min-height: 480px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--noche);
+}
+.sr-anuncio {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* El título de la página, para quien la lee con lector de pantalla y para los buscadores; en pantalla manda el anuncio */
+.sr-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* El sonido: un botón redondo en la esquina de abajo a la derecha, oscuro y translúcido para que se vea sobre las
+   partes claras y las oscuras del anuncio */
+.sr-sonido {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.5);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background-color var(--abrir);
+}
+.sr-sonido[hidden] { display: none; }
+.sr-sonido:hover { background: rgb(0 0 0 / 0.7); }
+.sr-sonido:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }
+.sr-sonido .sr-con-sonido,
+.sr-sonido[aria-pressed="true"] .sr-sin-sonido { display: none; }
+.sr-sonido[aria-pressed="true"] .sr-con-sonido { display: block; }
+
+@media (max-width: 760px) {
+  .sr-portada { padding-inline: var(--margen); padding-bottom: 48px; }
+  .sr-cuadro { border-radius: 20px; }
+  .sr-sonido { right: 12px; bottom: 12px; width: 36px; height: 36px; }
+}

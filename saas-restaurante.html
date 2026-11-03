@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaS Restaurante — Fragmentless</title>
+<meta name="description" content="El sistema para restaurantes de Fragmentless: administración, punto de venta, agente de IA y creación de contenido, en un mismo lugar.">
+<!-- La barra del navegador en el celular: negra, como en index.html -->
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/fragmentless-logo.svg" type="image/svg+xml">
+<!-- La misma imagen que en index.html, con la dirección completa (https://…); si cambia el dominio, cambiarla en los tres -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:site_name" content="Fragmentless">
+<meta property="og:title" content="SaaS Restaurante — Fragmentless">
+<meta property="og:description" content="Todo tu restaurante en un solo sistema.">
+<meta property="og:image" content="https://fragmentless-software.vercel.app/assets/og-imagen.jpg?v=vidrio-1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=brillo-igual-1">
+<link rel="stylesheet" href="assets/components.css">
+<link rel="stylesheet" href="saas-restaurante.css?v=2">
+<script src="assets/wave-background.js?v=tierra-3" defer></script>
+<script src="barra.js" defer></script>
+<script src="saas-restaurante.js?v=1" defer></script>
+</head>
+<body class="pagina-restaurante">
+
+<!-- La misma barra que en index.html -->
+<header class="barra">
+  <div class="barra-fila">
+    <a class="logo" href="./">
+      <img class="logo-claro" src="assets/fragmentless-logo.svg" alt="" width="24" height="23">
+      <img class="logo-oscuro" src="assets/fragmentless-logo-blanco.svg" alt="" width="24" height="23">
+      <span>fragmentless</span>
+    </a>
+
+    <nav class="atajos" aria-label="Atajos">
+      <button type="button" class="atajo" aria-expanded="false" aria-controls="menu-productos">Productos</button>
+      <button type="button" class="atajo" aria-expanded="false" aria-controls="menu-soluciones">Soluciones</button>
+      <button type="button" class="atajo" aria-expanded="false" aria-controls="menu-acerca">Acerca de</button>
+    </nav>
+
+    <div class="acciones">
+      <a class="boton boton-borde" href="#">Iniciar Sesión</a>
+      <a class="boton boton-primario" href="saas-restaurante.html">Conoce el Sistema</a>
+    </div>
+
+    <!-- En celular y en tablet, en lugar de los atajos: abre la barra con los tres submenús como renglones (barra.js) -->
+    <button type="button" class="hamburguesa" aria-expanded="false" aria-controls="menu-productos menu-soluciones menu-acerca" aria-label="Menú">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <div class="despliegue">
+    <div class="despliegue-dentro">
+      <ul class="submenu" id="menu-productos" hidden>
+        <li><a href="saas-restaurante.html" aria-current="page">SaaS Restaurante</a></li>
+      </ul>
+      <ul class="submenu" id="menu-soluciones" hidden>
+        <li><a href="#">Planes</a></li>
+      </ul>
+      <ul class="submenu" id="menu-acerca" hidden>
+        <li><a href="nosotros.html">Nosotros</a></li>
+        <li><a href="#">Contáctanos</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="velo" aria-hidden="true"></div>
+
+<main>
+  <!-- El anuncio del sistema para restaurantes en el mismo recuadro que la portada de Nosotros (como la de Scale),
+       del ancho de la página o del alto de la pantalla, lo que llegue primero, para que se vea entero. Arranca solo y
+       sin sonido (así lo dejan los navegadores); el botón de la esquina le pone el sonido (saas-restaurante.js). -->
+  <section class="sr-portada">
+    <h1 class="sr-oculto">SaaS Restaurante</h1>
+    <div class="sr-cuadro">
+      <video class="sr-anuncio" src="prueba/anuncio-restaurante.mp4" poster="prueba/anuncio-restaurante.webp" muted loop playsinline preload="auto" aria-label="Anuncio del sistema para restaurantes de Fragmentless"></video>
+      <button type="button" class="sr-sonido" aria-pressed="false" aria-label="Sonido">
+        <svg class="sr-sin-sonido" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z" fill="currentColor"/><path d="m16 9 6 6m0-6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="sr-con-sonido" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+</body>
+</html>
