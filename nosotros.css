@@ -102,9 +102,29 @@ p.ns-columna-texto {
    título y el texto centrados, a lo ancho de la página, y debajo, bien separada, la estrella en 3D con su cielo en un
    cuadro oscuro del mismo ancho. La estrella mide lo alto del cuadro (estrella.js) y a los lados queda el cielo. */
 .ns-logo-seccion { text-align: center; }
-.ns-logo-seccion .ns-columna-texto { margin-top: 28px; }
-.ns-logo-seccion .ns-columna-texto p { text-wrap: balance; }
-.ns-logo-seccion .ns-columna-texto p:last-child { margin-bottom: 0; }
+/* Sus textos, como los de la parte oscura del index (.texto-centro, en style.css): del mismo tamaño, en tinta y gris
+   sobre el blanco. La descripción va en dos renglones y el primero más largo: en ese ancho la letra llena el primero
+   y lo demás baja al segundo (con menos de unos 1080 px de pantalla ya no caben en dos). «Y existe», debajo de la
+   estrella, como el párrafo del index: angosto y en renglones parejos. */
+.ns-texto-escena h2 {
+  margin: 0;
+  font-size: clamp(1.625rem, 1.7vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.ns-texto-escena p {
+  max-width: 34em;
+  margin: 14px auto 0;
+  color: #515154;
+  font-size: clamp(0.875rem, 0.74vw, 1rem);
+  line-height: 1.6;
+  text-wrap: balance;
+}
+.ns-texto-escena h2 + p { max-width: 68em; text-wrap: pretty; }
+.ns-postre { margin-top: 28px; }
+.ns-postre p { margin-top: 0; }
 .ns-estrella-cuadro {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -235,6 +255,19 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
 .ns-animada :is(.ns-linea, .ns-rejilla) > .aparece:nth-child(4) { transition-delay: 240ms; }
 .ns-animada :is(.ns-linea, .ns-rejilla) > .aparece:nth-child(5) { transition-delay: 320ms; }
 .ns-animada :is(.ns-linea, .ns-rejilla) > .aparece:nth-child(6) { transition-delay: 400ms; }
+
+/* Los textos de la sección del logo entran como los de la parte oscura del index: cuando asoman (data-visto) suben el
+   título y su párrafo, al título le pasa el brillo azul letra por letra en cuanto queda quieto y las palabras del
+   párrafo se encienden una tras otra (--i: su lugar, nosotros.js). Los mismos tiempos que allá. */
+.ns-animada .ns-texto-escena :is(h2, p) { opacity: 0; transform: translateY(16px); }
+.ns-animada .ns-texto-escena[data-visto] :is(h2, p) {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.ns-animada .ns-texto-escena p span { opacity: 0.3; }
+.ns-animada .ns-texto-escena[data-visto] p span { opacity: 1; transition: opacity 0.4s ease calc(0.35s + var(--i) * 70ms); }
+.ns-animada .ns-texto-escena[data-visto] h2 .brilla { animation: brillo-submenu 0.4s ease-in-out calc(0.5s + var(--i) * 18ms); }
 
 @media (prefers-reduced-motion: reduce) {
   .ns-animada .aparece { opacity: 1; transform: none; transition: none; }

@@ -201,6 +201,12 @@ escena: la estrella se mueve sola (su gas) y deja de dibujar fuera de la pantall
 HH 30 (la luz, el disco, el chorro y «Y existe», con el logo en `svg`; es la que está publicada en Vercel, commit
 `14441c1`) y su frase de cierre «Materia dispersa que colapsa…». Publicado en Vercel el 2 de noviembre, con la
 portada nueva (commits `f660233` y `30bd8b2`).
+Desde el 3 de noviembre (noche) sus textos son como los de la parte oscura del index (`.ns-texto-escena`): el título,
+ahora «La historia detrás de nuestro logo.» (él pidió uno más largo), y sus párrafos del mismo tamaño que allá, y
+con la misma entrada la primera vez que asoman (suben, brillo azul en el título, las palabras se encienden). La
+descripción va en dos renglones, **el primero más largo** (pedido suyo: nunca corto el primero y largo el segundo):
+`max-width: 68em` con el corte normal, que llena el primero; con menos de unos 1080 px ya no caben en dos. «Y
+existe», como el párrafo del index (34em, renglones parejos).
 
 ## Dónde nos quedamos (1 de noviembre de 2026, noche): la estrella en 3D, ya igual a HH 30
 
