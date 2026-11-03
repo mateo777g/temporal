@@ -465,11 +465,12 @@ y de ahí a la palabra grande hay unos 60 px (`padding-bottom: calc(16vw + 30px)
 componente (`halftone-wordmark-footer.tsx`, con `useIsPhone`): en escritorio su HTML es el mismo de antes. Se ve
 igual en Nosotros, que usa el mismo bundle.
 
-La barra, sobre toda la escena (la portada blanca y la parte negra), es transparente y sin su línea: en
+La barra no lleva línea abajo en ninguna página (él la quitó el 3 de noviembre; era una línea gris, un `box-shadow`
+de `--tinta` al 12 %). Sobre toda la escena (la portada blanca y la parte negra) es transparente: en
 `style.css`, la regla de `:root[data-escena]:not([data-hoja])`. Blanca se veía como un bloque en el gris del paso a
 la parte negra, y negra, sobre ese fondo que no es negro plano. La letra va negra mientras el fondo es claro y
 blanca desde el cambio a modo noche (`data-noche`). Nada de la escena pasa por debajo de ella, ni en celular.
-Sobre la hoja y lo que sigue es blanca con su línea, como antes; abierta, con su submenú, tiene fondo (blanco de
+Sobre la hoja y lo que sigue es blanca; abierta, con su submenú, tiene fondo (blanco de
 día, negro de noche, `--barra-noche`, como el footer: en gris `#1C1C1E` se confundía con el gris de la escena; se
 probó también el gris con una línea abajo y se prefirió el negro). `data-escena` solo lo pone `escena.js`, así que en `nosotros.html` la barra sigue
 blanca. Desde el cambio a modo noche, sus dos botones van en blanco: «Iniciar Sesión» con borde y letra blancos (al

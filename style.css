@@ -45,7 +45,8 @@ body {
    sobre blanco (gris claro con letra negra), sobre negro (gris oscuro con letra blanca) y sobre el video. */
 ::selection { background: rgba(142, 142, 147, 0.45); }
 
-/* Barra: fija arriba, de orilla a orilla; al bajar se esconde y al subir regresa (barra.js) */
+/* Barra: fija arriba, de orilla a orilla; al bajar se esconde y al subir regresa (barra.js). Sin línea abajo, en
+   ninguna página: él la quitó el 3 de noviembre (era una línea gris, inset 0 -1px 0 de --tinta al 12 %). */
 .barra {
   position: fixed;
   top: 0;
@@ -54,25 +55,22 @@ body {
   z-index: 10;
   padding-inline: var(--margen);
   background: var(--fondo);
-  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--tinta) 12%, transparent);
   transition: transform var(--abrir), background-color var(--abrir);
 }
 .barra[data-escondida] { transform: translateY(-100%); }
 
-/* Sobre la escena (la portada blanca y la parte negra) la barra es transparente y sin su línea: blanca o negra
-   se veía como un bloque encima, sobre todo en el gris del paso a la parte negra, y el fondo de la escena no es
-   plano (tiene la luz gris detrás de la laptop). Ahí no pasa nada por debajo de ella: lo más alto de la laptop
-   queda más abajo que la barra. Sobre la hoja y lo que sigue (data-hoja) es blanca con su línea, porque ahí el
-   contenido sí pasa por debajo. Abierta, con su submenú, tiene fondo para que se lea: blanca de día y negra
-   en la parte negra. data-escena solo lo pone escena.js, así que en nosotros.html la barra sigue blanca. */
+/* Sobre la escena (la portada blanca y la parte negra) la barra es transparente: blanca o negra se veía como un
+   bloque encima, sobre todo en el gris del paso a la parte negra, y el fondo de la escena no es plano (tiene la luz
+   gris detrás de la laptop). Ahí no pasa nada por debajo de ella: lo más alto de la laptop queda más abajo que la
+   barra. Sobre la hoja y lo que sigue (data-hoja) es blanca, porque ahí el contenido sí pasa por debajo. Abierta,
+   con su submenú, tiene fondo para que se lea: blanca de día y negra en la parte negra. data-escena solo lo pone
+   escena.js, así que en nosotros.html la barra sigue blanca. */
 :root[data-escena]:not([data-hoja]) .barra:not([data-abierto]) {
   --fondo: transparent;
-  box-shadow: none;
 }
 /* En la parte negra, letra blanca */
 :root[data-noche] body { background: var(--noche-escena); }
 :root[data-noche]:not([data-hoja]) .barra {
-  box-shadow: none;
   --tinta: #FFFFFF;
   --tinta-suave: #A1A1A6;
   --borde: #3A3A3D;
