@@ -163,7 +163,10 @@ al doble) en pantallas acostadas y `tierra-alta.webp` (957 × 1818, el de 375 ×
 `<picture>`, tapando el recuadro y volteada con el mismo `scaleX(-1)`. Ya no titilan sus estrellas. En el cuadro del
 logo, en PC, la estrella sigue en vivo (`estrella.js`) sobre su cielo en imagen (`cielo-estrella.webp`, sacado de
 `cielo.js` a 1180 × 664 al doble, sin pérdida); en celular (hasta 760 px) va todo en una imagen cuadrada
-(`estrella-celular.webp`, 1080 × 1080) y el lienzo de la estrella se esconde y ni arranca (`estrella.js` no empieza si
+(`estrella-celular.webp`, 1080 × 1080, con el centro de la estrella en medio y el chorro completo: se sacó en ancho, a
+1920 × 1080 con una copia de `estrella.js` sin el tope de 720 px, y se recortó el cuadro alrededor de su centro;
+sacada en cuadrado, la estrella salía corrida a la derecha y el chorro cortado, como se veía en vivo en el cel) y el
+lienzo de la estrella se esconde y ni arranca (`estrella.js` no empieza si
 está escondido). Cada versión baja solo sus imágenes. Se sacaron con Chrome sin ventana (`--headless=new
 --use-angle=d3d11 --force-device-scale-factor --virtual-time-budget --screenshot`) desde páginas que solo tenían el
 componente, y se pasaron a WebP con ffmpeg (calidad 95); si se cambia la Tierra, el cielo o la estrella, hay que
