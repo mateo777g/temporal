@@ -167,10 +167,11 @@ al doble) en pantallas acostadas y `tierra-celular.webp` (957 × 1275, el recuad
 celular y en las paradas (antes `tierra-alta.webp`, más alta, para el recuadro de antes en celular), con
 `<picture>`, tapando el recuadro y volteada con el mismo `scaleX(-1)`. Ya no titilan sus estrellas. En el cuadro del
 logo, en PC, la estrella sigue en vivo (`estrella.js`) sobre su cielo en imagen (`cielo-estrella.webp`, sacado de
-`cielo.js` a 1180 × 664 al doble, sin pérdida); en celular (hasta 760 px) va todo en una imagen cuadrada
-(`estrella-celular.webp`, 1080 × 1080, con el centro de la estrella en medio y el chorro completo: se sacó en ancho, a
-1920 × 1080 con una copia de `estrella.js` sin el tope de 720 px, y se recortó el cuadro alrededor de su centro;
-sacada en cuadrado, la estrella salía corrida a la derecha y el chorro cortado, como se veía en vivo en el cel) y el
+`cielo.js` a 1180 × 664 al doble, sin pérdida); en celular (hasta 760 px) va todo en una imagen en 16:9
+(`estrella-celular.webp`, 1408 × 792, con el centro de la estrella en medio y el chorro completo: se sacó en ancho, a
+1920 × 1080 con una copia de `estrella.js` sin el tope de 720 px, y se recortó alrededor de su centro, un poco
+acercada para que no salga chiquita; sacada en cuadrado, la estrella salía corrida a la derecha y el chorro cortado,
+como se veía en vivo en el cel; antes el cuadro del cel era cuadrado) y el
 lienzo de la estrella se esconde y ni arranca (`estrella.js` no empieza si
 está escondido). Cada versión baja solo sus imágenes. Se sacaron con Chrome sin ventana (`--headless=new
 --use-angle=d3d11 --force-device-scale-factor --virtual-time-budget --screenshot`) desde páginas que solo tenían el
@@ -215,8 +216,9 @@ oscuro de esquinas redondas del mismo ancho, en 16:9 (`.ns-estrella-cuadro`, con
 la estrella solo se mezcle con el cielo). Debajo del cuadro, centrado, «de postre», «Y existe: HH 30…» (pedido suyo:
 antes iba arriba, junto al otro párrafo). La estrella
 mide lo alto del cuadro y a los lados queda el cielo; se dibuja a 720 px del lado largo como mucho, así que en el cuadro
-de 1180 se ve un poco más suave que antes. En celular el cuadro va cuadrado, como antes (en 16:9 la estrella salía
-chiquita). Antes iba el texto a la izquierda y la estrella a la derecha en un cuadro de 520 px. No hay scroll ni
+de 1180 se ve un poco más suave que antes. En celular el cuadro también va en 16:9, menos alto, como la foto de la
+bahía de Scale (la eligió contra el cuadrado en una página de prueba), con la estrella en imagen y algo acercada.
+Antes iba el texto a la izquierda y la estrella a la derecha en un cuadro de 520 px. No hay scroll ni
 escena: la estrella se mueve sola (su gas) y deja de dibujar fuera de la pantalla. Reemplaza la sección negra de los cuatro pasos con la foto de
 HH 30 (la luz, el disco, el chorro y «Y existe», con el logo en `svg`; es la que está publicada en Vercel, commit
 `14441c1`) y su frase de cierre «Materia dispersa que colapsa…». Publicado en Vercel el 2 de noviembre, con la

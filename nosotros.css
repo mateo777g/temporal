@@ -308,10 +308,9 @@ p.ns-columna-texto { margin: 24px 0 0; max-width: 28em; }
   }
   .ns-hero-texto h1 { grid-area: 1 / 1; align-self: end; z-index: 1; padding: 24px; color: #FFFFFF; }
   .ns-hero-texto p { margin: 24px auto 0; color: #515154; text-align: center; text-wrap: balance; }
-  /* El cuadro de la estrella, cuadrado como antes: a lo ancho del celular y en 16:9, la estrella saldría chiquita */
-  .ns-estrella-cuadro { aspect-ratio: 1; }
-  /* En celular la estrella va en la imagen (la de .ns-cielo cambia a estrella-celular.webp): la de WebGL, escondida,
-     ni arranca (estrella.js) */
+  /* En celular la estrella va en la imagen (la de .ns-cielo cambia a estrella-celular.webp, en 16:9 como el cuadro de
+     PC y como la foto de la bahía de Scale en celular, con la estrella un poco acercada para que no salga chiquita;
+     antes el cuadro era cuadrado): la de WebGL, escondida, ni arranca (estrella.js) */
   .ns-estrella-cuadro .estrella-3d { display: none; }
 }
 @media (max-width: 560px) {
